@@ -4,19 +4,30 @@ body,
 input,
 textarea,
 select {
+    color: #404040;
     font-family: Roboto;
 }
 
-a {
-    color: #e42d40;
-}
-
+a,
 a:hover {
-    color: none !important;
+    color: #e42d40;
 }
 
 .is-danger {
     background: #e42d40 !important;
+}
+
+.navbar-brand span {
+    line-height: 1.75rem;
+    margin-left: 0.75rem;
+    opacity: 0.85;
+}
+
+.navbar-brand sup {
+    font-size: 0.75rem;
+    left: 0.25rem;
+    position: relative;
+    top: -0.5rem;
 }
 
 .navbar-item:hover {
@@ -41,4 +52,8 @@ a:hover {
 
 .select:not(.is-multiple):after {
     border-color: #e42d40;
+}
+
+.title .icon {
+    margin-right: 1rem;
 }

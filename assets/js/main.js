@@ -17,8 +17,8 @@ function updateAllTable(clubs) {
     });
 }
 
-function updateClosestTable(clubs, coords) {
-    const $body = $(".table[data-type='closest'] > tbody");
+function updateNearbyTable(clubs, coords) {
+    const $body = $(".table[data-type='nearby'] > tbody");
     const TO_MILE = 0.000621371;
     $body.empty();
     geolib.orderByDistance(coords, clubs)
@@ -46,7 +46,7 @@ $(() => {
     })
         .done(clubs => {
             clubsCache = clubs.sort(byField("name"));
-            fuse = new Fuse(clubs, {
+            fuse = new Fuse(clubsCache, {
                 shouldSort: true,
                 threshold: 0.3,
                 location: 0,
@@ -61,7 +61,7 @@ $(() => {
             updateAllTable(clubsCache);
             navigator.geolocation.getCurrentPosition(pos => {
                 coordsCache = {latitude: pos.coords.latitude, longitude: pos.coords.longitude};
-                updateClosestTable(clubsCache, coordsCache);
+                updateNearbyTable(clubsCache, coordsCache);
             });
         })
         .fail(console.log);
@@ -69,11 +69,11 @@ $(() => {
     $("input[data-action='find-nearby").on("input", function() {
         const val = $(this).val();
         if(val.length === 0) {
-            updateClosestTable(clubsCache, coordsCache);
+            updateNearbyTable(clubsCache, coordsCache);
             return;
         }
         /*
-         * This is so we don't spam requests. It checks one second after the input for a change.
+         * This is so we don't spam requests. It checks 1.25 seconds after the input for a change.
          * If there's no change (the user has stopped typing), fire the request.
          */
         setTimeout(() => {
@@ -87,15 +87,15 @@ $(() => {
                     .done(data => {
                         const pos = data.results[0].geometry.location;
                         coordsCache = {latitude: pos.lat, longitude: pos.lng};
-                        updateClosestTable(clubsCache, coordsCache);
+                        updateNearbyTable(clubsCache, coordsCache);
                     })
                     .fail(console.log);
             }
-        }, 1000);
+        }, 1250);
     });
 
     $("select[name='radius']").on("change", function() {
-        updateClosestTable(clubsCache, coordsCache);
+        updateNearbyTable(clubsCache, coordsCache);
     });
 
     $("input[data-action='find-club']").on("input", function() {

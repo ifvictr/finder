@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <html>
-        <title>Hack Clubs Nearby</title>
+        <title>Finder &mdash; Hack Club</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
@@ -16,30 +16,32 @@
                     <div class="navbar-brand">
                         <a href="/" class="navbar-item">
                             <img src="/assets/images/hackclub-logo.svg">
+                            <span class="is-size-3">Finder<sup>beta</sup></span>
                         </a>
                     </div>
                 </div>
             </nav>
             <section class="section">
                 <div class="container">
-                    <h1 class="title is-3">Clubs near you</h1>
+                    <!--<h1 class="title is-3">In your area</h1>-->
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
-                            <input class="input is-medium" type="text" data-action="find-nearby" placeholder="Where you at?">
-                            <span class="icon is-small is-left"><i class="fa fa-search"></i></span>
+                            <input class="input is-large" type="text" data-action="find-nearby" placeholder="Where you at?">
+                            <span class="icon is-small is-left"><i class="fa fa-globe"></i></span>
                         </div>
                         <div class="control">
-                            <div class="select is-medium">
+                            <div class="select is-large">
                                 <select name="radius">
                                     <option value="5">5 miles</option>
                                     <option value="10">10 miles</option>
                                     <option value="20">20 miles</option>
                                     <option value="50">50 miles</option>
+                                    <option value="100">100 miles</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                    <table class="table is-fullwidth" data-type="closest">
+                    <table class="table is-fullwidth" data-type="nearby">
                         <thead>
                             <th>School</th>
                             <th>Miles away</th>
@@ -52,7 +54,7 @@
             </section>
             <section class="section">
                 <div class="container">
-                    <h1 class="title is-3">All clubs</h1>
+                    <h1 class="title is-3"><span class="icon"><i class="fa fa-list"></i></span>All clubs</h1>
                     <div class="field has-addons">
                         <div class="control is-expanded has-icons-left">
                             <input class="input is-medium" type="text" data-action="find-club" placeholder="Find a club">
@@ -73,7 +75,8 @@
             </section>
             <footer class="footer">
                 <div class="container">
-                    <p>Made by <a href="https://ifvictr.com" target="_blank">Victor</a> for <a href="https://hackclub.com" target="_blank">Hack Club</a></p>
+                    <p class="is-pulled-left">Made by <a href="https://ifvictr.com" target="_blank">Victor</a> for <a href="https://hackclub.com" target="_blank">Hack Club</a></p>
+                    <span class="icon is-pulled-right"><a href="https://github.com/ifvictr/finder" target="_blank"><i class="fa fa-github"></i></a></span>
                 </div>
             </footer>
         </div>
