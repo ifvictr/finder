@@ -6,7 +6,7 @@ if(!navigator.geolocation) {
 function updateAllTable(clubs) {
     const $body = $(".table[data-type='all'] > tbody");
     $body.empty();
-    for(const club of clubs) {
+    clubs.map(club => {
         $body.append(`
             <tr>
                 <td>${club.name}</td>
@@ -14,26 +14,28 @@ function updateAllTable(clubs) {
                 <td>${parseFloat(club.latitude).toFixed(3)}, ${parseFloat(club.longitude).toFixed(3)}</td>
             </tr>
         `);
-    }
+    });
 }
 
-function updateClosestTable(clubs) {
-    clubs = clubs.slice(0, 10);
+function updateClosestTable(clubs, coords) {
     const $body = $(".table[data-type='closest'] > tbody");
     const TO_MILE = 0.000621371;
     $body.empty();
-    for(const club of clubs) {
-        $body.append(`
-            <tr>
-                <td>${club.name}</td>
-                <td>${(club.distance * TO_MILE).toFixed(1)}</td>
-            </tr>
-        `);
-    }
+    geolib.orderByDistance(coords, clubs)
+        .filter(club => (club.distance * TO_MILE) < parseInt($("select[name='radius']").val()))
+        .map(club => {
+            $body.append(`
+                <tr>
+                    <td>${club.name}</td>
+                    <td>${(club.distance * TO_MILE).toFixed(1)}</td>
+                </tr>
+            `);
+        });
 }
 
 $(() => {
     let clubsCache = [];
+    let coordsCache = [];
     let fuse = null;
 
     $.ajax({
@@ -50,15 +52,16 @@ $(() => {
                 location: 0,
                 distance: 100,
                 maxPatternLength: 32,
-                minMatchCharLength: 2,
+                minMatchCharLength: 3,
                 keys: [
                     "name",
                     "address"
                 ]
             });
-            updateAllTable(clubs);
+            updateAllTable(clubsCache);
             navigator.geolocation.getCurrentPosition(pos => {
-                updateClosestTable(geolib.orderByDistance({latitude: pos.coords.latitude, longitude: pos.coords.longitude}, clubs));
+                coordsCache = {latitude: pos.coords.latitude, longitude: pos.coords.longitude};
+                updateClosestTable(clubsCache, coordsCache);
             });
         })
         .fail(console.log);
@@ -66,18 +69,33 @@ $(() => {
     $("input[data-action='find-nearby").on("input", function() {
         const val = $(this).val();
         if(val.length === 0) {
+            updateClosestTable(clubsCache, coordsCache);
             return;
         }
-        $.ajax({
-            url: "https://maps.google.com/maps/api/geocode/json?address=" + encodeURI(val),
-            type: "get",
-            dataType: "json"
-        })
-            .done(data => {
-                const pos = data.results[0].geometry.location;
-                updateClosestTable(geolib.orderByDistance({latitude: pos.lat, longitude: pos.lng}, clubsCache));
-            })
-            .fail(console.log);
+        /*
+         * This is so we don't spam requests. It checks one second after the input for a change.
+         * If there's no change (the user has stopped typing), fire the request.
+         */
+        setTimeout(() => {
+            const currentVal = $("input[data-action='find-nearby']").val();
+            if(val === currentVal) {
+                $.ajax({
+                    url: `https://maps.google.com/maps/api/geocode/json?address=${encodeURI(currentVal)}`,
+                    type: "get",
+                    dataType: "json"
+                })
+                    .done(data => {
+                        const pos = data.results[0].geometry.location;
+                        coordsCache = {latitude: pos.lat, longitude: pos.lng};
+                        updateClosestTable(clubsCache, coordsCache);
+                    })
+                    .fail(console.log);
+            }
+        }, 1000);
+    });
+
+    $("select[name='radius']").on("change", function() {
+        updateClosestTable(clubsCache, coordsCache);
     });
 
     $("input[data-action='find-club']").on("input", function() {

@@ -7,6 +7,14 @@ select {
     font-family: Roboto;
 }
 
+a {
+    color: #e42d40;
+}
+
+a:hover {
+    color: none !important;
+}
+
 .is-danger {
     background: #e42d40 !important;
 }
@@ -22,15 +30,15 @@ select {
 .textarea.is-active,
 .textarea.is-focused,
 .textarea:active,
-.textarea:focus {
+.textarea:focus,
+.select select.is-active,
+.select select.is-focused,
+.select select:active,
+.select select:focus {
     border-color: #e42d40;
     box-shadow: none;
 }
 
-a {
-    color: #e42d40;
-}
-
-a:hover {
-    color: none !important;
+.select:not(.is-multiple):after {
+    border-color: #e42d40;
 }

@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
         <link rel="stylesheet" href="/assets/css/bulma.min.css">
+        <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
         <link rel="stylesheet" href="/assets/css/main.css">
     </html>
     <body>
@@ -23,11 +24,19 @@
                 <div class="container">
                     <h1 class="title is-3">Clubs near you</h1>
                     <div class="field has-addons">
-                        <div class="control is-expanded">
-                            <input class="input is-medium" type="text" data-action="find-nearby" placeholder="Your location">
+                        <div class="control is-expanded has-icons-left">
+                            <input class="input is-medium" type="text" data-action="find-nearby" placeholder="Where you at?">
+                            <span class="icon is-small is-left"><i class="fa fa-search"></i></span>
                         </div>
                         <div class="control">
-                            <a class="button is-danger is-medium">Find</a>
+                            <div class="select is-medium">
+                                <select name="radius">
+                                    <option value="5">5 miles</option>
+                                    <option value="10">10 miles</option>
+                                    <option value="20">20 miles</option>
+                                    <option value="50">50 miles</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <table class="table is-fullwidth" data-type="closest">
@@ -45,11 +54,9 @@
                 <div class="container">
                     <h1 class="title is-3">All clubs</h1>
                     <div class="field has-addons">
-                        <div class="control is-expanded">
+                        <div class="control is-expanded has-icons-left">
                             <input class="input is-medium" type="text" data-action="find-club" placeholder="Find a club">
-                        </div>
-                        <div class="control">
-                            <a class="button is-danger is-medium">Search</a>
+                            <span class="icon is-small is-left"><i class="fa fa-search"></i></span>
                         </div>
                     </div>
                     <table class="table is-fullwidth" data-type="all">

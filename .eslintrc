@@ -1,0 +1,12 @@
+{
+    "env": {
+        "browser": true
+    },
+    "globals": {
+        "$": true,
+        "byField": true,
+        "Fuse": true,
+        "geolib": true,
+        "jquery": true
+    }
+}
