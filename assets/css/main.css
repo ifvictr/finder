@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400");
+
+body,
+input,
+textarea,
+select {
+    font-family: Roboto;
+}
+
+.is-danger {
+    background: #e42d40 !important;
+}
+
+.navbar-item:hover {
+    background: none !important;
+}
+
+.input.is-active,
+.input.is-focused,
+.input:active,
+.input:focus,
+.textarea.is-active,
+.textarea.is-focused,
+.textarea:active,
+.textarea:focus {
+    border-color: #e42d40;
+    box-shadow: none;
+}
+
+a {
+    color: #e42d40;
+}
+
+a:hover {
+    color: none !important;
+}

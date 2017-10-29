@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <html>
+        <title>Hack Clubs Nearby</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+        <link rel="stylesheet" href="/assets/css/bulma.min.css">
+        <link rel="stylesheet" href="/assets/css/main.css">
+    </html>
+    <body>
+        <div id="wrapper">
+            <nav class="navbar is-danger is-transparent">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a href="/" class="navbar-item">
+                            <img src="/assets/images/hackclub-logo.svg">
+                        </a>
+                    </div>
+                </div>
+            </nav>
+            <section class="section">
+                <div class="container">
+                    <h1 class="title is-3">Clubs near you</h1>
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <input class="input is-medium" type="text" data-action="find-nearby" placeholder="Your location">
+                        </div>
+                        <div class="control">
+                            <a class="button is-danger is-medium">Find</a>
+                        </div>
+                    </div>
+                    <table class="table is-fullwidth" data-type="closest">
+                        <thead>
+                            <th>School</th>
+                            <th>Miles away</th>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamic content here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <section class="section">
+                <div class="container">
+                    <h1 class="title is-3">All clubs</h1>
+                    <div class="field has-addons">
+                        <div class="control is-expanded">
+                            <input class="input is-medium" type="text" data-action="find-club" placeholder="Find a club">
+                        </div>
+                        <div class="control">
+                            <a class="button is-danger is-medium">Search</a>
+                        </div>
+                    </div>
+                    <table class="table is-fullwidth" data-type="all">
+                        <thead>
+                            <th>School</th>
+                            <th>Address</th>
+                            <th>Latitude/Longitude</th>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamic content here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <footer class="footer">
+                <div class="container">
+                    <p>Made by <a href="https://ifvictr.com" target="_blank">Victor</a> for <a href="https://hackclub.com" target="_blank">Hack Club</a></p>
+                </div>
+            </footer>
+        </div>
+        <script src="/assets/js/fuse.min.js"></script>
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/geolib.min.js"></script>
+        <script src="/assets/js/sort.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>
