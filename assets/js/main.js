@@ -40,7 +40,7 @@ $(() => {
 
     $.ajax({
         // url: "https://api.hackclub.com/v1/clubs",
-        url: "/assets/json/clubs.json",
+        url: "assets/json/clubs.json",
         type: "get",
         dataType: "json"
     })
