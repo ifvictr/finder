@@ -11,24 +11,38 @@ function updateAllTable(clubs) {
             <tr>
                 <td>${club.name}</td>
                 <td>${club.address}</td>
-                <td>${parseFloat(club.latitude).toFixed(3)}, ${parseFloat(club.longitude).toFixed(3)}</td>
             </tr>
         `);
     });
 }
 
 function updateNearbyTable(clubs, coords) {
-    const $body = $(".table[data-type='nearby'] > tbody");
+    const $body = $(".columns[data-type='nearby']");
     const TO_MILE = 0.000621371;
     $body.empty();
     geolib.orderByDistance(coords, clubs)
         .filter(club => (club.distance * TO_MILE) < parseInt($("select[name='radius']").val()))
         .map(club => {
             $body.append(`
-                <tr>
-                    <td>${club.name}</td>
-                    <td>${(club.distance * TO_MILE).toFixed(1)}</td>
-                </tr>
+                <div class="column is-3">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image">
+                                <img src="assets/images/school/${club.id}.jpg">
+                            </figure>
+                        </div>
+                        <div class="card-content">
+                            <h2 class="title is-5">${club.name}</h2>
+                            <h3 class="subtitle is-6">${club.address}</h3>
+                            <i>${(club.distance * TO_MILE).toFixed(1)} miles away</i>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" target="_blank" class="card-footer-item" title="Website"><span class="icon"><i class="fa fa-link"></i></span></a>
+                            <a href="https://www.google.com/maps/place/${club.name + ", " + club.address}" target="_blank" class="card-footer-item" title="Directions"><span class="icon"><i class="fa fa-map"></i></span></a>
+                            <a href="#" target="_blank" class="card-footer-item" title="Contact"><span class="icon"><i class="fa fa-comment"></i></span></a>
+                        </footer>
+                    </div>
+                </div>
             `);
         });
 }

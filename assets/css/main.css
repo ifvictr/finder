@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:400");
 
+html {
+    overflow: auto;
+}
+
 body,
 input,
 textarea,
@@ -14,13 +18,16 @@ a:hover {
 }
 
 .is-danger {
-    background: #e42d40 !important;
+    background-color: #e42d40 !important;
+}
+
+.navbar {
+    background-image: url("../images/pattern.svg");
 }
 
 .navbar-brand span {
     line-height: 1.75rem;
     margin-left: 0.75rem;
-    opacity: 0.85;
 }
 
 .navbar-brand sup {
@@ -56,4 +63,8 @@ a:hover {
 
 .title .icon {
     margin-right: 1rem;
+}
+
+.subtitle {
+    margin-top: 0 !important;
 }
