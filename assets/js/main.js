@@ -23,18 +23,19 @@ function updateNearbyTable(clubs, coords) {
     geolib.orderByDistance(coords, clubs)
         .filter(club => (club.distance * TO_MILE) < parseInt($("select[name='radius']").val()))
         .map(club => {
+            const milesAway = (club.distance * TO_MILE).toFixed(1);
             $body.append(`
                 <div class="column is-3">
                     <div class="card">
                         <div class="card-image">
-                            <figure class="image">
+                            <figure class="image is-3by2">
                                 <img src="assets/images/school/${club.id}.jpg">
                             </figure>
                         </div>
                         <div class="card-content">
                             <h2 class="title is-5">${club.name}</h2>
                             <h3 class="subtitle is-6">${club.address}</h3>
-                            <i>${(club.distance * TO_MILE).toFixed(1)} miles away</i>
+                            <i>${milesAway > 1 ? milesAway + " miles" : "<1 mile"} away</i>
                         </div>
                         <footer class="card-footer">
                             <a href="#" target="_blank" class="card-footer-item" title="Website"><span class="icon"><i class="fa fa-link"></i></span></a>
@@ -120,5 +121,13 @@ $(() => {
             return;
         }
         updateAllTable(fuse.search(val));
+    });
+
+    // TODO: Find better way to notify
+    $("body").on("click", "a", function(event) {
+        if($(this).attr("href") === "#") {
+            event.preventDefault();
+            alert("Not implemented yet.");
+        }
     });
 });

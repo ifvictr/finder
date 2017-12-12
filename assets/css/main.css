@@ -68,3 +68,16 @@ a:hover {
 .subtitle {
     margin-top: 0 !important;
 }
+
+.columns {
+    margin-top: 1rem;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    flex: 1;
+}
