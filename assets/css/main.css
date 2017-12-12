@@ -81,3 +81,22 @@ a:hover {
 .card {
     flex: 1;
 }
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin: 0 0 144px;
+}
+
+footer {
+    background-color: orange;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 144px;
+    width: 100%;
+    overflow:hidden;
+}
