@@ -38,9 +38,9 @@ function updateNearbyTable(clubs, coords) {
                             <i>${milesAway > 1 ? milesAway + " miles" : "<1 mile"} away</i>
                         </div>
                         <footer class="card-footer">
-                            <a href="#" target="_blank" class="card-footer-item" title="Website"><span class="icon"><i class="fa fa-link"></i></span></a>
-                            <a href="https://www.google.com/maps/place/${club.name + ", " + club.address}" target="_blank" class="card-footer-item" title="Directions"><span class="icon"><i class="fa fa-map"></i></span></a>
-                            <a href="#" target="_blank" class="card-footer-item" title="Contact"><span class="icon"><i class="fa fa-comment"></i></span></a>
+                            <a href="#" target="_blank" class="card-footer-item" title="Visit club website"><span class="icon"><i class="fa fa-link"></i></span></a>
+                            <a href="https://www.google.com/maps/place/${club.name + ", " + club.address}" target="_blank" class="card-footer-item" title="View on Google Maps"><span class="icon"><i class="fa fa-map"></i></span></a>
+                            <a href="#" target="_blank" class="card-footer-item" title="Reach out"><span class="icon"><i class="fa fa-comment"></i></span></a>
                         </footer>
                     </div>
                 </div>
