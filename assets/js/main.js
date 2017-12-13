@@ -55,8 +55,7 @@ $(() => {
     let fuse = null;
 
     $.ajax({
-        // url: "https://api.hackclub.com/v1/clubs",
-        url: "assets/json/clubs.json",
+        url: "https://api.hackclub.com/v1/clubs",
         type: "get",
         dataType: "json"
     })
