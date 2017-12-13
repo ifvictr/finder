@@ -9,6 +9,7 @@ function updateAllTable(clubs) {
     clubs.map(club => {
         $body.append(`
             <tr>
+                <td>${club.id}</td>
                 <td>${club.name}</td>
                 <td>${club.address}</td>
             </tr>
