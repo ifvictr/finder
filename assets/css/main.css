@@ -1,4 +1,18 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:400");
+@font-face {
+    font-family: Averta;
+    font-style: normal;
+    font-weight: normal;
+    src: url("../fonts/averta-regular.woff2") format('woff2'), url("../fonts/averta-regular.woff") format('woff');
+    unicode-range: U+0000-F8FE, U+F900-FFFF;
+}
+
+@font-face {
+    font-family: Averta;
+    font-style: normal;
+    font-weight: bold;
+    src: url("../fonts/averta-bold.woff2") format('woff2'), url("../fonts/averta-bold.woff") format('woff');
+    unicode-range: U+0000-F8FE, U+F900-FFFF;
+}
 
 html {
     overflow: auto;
@@ -9,7 +23,7 @@ input,
 textarea,
 select {
     color: #404040;
-    font-family: Roboto, arial, sans-serif;
+    font-family: Averta, arial, sans-serif;
 }
 
 a,
