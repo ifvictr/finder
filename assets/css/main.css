@@ -1,9 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:400");
 
 html {
-    min-height: 100%;
     overflow: auto;
-    position: relative;
 }
 
 body,
@@ -17,6 +15,20 @@ select {
 a,
 a:hover {
     color: #e42d40;
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#wrapper > .section {
+    flex: 1;
+}
+
+#wrapper > .footer {
+    padding: 1.5rem;
 }
 
 .navbar.is-danger {
