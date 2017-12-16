@@ -127,7 +127,7 @@ a:hover {
     opacity: 1;
 }
 
-.switch[type="checkbox"]:checked+label::before {
+.switch[type="checkbox"]:checked + label:before {
     background: #e42d42;
 }
 
