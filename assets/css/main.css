@@ -59,13 +59,6 @@ a:hover {
     margin-left: 0.75rem;
 }
 
-.navbar-brand sup {
-    font-size: 0.75rem;
-    left: 0.25rem;
-    position: relative;
-    top: -0.5rem;
-}
-
 .navbar-item:hover {
     background: none !important;
 }
@@ -113,7 +106,7 @@ a:hover {
     flex: 1;
 }
 
-.card-image {
+.card .image {
     opacity: 0.25;
     transition: 0.25s opacity ease;
 }

@@ -45,9 +45,9 @@ function updateResults(clubs, coords, searchAll = false) {
         `);
 
         isSuccess(imageUri, () => {
-            const $club = $(`[data-club-id="${club.id}"]`);
+            const $club = $(`[data-club-id="${club.id}"] .image`);
             $club.find("img").attr("src", imageUri);
-            $club.find(".card-image").css("opacity", 1);
+            $club.css("opacity", 1);
         });
     });
 }
