@@ -138,3 +138,7 @@ a:hover {
 #footer .fa-heart {
     color: #e42d42;
 }
+
+span[data-output="radius"] {
+    width: 3rem;
+}
