@@ -36,9 +36,9 @@ function updateResults(clubs, coords, searchAll = false) {
                         ${!searchAll ? `<span class='is-italic'>${distanceAway > 1 ? distanceAway + " miles" : "<1 mile"} away</span>` : ""}
                     </div>
                     <footer class="card-footer">
-                        <a href="#" target="_blank" class="card-footer-item" title="Visit club website"><span class="icon"><i class="fa fa-link"></i></span></a>
+                        <!-- <a href="#" target="_blank" class="card-footer-item" title="Visit club website"><span class="icon"><i class="fa fa-link"></i></span></a> -->
                         <a href="https://www.google.com/maps/place/${club.name + ", " + club.address}" target="_blank" class="card-footer-item" title="View on Google Maps"><span class="icon"><i class="fa fa-map"></i></span></a>
-                        <a href="#" target="_blank" class="card-footer-item" title="Reach out"><span class="icon"><i class="fa fa-comment"></i></span></a>
+                        <!-- <a href="#" target="_blank" class="card-footer-item" title="Reach out"><span class="icon"><i class="fa fa-comment"></i></span></a> -->
                     </footer>
                 </div>
             </div>
@@ -148,13 +148,5 @@ $(() => {
         $("[data-type='all']").toggleClass("is-hidden");
         $("[data-output='location']").toggleClass("is-hidden");
         updateResults(clubs, coords, this.checked);
-    });
-
-    // TODO: Find better way to notify
-    $("body").on("click", "a", function(event) {
-        if($(this).attr("href") === "#") {
-            event.preventDefault();
-            alert("Not implemented yet.");
-        }
     });
 });
