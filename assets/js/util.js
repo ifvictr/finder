@@ -11,3 +11,14 @@ const byField = field => {
         return 0;
     };
 };
+
+const isSuccess = (url, callback) => {
+    $.ajax({
+        url: url,
+        statusCode: {
+            200: callback
+        }
+    });
+};
+
+const toMiles = kilometers => kilometers * 0.000621371;

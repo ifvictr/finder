@@ -2,7 +2,7 @@
     font-family: Averta;
     font-style: normal;
     font-weight: normal;
-    src: url("../fonts/averta-regular.woff2") format('woff2'), url("../fonts/averta-regular.woff") format('woff');
+    src: url("../fonts/averta-regular.woff2") format("woff2"), url("../fonts/averta-regular.woff") format("woff");
     unicode-range: U+0000-F8FE, U+F900-FFFF;
 }
 
@@ -10,7 +10,7 @@
     font-family: Averta;
     font-style: normal;
     font-weight: bold;
-    src: url("../fonts/averta-bold.woff2") format('woff2'), url("../fonts/averta-bold.woff") format('woff');
+    src: url("../fonts/averta-bold.woff2") format("woff2"), url("../fonts/averta-bold.woff") format("woff");
     unicode-range: U+0000-F8FE, U+F900-FFFF;
 }
 
@@ -28,7 +28,7 @@ select {
 
 a,
 a:hover {
-    color: #e42d40;
+    color: #e42d42;
 }
 
 #wrapper {
@@ -45,12 +45,13 @@ a:hover {
     padding: 1.5rem;
 }
 
-.navbar.is-danger {
-    background-color: #e42d40 !important;
+#navbar.is-danger {
+    background-color: #e42d42 !important;
 }
 
-.navbar {
+#navbar {
     background-image: url("../images/pattern.svg");
+    background-size: 50vh;
 }
 
 .navbar-brand span {
@@ -81,12 +82,12 @@ a:hover {
 .select select.is-focused,
 .select select:active,
 .select select:focus {
-    border-color: #e42d40;
+    border-color: #e42d42;
     box-shadow: none;
 }
 
 .select:not(.is-multiple):after {
-    border-color: #e42d40;
+    border-color: #e42d42;
 }
 
 .title .icon {
@@ -95,10 +96,6 @@ a:hover {
 
 .subtitle {
     margin-top: 0 !important;
-}
-
-.columns {
-    margin-top: 1rem;
 }
 
 .column {
@@ -116,6 +113,11 @@ a:hover {
     flex: 1;
 }
 
+.card-image {
+    opacity: 0.25;
+    transition: 0.25s opacity ease;
+}
+
 .card-footer {
     opacity: 0.5;
     transition: 0.25s opacity ease;
@@ -123,4 +125,16 @@ a:hover {
 
 .card:hover .card-footer {
     opacity: 1;
+}
+
+.switch[type="checkbox"]:checked+label::before {
+    background: #e42d42;
+}
+
+.is-italic {
+    font-style: italic;
+}
+
+#footer .fa-heart {
+    color: #e42d42;
 }

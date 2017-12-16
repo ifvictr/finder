@@ -6,12 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
         <link rel="stylesheet" href="assets/css/bulma.min.css">
+        <link rel="stylesheet" href="assets/css/bulma-slider.min.css">
+        <link rel="stylesheet" href="assets/css/bulma-switch.min.css">
         <link rel="stylesheet" href="assets/css/font-awesome.min.css">
         <link rel="stylesheet" href="assets/css/main.css">
     </html>
     <body>
         <div id="wrapper">
-            <nav class="navbar is-danger is-transparent">
+            <nav id="navbar" class="navbar is-danger">
                 <div class="container">
                     <div class="navbar-brand">
                         <a href="/" class="navbar-item">
@@ -31,59 +33,67 @@
                         </div>
                     </article>
                     <div class="field has-addons">
-                        <div class="control is-expanded has-icons-left">
-                            <input class="input is-large" type="text" data-action="find-nearby" placeholder="Where are you?">
+                        <div class="control is-expanded has-icons-left" data-type="nearby">
+                            <input class="input is-large" type="text" data-action="search-nearby" placeholder="Where are you?">
                             <span class="icon is-small is-left"><i class="fa fa-map-marker"></i></span>
                         </div>
-                        <div class="control">
-                            <div class="select is-large">
-                                <select name="radius">
-                                    <option value="5">5 miles</option>
-                                    <option value="10">10 miles</option>
-                                    <option value="20">20 miles</option>
-                                    <option value="50">50 miles</option>
-                                    <option value="100">100 miles</option>
-                                </select>
+                        <div class="control is-expanded is-hidden has-icons-left" data-type="all">
+                            <input class="input is-large" type="text" data-action="search-all" placeholder="Which club are you looking for?">
+                            <span class="icon is-small is-left"><i class="fa fa-globe"></i></span>
+                        </div>
+                    </div>
+                    <div class="level">
+                        <div class="level-left">
+                            <div class="level-item">
+                                <p class="is-italic"><span data-output="total-results">0</span> club(s) found <span data-output="location"></span></p>
+                            </div>
+                        </div>
+                        <div class="level-right">
+                            <div class="level-item" data-type="nearby">
+                                <p><span class="tag is-medium" data-output="radius">5</span> mile radius</p>
+                            </div>
+                            <div class="level-item" data-type="nearby">
+                                <div class="field">
+                                    <input class="slider is-circle is-fullwidth is-medium" name="radius" type="range" min="1" max="100" value="5">
+                                </div>
+                            </div>
+                            <div class="level-item">
+                                <div class="field">
+                                    <input id="toggle-search-all" class="switch" name="search" type="checkbox">
+                                    <label for="toggle-search-all">Search all clubs</label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="columns is-multiline" data-type="nearby">
+                    <div id="results" class="columns is-multiline">
                         <!-- Dynamic content here -->
                     </div>
                 </div>
             </section>
-            <section class="section" style="display: none;">
+            <footer id="footer" class="footer">
                 <div class="container">
-                    <h1 class="title is-3"><span class="icon"><i class="fa fa-list"></i></span>All clubs</h1>
-                    <div class="field has-addons">
-                        <div class="control is-expanded has-icons-left">
-                            <input class="input is-medium" type="text" data-action="find-club" placeholder="Find a club">
-                            <span class="icon is-small is-left"><i class="fa fa-search"></i></span>
+                    <div class="level">
+                        <div class="level-left">
+                            <div class="level-item">
+                                <p>Made with <span class="icon"><i class="fa fa-heart"></i></span> by <a href="https://ifvictr.com" target="_blank">Victor Truong</a></p>
+                            </div>
+                        </div>
+                        <div class="level-right">
+                            <p class="level-item">
+                                <a href="https://github.com/hackclub/finder/issues/new" target="_blank"><span class="icon"><i class="fa fa-flag"></i></span> Report incorrect information</a>
+                            </p>
+                            <p class="level-item">
+                                <a href="https://github.com/hackclub/finder" target="_blank"><span class="icon"><i class="fa fa-github"></i></span> View source code</a>
+                            </p>
                         </div>
                     </div>
-                    <table class="table is-fullwidth" data-type="all">
-                        <thead>
-                            <th>ID</th>
-                            <th>School</th>
-                            <th>Address</th>
-                        </thead>
-                        <tbody>
-                             <!-- Dynamic content here -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-            <footer class="footer">
-                <div class="container">
-                    <p class="is-pulled-left">Made with <span class="icon" style="color: #e42d40;"><i class="fa fa-heart"></i></span> by <a href="https://ifvictr.com" target="_blank">Victor Truong</a></p>
-                    <span class="icon is-pulled-right"><a href="https://github.com/hackclub/finder" target="_blank"><i class="fa fa-github"></i></a></span>
                 </div>
             </footer>
         </div>
         <script src="assets/js/fuse.min.js"></script>
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/js/geolib.min.js"></script>
-        <script src="assets/js/sort.js"></script>
+        <script src="assets/js/util.js"></script>
         <script src="assets/js/main.js"></script>
     </body>
 </html>

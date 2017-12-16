@@ -3,55 +3,58 @@ if(!navigator.geolocation) {
     console.warn("Couldn't use geolocation");
 }
 
-function updateAllTable(clubs) {
-    const $body = $(".table[data-type='all'] > tbody");
-    $body.empty();
+function updateResultCount(count) {
+    $("[data-output='total-results']").html(count);
+}
+
+function updateResults(clubs, coords, searchAll = false) {
+    const $results = $("#results");
+    $results.empty();
+
+    if(!searchAll) {
+        clubs = geolib.orderByDistance(coords, clubs)
+            .filter(club => toMiles(club.distance) < parseInt($("input[name='radius']").val()));
+    }
+
+    updateResultCount(clubs.length);
+
     clubs.map(club => {
-        $body.append(`
-            <tr>
-                <td>${club.id}</td>
-                <td>${club.name}</td>
-                <td>${club.address}</td>
-            </tr>
+        const distanceAway = toMiles(club.distance).toFixed(1);
+        const imageUri = `assets/images/school/${club.id}.jpg`;
+
+        $results.append(`
+            <div class="column is-3" data-club-id="${club.id}">
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image is-3by2">
+                            <img src="assets/images/placeholder.svg">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <h2 class="title is-5">${club.name}</h2>
+                        <h3 class="subtitle is-6">${club.address}</h3>
+                        ${!searchAll ? `<span class='is-italic'>${distanceAway > 1 ? distanceAway + " miles" : "<1 mile"} away</span>` : ""}
+                    </div>
+                    <footer class="card-footer">
+                        <a href="#" target="_blank" class="card-footer-item" title="Visit club website"><span class="icon"><i class="fa fa-link"></i></span></a>
+                        <a href="https://www.google.com/maps/place/${club.name + ", " + club.address}" target="_blank" class="card-footer-item" title="View on Google Maps"><span class="icon"><i class="fa fa-map"></i></span></a>
+                        <a href="#" target="_blank" class="card-footer-item" title="Reach out"><span class="icon"><i class="fa fa-comment"></i></span></a>
+                    </footer>
+                </div>
+            </div>
         `);
+
+        isSuccess(imageUri, () => {
+            const $club = $(`[data-club-id="${club.id}"]`);
+            $club.find("img").attr("src", imageUri);
+            $club.find(".card-image").css("opacity", 1);
+        });
     });
 }
 
-function updateNearbyTable(clubs, coords) {
-    const $body = $(".columns[data-type='nearby']");
-    const TO_MILE = 0.000621371;
-    $body.empty();
-    geolib.orderByDistance(coords, clubs)
-        .filter(club => (club.distance * TO_MILE) < parseInt($("select[name='radius']").val()))
-        .map(club => {
-            const milesAway = (club.distance * TO_MILE).toFixed(1);
-            $body.append(`
-                <div class="column is-3">
-                    <div class="card">
-                        <div class="card-image">
-                            <figure class="image is-3by2">
-                                <img src="assets/images/school/${club.id}.jpg">
-                            </figure>
-                        </div>
-                        <div class="card-content">
-                            <h2 class="title is-5">${club.name}</h2>
-                            <h3 class="subtitle is-6">${club.address}</h3>
-                            <i>${milesAway > 1 ? milesAway + " miles" : "<1 mile"} away</i>
-                        </div>
-                        <footer class="card-footer">
-                            <a href="#" target="_blank" class="card-footer-item" title="Visit club website"><span class="icon"><i class="fa fa-link"></i></span></a>
-                            <a href="https://www.google.com/maps/place/${club.name + ", " + club.address}" target="_blank" class="card-footer-item" title="View on Google Maps"><span class="icon"><i class="fa fa-map"></i></span></a>
-                            <a href="#" target="_blank" class="card-footer-item" title="Reach out"><span class="icon"><i class="fa fa-comment"></i></span></a>
-                        </footer>
-                    </div>
-                </div>
-            `);
-        });
-}
-
 $(() => {
-    let clubsCache = [];
-    let coordsCache = [];
+    let clubs = [];
+    let coords = [];
     let fuse = null;
 
     $.ajax({
@@ -59,9 +62,9 @@ $(() => {
         type: "get",
         dataType: "json"
     })
-        .done(clubs => {
-            clubsCache = clubs.sort(byField("name"));
-            fuse = new Fuse(clubsCache, {
+        .done(data => {
+            clubs = data.sort(byField("name"));
+            fuse = new Fuse(clubs, {
                 shouldSort: true,
                 threshold: 0.3,
                 location: 0,
@@ -73,18 +76,17 @@ $(() => {
                     "address"
                 ]
             });
-            updateAllTable(clubsCache);
             navigator.geolocation.getCurrentPosition(pos => {
-                coordsCache = {latitude: pos.coords.latitude, longitude: pos.coords.longitude};
-                updateNearbyTable(clubsCache, coordsCache);
+                coords = {latitude: pos.coords.latitude, longitude: pos.coords.longitude};
+                updateResults(clubs, coords);
+                $("[data-output='location']").html("near you");
             });
         })
         .fail(console.log);
 
-    $("input[data-action='find-nearby").on("input", function() {
+    $("input[data-action='search-nearby").on("input", function() {
         const val = $(this).val();
         if(val.length === 0) {
-            updateNearbyTable(clubsCache, coordsCache);
             return;
         }
         /*
@@ -92,7 +94,7 @@ $(() => {
          * If there's no change (the user has stopped typing), fire the request.
          */
         setTimeout(() => {
-            const currentVal = $("input[data-action='find-nearby']").val();
+            const currentVal = $("input[data-action='search-nearby']").val();
             if(val === currentVal) {
                 $.ajax({
                     url: `https://maps.google.com/maps/api/geocode/json?address=${encodeURI(currentVal)}`,
@@ -100,27 +102,52 @@ $(() => {
                     dataType: "json"
                 })
                     .done(data => {
-                        const pos = data.results[0].geometry.location;
-                        coordsCache = {latitude: pos.lat, longitude: pos.lng};
-                        updateNearbyTable(clubsCache, coordsCache);
+                        if(data.results.length > 0) {
+                            const result = data.results[0];
+                            const pos = result.geometry.location;
+                            coords = {latitude: pos.lat, longitude: pos.lng};
+                            updateResults(clubs, coords);
+                            $("[data-output='location']").html("near " + result.formatted_address);
+                        }
+                        else {
+                            updateResults([], coords);
+                        }
                     })
                     .fail(console.log);
             }
         }, 1250);
     });
 
-    $("select[name='radius']").on("change", function() {
-        updateNearbyTable(clubsCache, coordsCache);
-    });
-
-    $("input[data-action='find-club']").on("input", function() {
+    $("input[data-action='search-all']").on("input", function() {
         const val = $(this).val();
         // List all clubs if input is blank
         if(val.length === 0) {
-            updateAllTable(clubsCache);
             return;
         }
-        updateAllTable(fuse.search(val));
+        setTimeout(() => {
+            const currentVal = $("input[data-action='search-all']").val();
+            if(val === currentVal) {
+                updateResults(fuse.search(val), coords, true);
+            }
+        }, 1250);
+    });
+
+    $("input[type='range']").on("input", function() {
+        const val = $(this).val();
+        $("[data-output='radius']").html(val);
+        setTimeout(() => {
+            const currentVal = $("input[type='range']").val();
+            if(val === currentVal) {
+                updateResults(clubs, coords);
+            }
+        }, 1250);
+    });
+
+    $("#toggle-search-all").on("change", function() {
+        $("[data-type='nearby']").toggleClass("is-hidden");
+        $("[data-type='all']").toggleClass("is-hidden");
+        $("[data-output='location']").toggleClass("is-hidden");
+        updateResults(clubs, coords, this.checked);
     });
 
     // TODO: Find better way to notify
