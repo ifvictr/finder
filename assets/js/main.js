@@ -4,7 +4,8 @@ if(!navigator.geolocation) {
 }
 
 function updateResultCount(count) {
-    $("[data-output='total-results']").html(count);
+    const text = `${count} club${count === 1 ? '' : 's'}`;
+    $("[data-output='total-results']").html(text);
 }
 
 function updateResults(clubs, coords, searchAll = false) {
