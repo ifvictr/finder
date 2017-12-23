@@ -5,15 +5,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-        <link rel="stylesheet" href="assets/css/bulma.min.css">
-        <link rel="stylesheet" href="assets/css/bulma-slider.min.css">
-        <link rel="stylesheet" href="assets/css/bulma-switch.min.css">
-        <link rel="stylesheet" href="assets/css/font-awesome.min.css">
-        <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="assets/dist/finder.min.css">
     </html>
     <body>
         <div id="wrapper">
-            <nav id="navbar" class="navbar is-danger">
+            <nav id="navbar" class="navbar is-primary is-transparent">
                 <div class="container">
                     <div class="navbar-brand">
                         <a href="/" class="navbar-item">
@@ -25,19 +21,21 @@
             </nav>
             <section class="section">
                 <div class="container">
-                    <article class="message is-danger">
+                    <article class="message is-primary">
                         <div class="message-body">
                              <b>We need your help!</b> If you find/have a club's school photo, website URL, or contact information, please
                              send it to <a href="https://hackclub.slack.com/messages/ifvictr" target="_blank">@ifvictr</a> on the Hack
                              Club Slack.
                         </div>
                     </article>
-                    <div class="field has-addons">
-                        <div class="control is-expanded has-icons-left" data-type="nearby">
+                    <div class="field has-addons" data-type="nearby">
+                        <div class="control is-expanded has-icons-left">
                             <input class="input is-large" type="text" data-action="search-nearby" placeholder="Where are you?">
                             <span class="icon is-small is-left"><i class="fa fa-map-marker"></i></span>
                         </div>
-                        <div class="control is-expanded is-hidden has-icons-left" data-type="all">
+                    </div>
+                    <div class="field has-addons is-hidden" data-type="all">
+                        <div class="control is-expanded has-icons-left">
                             <input class="input is-large" type="text" data-action="search-all" placeholder="Which club are you looking for?">
                             <span class="icon is-small is-left"><i class="fa fa-globe"></i></span>
                         </div>
@@ -45,21 +43,21 @@
                     <div class="level">
                         <div class="level-left">
                             <div class="level-item">
-                                <p><span data-output="total-results">No clubs</span> found <span data-output="location"></span></p>
+                                <p><output data-output="total-results">No clubs</output> found <output data-output="location"></output></p>
                             </div>
                         </div>
                         <div class="level-right">
                             <div class="level-item" data-type="nearby">
-                                <p><span class="tag is-medium" data-output="radius">5</span> mile radius</p>
+                                <p><output data-output="radius">5</output> mile radius</p>
                             </div>
                             <div class="level-item" data-type="nearby">
                                 <div class="field">
-                                    <input class="slider is-circle is-fullwidth is-medium" name="radius" type="range" min="1" max="100" value="5">
+                                    <input class="slider is-circle is-medium" name="radius" type="range" min="1" max="100" value="5">
                                 </div>
                             </div>
                             <div class="level-item">
                                 <div class="field">
-                                    <input id="toggle-search-all" class="switch" name="search" type="checkbox">
+                                    <input id="toggle-search-all" class="switch is-rounded" name="search" type="checkbox">
                                     <label for="toggle-search-all">Search all clubs</label>
                                 </div>
                             </div>
@@ -67,6 +65,16 @@
                     </div>
                     <div id="results" class="columns is-multiline">
                         <!-- Dynamic content here -->
+                    </div>
+                    <div id="no-results" class="columns is-centered is-hidden">
+                        <div class="column is-6">
+                            <figure class="image is-2by2">
+                                <img src="https://raw.githubusercontent.com/hackclub/dinosaurs/master/club_dinosaur.png">
+                            </figure>
+                            <p class="is-size-4 has-text-centered">
+                                There doesn't seem to be any clubs where you are... <a href="https://hackclub.com/start" target="_blank">Start one?</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -90,12 +98,8 @@
                 </div>
             </footer>
         </div>
-        <script src="assets/js/fuse.min.js"></script>
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/geolib.min.js"></script>
-        <script src="assets/js/util.js"></script>
-        <script src="assets/js/main.js"></script>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script src="assets/dist/finder.min.js"></script>
+        <!-- Google Analytics -->
         <script src="https://www.googletagmanager.com/gtag/js?id=UA-111341634-1" async></script>
         <script>
             window.dataLayer = window.dataLayer || [];

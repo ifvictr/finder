@@ -1,0 +1,22 @@
+.card {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+    .image {
+        opacity: 0.25;
+        transition: 0.25s opacity ease;
+    }
+    .card-content {
+        flex: 1;
+    }
+
+    .card-footer {
+        opacity: 0.5;
+        transition: 0.25s opacity ease;
+    }
+
+    &:hover .card-footer {
+        opacity: 1;
+    }
+}

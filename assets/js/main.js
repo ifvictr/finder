@@ -4,7 +4,7 @@ if(!navigator.geolocation) {
 }
 
 function updateResultCount(count) {
-    const text = `${count} club${count === 1 ? '' : 's'}`;
+    const text = `${count} club${count === 1 ? "" : "s"}`;
     $("[data-output='total-results']").html(text);
 }
 
@@ -19,6 +19,10 @@ function updateResults(clubs, coords, searchAll = false) {
 
     updateResultCount(clubs.length);
 
+    const hasResults = !!clubs.length;
+    $("#results").toggleClass("is-hidden", !hasResults);
+    $("#no-results").toggleClass("is-hidden", hasResults);
+
     clubs.map(club => {
         const distanceAway = toMiles(club.distance).toFixed(1);
         const imageUri = `assets/images/school/${club.id}.jpg`;
@@ -32,7 +36,7 @@ function updateResults(clubs, coords, searchAll = false) {
                         </figure>
                     </div>
                     <div class="card-content">
-                        <h2 class="title is-5">${club.name}</h2>
+                        <h2 class="title is-5 is-spaced">${club.name}</h2>
                         <h3 class="subtitle is-6">${club.address}</h3>
                         ${!searchAll ? `<span class='is-italic'>${distanceAway > 1 ? distanceAway + " miles" : "<1 mile"} away</span>` : ""}
                     </div>
@@ -79,6 +83,18 @@ $(() => {
             });
             navigator.geolocation.getCurrentPosition(pos => {
                 coords = {latitude: pos.coords.latitude, longitude: pos.coords.longitude};
+                $.ajax({
+                    url: `https://maps.google.com/maps/api/geocode/json?latlng=${coords.latitude + "," + coords.longitude}`,
+                    type: "get",
+                    dataType: "json"
+                })
+                    .done(data => {
+                        if(data.results.length > 0) {
+                            const result = data.results[0];
+                            $("[data-action='search-nearby']").val(result.formatted_address);
+                        }
+                    })
+                    .fail(console.log);
                 updateResults(clubs, coords);
                 $("[data-output='location']").html("near you");
             });
