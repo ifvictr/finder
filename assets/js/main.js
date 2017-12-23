@@ -101,7 +101,7 @@ $(() => {
         })
         .fail(console.log);
 
-    $("input[data-action='search-nearby").on("input", function() {
+    $("input[data-action='search-nearby']").on("input", function() {
         const val = $(this).val();
         if(val.length === 0) {
             return;
