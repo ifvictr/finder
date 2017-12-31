@@ -21,4 +21,5 @@ const isSuccess = (url, callback) => {
     });
 };
 
-const toMiles = kilometers => kilometers * 0.000621371;
+const toMiles = metres => metres * 0.000621371;
+const toKilometres = metres => metres * 0.001;
