@@ -4,8 +4,8 @@ if(!navigator.geolocation) {
 }
 
 // Global Variable
-var defaultUnit = "Imperial";
-var defaultDistance = "mile";
+let defaultUnit = "Imperial";
+let defaultDistance = "mile";
 
 function updateResultCount(count) {
     const text = `${count} club${count === 1 ? "" : "s"}`;
@@ -28,7 +28,7 @@ function updateResults(clubs, coords, searchAll = false) {
     $("#no-results").toggleClass("is-hidden", hasResults);
 
     clubs.map(club => {
-        var distanceAway = getDistance(club.distance).toFixed(1);
+        let distanceAway = getDistance(club.distance).toFixed(1);
         const imageUri = `assets/images/school/${club.id}.jpg`;
 
         $results.append(`
@@ -126,9 +126,9 @@ $(() => {
                     .done(data => {
                         if(data.results.length > 0) {
                             const result = data.results[0];
-                            updateUnit(data);
                             const pos = result.geometry.location;
                             coords = {latitude: pos.lat, longitude: pos.lng};
+                            updateUnit(data);
                             updateResults(clubs, coords);
                             $("[data-output='location']").html("near " + result.formatted_address);
                         }
@@ -168,18 +168,20 @@ $(() => {
 
     $("#toggle-search-all").on("change", function() {
         $("[data-type='nearby']").toggleClass("is-hidden");
-        $("[data-type='baseUnit']").toggleClass("is-hidden");
+        $("[data-type='base-unit']").toggleClass("is-hidden");
         $("[data-type='all']").toggleClass("is-hidden");
         $("[data-output='location']").toggleClass("is-hidden");
         updateResults(clubs, coords, this.checked);
     });
+
     $("#toggle-unit").on("change", function() {
-        var el = $("[for='toggle-unit']");
-        var currentUnit = el.html();
-        if(currentUnit == "Imperial"){
+        let el = $("[for='toggle-unit']");
+        let currentUnit = el.html();
+        if(currentUnit == "Imperial") {
             defaultUnit = "Metric";
-            defaultDistance = "kilometre";
-        } else if(currentUnit == "Metric"){
+            defaultDistance = "kilometer";
+        }
+        else if(currentUnit == "Metric") {
             defaultUnit = "Imperial";
             defaultDistance = "mile";
         }
@@ -189,24 +191,3 @@ $(() => {
         updateResults(clubs, coords);
     });
 });
-
-const getDistance = distance => defaultUnit == "Imperial" ? toMiles(distance) : toKilometres(distance);
-
-function updateUnit(res){
-    var countryCode;
-    try{
-        countryCode = res.results[0].address_components.slice(-1)[0].short_name;
-    } catch(e) {
-        countryCode = "US";
-    }
-
-    if(["US","MM","LR"].indexOf(countryCode) != -1){
-        defaultUnit = "Imperial";
-        defaultDistance = "mile";
-    } else{
-        defaultUnit = "Metric";
-        defaultDistance = "kilometre";
-    }
-    $("#toggle-unit").click();
-
-}
