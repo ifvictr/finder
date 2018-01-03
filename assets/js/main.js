@@ -3,6 +3,10 @@ if(!navigator.geolocation) {
     console.warn("Couldn't use geolocation");
 }
 
+// Global Variable
+let defaultUnit = "Imperial";
+let defaultDistance = "mile";
+
 function updateResultCount(count) {
     const text = `${count} club${count === 1 ? "" : "s"}`;
     $("[data-output='total-results']").html(text);
@@ -14,7 +18,7 @@ function updateResults(clubs, coords, searchAll = false) {
 
     if(!searchAll) {
         clubs = geolib.orderByDistance(coords, clubs)
-            .filter(club => toMiles(club.distance) < parseInt($("input[name='radius']").val()));
+            .filter(club => getDistance(club.distance) < parseInt($("input[name='radius']").val()));
     }
 
     updateResultCount(clubs.length);
@@ -24,7 +28,7 @@ function updateResults(clubs, coords, searchAll = false) {
     $("#no-results").toggleClass("is-hidden", hasResults);
 
     clubs.map(club => {
-        const distanceAway = toMiles(club.distance).toFixed(1);
+        let distanceAway = getDistance(club.distance).toFixed(1);
         const imageUri = `assets/images/school/${club.id}.jpg`;
 
         $results.append(`
@@ -38,7 +42,7 @@ function updateResults(clubs, coords, searchAll = false) {
                     <div class="card-content">
                         <h2 class="title is-5 is-spaced">${club.name}</h2>
                         <h3 class="subtitle is-6">${club.address}</h3>
-                        ${!searchAll ? `<span class='is-italic'>${distanceAway > 1 ? distanceAway + " miles" : "<1 mile"} away</span>` : ""}
+                        ${!searchAll ? `<span class='is-italic'>${distanceAway > 1 ? distanceAway + " " + defaultDistance + "s" : "<1 " + defaultDistance} away</span>` : ""}
                     </div>
                     <footer class="card-footer">
                         <!-- <a href="#" target="_blank" class="card-footer-item" title="Visit club website"><span class="icon"><i class="fa fa-link"></i></span></a> -->
@@ -91,6 +95,7 @@ $(() => {
                     .done(data => {
                         if(data.results.length > 0) {
                             const result = data.results[0];
+                            updateUnit(data);
                             $("[data-action='search-nearby']").val(result.formatted_address);
                         }
                     })
@@ -123,6 +128,7 @@ $(() => {
                             const result = data.results[0];
                             const pos = result.geometry.location;
                             coords = {latitude: pos.lat, longitude: pos.lng};
+                            updateUnit(data);
                             updateResults(clubs, coords);
                             $("[data-output='location']").html("near " + result.formatted_address);
                         }
@@ -151,7 +157,7 @@ $(() => {
 
     $("input[type='range']").on("input", function() {
         const val = $(this).val();
-        $("[data-output='radius']").html(val);
+        $("[data-output='radius']").html(val + " " + defaultDistance);
         setTimeout(() => {
             const currentVal = $("input[type='range']").val();
             if(val === currentVal) {
@@ -162,8 +168,26 @@ $(() => {
 
     $("#toggle-search-all").on("change", function() {
         $("[data-type='nearby']").toggleClass("is-hidden");
+        $("[data-type='base-unit']").toggleClass("is-hidden");
         $("[data-type='all']").toggleClass("is-hidden");
         $("[data-output='location']").toggleClass("is-hidden");
         updateResults(clubs, coords, this.checked);
+    });
+
+    $("#toggle-unit").on("change", function() {
+        let el = $("[for='toggle-unit']");
+        let currentUnit = el.html();
+        if(currentUnit == "Imperial") {
+            defaultUnit = "Metric";
+            defaultDistance = "kilometer";
+        }
+        else if(currentUnit == "Metric") {
+            defaultUnit = "Imperial";
+            defaultDistance = "mile";
+        }
+        el.html(defaultUnit);
+        const val = $("input[type='range']").val();
+        $("[data-output='radius']").html(val + " " + defaultDistance);
+        updateResults(clubs, coords);
     });
 });
