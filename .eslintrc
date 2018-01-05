@@ -7,8 +7,10 @@
     "globals": {
         "byField": true,
         "Fuse": true,
+        "getDistance": true,
         "geolib": true,
         "isSuccess": true,
-        "toMiles": true
+        "toMiles": true,
+        "updateUnit": true
     }
 }

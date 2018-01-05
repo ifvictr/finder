@@ -21,16 +21,17 @@ const isSuccess = (url, callback) => {
     });
 };
 
-const updateUnit = (res) => {
+const updateUnit = res => {
     let countryCode;
     try {
+        // TODO: Find a proper way to retrieve country code
         countryCode = res.results[0].address_components.slice(-1)[0].short_name;
     }
     catch(e) {
         countryCode = "US";
     }
 
-    if(["US","MM","LR"].indexOf(countryCode) != -1) {
+    if("US|MM|LR".indexOf(countryCode) != -1) {
         defaultUnit = "Imperial";
         defaultDistance = "mile";
     }
@@ -39,9 +40,11 @@ const updateUnit = (res) => {
         defaultDistance = "kilometer";
     }
     $("#toggle-unit").click();
-}
+};
 
 
 const toMiles = meters => meters * 0.000621371;
+
 const toKilometers = meters => meters * 0.001;
+
 const getDistance = distance => defaultUnit == "Imperial" ? toMiles(distance) : toKilometers(distance);

@@ -1,9 +1,3 @@
-// Check if geolocation is enabled/supported
-if(!navigator.geolocation) {
-    console.warn("Couldn't use geolocation");
-}
-
-// Global Variable
 let defaultUnit = "Imperial";
 let defaultDistance = "mile";
 
@@ -28,7 +22,7 @@ function updateResults(clubs, coords, searchAll = false) {
     $("#no-results").toggleClass("is-hidden", hasResults);
 
     clubs.map(club => {
-        let distanceAway = getDistance(club.distance).toFixed(1);
+        const distanceAway = getDistance(club.distance).toFixed(1);
         const imageUri = `assets/images/school/${club.id}.jpg`;
 
         $results.append(`
