@@ -3,6 +3,7 @@ const autoPrefixer = require("gulp-autoprefixer");
 const cleanCSS = require("gulp-clean-css");
 const concat = require("gulp-concat");
 const sass = require("gulp-sass");
+const sourcemaps = require("gulp-sourcemaps");
 const pump = require("pump");
 
 // Change to another module with ES6 support
@@ -26,6 +27,7 @@ gulp.task("build", ["build-css", "build-js"]);
 gulp.task("build-css", cb => {
     pump([
         gulp.src(SASS_PATHS),
+        sourcemaps.init({largeFile: true}),
         sass(),
         autoPrefixer(),
         cleanCSS({
@@ -33,6 +35,7 @@ gulp.task("build-css", cb => {
             rebase: false
         }),
         concat("finder.min.css"),
+        sourcemaps.write("./"),
         gulp.dest("assets/dist/")
     ], cb);
 });
@@ -40,8 +43,10 @@ gulp.task("build-css", cb => {
 gulp.task("build-js", cb => {
     pump([
         gulp.src(JS_PATHS),
+        sourcemaps.init({largeFile: true}),
         uglify(),
         concat("finder.min.js"),
+        sourcemaps.write("./"),
         gulp.dest("assets/dist/")
     ], cb);
 });
