@@ -6,7 +6,7 @@ const sass = require("gulp-sass");
 const sourcemaps = require("gulp-sourcemaps");
 const pump = require("pump");
 
-// Change to another module with ES6 support
+// Change to module with ES6 support
 const composer = require("gulp-uglify/composer");
 const uglify = composer(require("uglify-es"), console);
 
