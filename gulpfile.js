@@ -94,4 +94,6 @@ gulp.task("watch:css", () => gulp.watch(SASS_PATHS, ["build:css"]));
 
 gulp.task("watch:js", () => gulp.watch(JS_PATHS, ["build:js"]));
 
-gulp.task("watch:images", () => gulp.watch(IMAGE_PATHS, ["compress:images", "compress:schools"]));
+gulp.task("watch:images", () => gulp.watch(IMAGE_PATHS, ["compress:images"]));
+
+gulp.task("watch:schools", () => gulp.watch("assets/images/school/*", ["compress:images", "compress:schools"]));
