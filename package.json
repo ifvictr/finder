@@ -30,23 +30,18 @@
         "font-awesome": "^4.7.0",
         "fuse.js": "^3.2.0",
         "geolib": "^2.0.24",
-        "gulp-autoprefixer": "^4.1.0",
-        "gulp-clean-css": "^3.9.2",
-        "gulp-imagemin": "^4.1.0",
-        "jquery": "^3.2.1",
-        "pump": "^2.0.0",
-        "uglify-es": "^3.3.4"
+        "jquery": "^3.2.1"
     },
     "devDependencies": {
         "gulp": "^3.9.1",
-        "gulp-autoprefixer": "^4.0.0",
-        "gulp-clean-css": "^3.9.0",
+        "gulp-autoprefixer": "^4.1.0",
+        "gulp-clean-css": "^3.9.2",
         "gulp-concat": "^2.6.1",
-        "gulp-imagemin": "^4.0.0",
+        "gulp-imagemin": "^4.1.0",
         "gulp-sass": "^3.1.0",
         "gulp-sourcemaps": "^2.6.3",
         "gulp-uglify": "^3.0.0",
         "pump": "^2.0.0",
-        "uglify-es": "^3.2.2"
+        "uglify-es": "^3.3.5"
     }
 }
