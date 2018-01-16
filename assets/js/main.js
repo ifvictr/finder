@@ -36,7 +36,7 @@ function updateResults(clubs, coords, searchAll = false) {
                     <div class="card-content">
                         <h2 class="title is-5 is-spaced">${club.name}</h2>
                         <h3 class="subtitle is-6">${club.address}</h3>
-                        ${!searchAll ? `<span class='is-italic'>${distanceAway > 1 ? distanceAway + " " + defaultDistance + "s" : "<1 " + defaultDistance} away</span>` : ""}
+                        ${!searchAll ? `<span>${distanceAway > 1 ? distanceAway + " " + defaultDistance + "s" : "<1 " + defaultDistance} away</span>` : ""}
                     </div>
                     <footer class="card-footer">
                         <!-- <a href="#" target="_blank" class="card-footer-item" title="Visit club website"><span class="icon"><i class="fa fa-link"></i></span></a> -->
