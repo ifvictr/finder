@@ -169,7 +169,6 @@ $(() => {
 
     $("#toggle-imperial").on("change", function() {
         if(this.checked) {
-            defaultUnit = "Imperial";
             measurementUnit = "mile";
         }
         $("[data-output='unit']").html(measurementUnit);
@@ -178,7 +177,6 @@ $(() => {
 
     $("#toggle-metric").on("change", function() {
         if(this.checked) {
-            defaultUnit = "Metric";
             measurementUnit = "kilometer";
         }
         $("[data-output='unit']").html(measurementUnit);
