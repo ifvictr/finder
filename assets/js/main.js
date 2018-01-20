@@ -1,5 +1,4 @@
-let defaultUnit = "Imperial";
-let defaultDistance = "mile";
+let measurementUnit = "mile";
 
 function updateResultCount(count) {
     const text = `${count} club${count === 1 ? "" : "s"}`;
@@ -36,7 +35,7 @@ function updateResults(clubs, coords, searchAll = false) {
                     <div class="card-content">
                         <h2 class="title is-5 is-spaced">${club.name}</h2>
                         <h3 class="subtitle is-6">${club.address}</h3>
-                        ${!searchAll ? `<span>${distanceAway > 1 ? distanceAway + " " + defaultDistance + "s" : "<1 " + defaultDistance} away</span>` : ""}
+                        ${!searchAll ? `<span>${distanceAway > 1 ? distanceAway + " " + measurementUnit + "s" : "<1 " + measurementUnit} away</span>` : ""}
                     </div>
                     <footer class="card-footer">
                         <!-- <a href="#" target="_blank" class="card-footer-item" title="Visit club website"><span class="icon"><i class="fa fa-link"></i></span></a> -->
@@ -120,11 +119,11 @@ $(() => {
                     .done(data => {
                         if(data.results.length > 0) {
                             const result = data.results[0];
-                            const pos = result.geometry.location;
-                            coords = {latitude: pos.lat, longitude: pos.lng};
+                            const {lat, lng} = result.geometry.location.pos;
+                            coords = {latitude: lat, longitude: lng};
                             updateUnit(data);
                             updateResults(clubs, coords);
-                            $("[data-output='location']").html("near " + result.formatted_address);
+                            $("[data-output='location']").html(`near ${result.formatted_address}`);
                         }
                         else {
                             updateResults([], coords);
@@ -151,7 +150,7 @@ $(() => {
 
     $("input[type='range']").on("input", function() {
         const val = $(this).val();
-        $("[data-output='radius']").html(val + " " + defaultDistance);
+        $("[data-output='radius']").html(val);
         setTimeout(() => {
             const currentVal = $("input[type='range']").val();
             if(val === currentVal) {
@@ -168,20 +167,21 @@ $(() => {
         updateResults(clubs, coords, this.checked);
     });
 
-    $("#toggle-unit").on("change", function() {
-        let el = $("[for='toggle-unit']");
-        let currentUnit = el.html();
-        if(currentUnit == "Imperial") {
-            defaultUnit = "Metric";
-            defaultDistance = "kilometer";
-        }
-        else if(currentUnit == "Metric") {
+    $("#toggle-imperial").on("change", function() {
+        if(this.checked) {
             defaultUnit = "Imperial";
-            defaultDistance = "mile";
+            measurementUnit = "mile";
         }
-        el.html(defaultUnit);
-        const val = $("input[type='range']").val();
-        $("[data-output='radius']").html(val + " " + defaultDistance);
+        $("[data-output='unit']").html(measurementUnit);
+        updateResults(clubs, coords);
+    });
+
+    $("#toggle-metric").on("change", function() {
+        if(this.checked) {
+            defaultUnit = "Metric";
+            measurementUnit = "kilometer";
+        }
+        $("[data-output='unit']").html(measurementUnit);
         updateResults(clubs, coords);
     });
 });

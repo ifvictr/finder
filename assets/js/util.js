@@ -24,22 +24,24 @@ const isSuccess = (url, callback) => {
 const updateUnit = res => {
     let countryCode;
     try {
-        // TODO: Find a proper way to retrieve country code
-        countryCode = res.results[0].address_components.slice(-1)[0].short_name;
+        res.results[0].address_components.map(item => {
+            if(item.types.includes("country")) {
+                countryCode = item.short_name;
+            }
+        });
     }
     catch(e) {
         countryCode = "US";
     }
 
-    if("US|MM|LR".indexOf(countryCode) != -1) {
-        defaultUnit = "Imperial";
-        defaultDistance = "mile";
+    if("LR|MM|US".indexOf(countryCode) !== -1) {
+        measurementUnit = "mile";
+        $("#toggle-imperial").prop("checked", true);
     }
     else {
-        defaultUnit = "Metric";
-        defaultDistance = "kilometer";
+        measurementUnit = "kilometer";
+        $("#toggle-metric").prop("checked", true);
     }
-    $("#toggle-unit").click();
 };
 
 
@@ -47,4 +49,4 @@ const toMiles = meters => meters * 0.000621371;
 
 const toKilometers = meters => meters * 0.001;
 
-const getDistance = distance => defaultUnit == "Imperial" ? toMiles(distance) : toKilometers(distance);
+const getDistance = distance => measurementUnit === "mile" ? toMiles(distance) : toKilometers(distance);

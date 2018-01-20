@@ -26,6 +26,7 @@
     "homepage": "https://github.com/hackclub/finder#readme",
     "dependencies": {
         "bulma": "^0.6.1",
+        "bulma-checkradio": "^0.1.4",
         "bulma-slider": "^0.1.0",
         "bulma-switch": "^0.1.2",
         "font-awesome": "^4.7.0",
