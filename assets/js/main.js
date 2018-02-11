@@ -119,7 +119,7 @@ $(() => {
                     .done(data => {
                         if(data.results.length > 0) {
                             const result = data.results[0];
-                            const {lat, lng} = result.geometry.location.pos;
+                            const {lat, lng} = result.geometry.location;
                             coords = {latitude: lat, longitude: lng};
                             updateUnit(data);
                             updateResults(clubs, coords);
