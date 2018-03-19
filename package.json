@@ -25,26 +25,27 @@
     },
     "homepage": "https://github.com/hackclub/finder#readme",
     "dependencies": {
-        "bulma": "^0.6.1",
-        "bulma-checkradio": "^0.1.4",
-        "bulma-slider": "^0.1.0",
-        "bulma-switch": "^0.1.2",
-        "font-awesome": "^4.7.0",
+        "@fortawesome/fontawesome": "^1.1.4",
+        "@fortawesome/fontawesome-free-brands": "^5.0.8",
+        "@fortawesome/fontawesome-free-solid": "^5.0.8",
+        "@fortawesome/react-fontawesome": "^0.0.17",
+        "@hackclub/design-system": "^0.0.1-9",
+        "axios": "^0.18.0",
         "fuse.js": "^3.2.0",
+        "gatsby": "^1.9.232",
+        "gatsby-link": "^1.6.39",
+        "gatsby-plugin-react-helmet": "^2.0.7",
+        "gatsby-plugin-react-next": "^1.0.11",
+        "gatsby-plugin-resolve-src": "^1.0.0",
+        "gatsby-plugin-styled-components": "^2.0.9",
         "geolib": "^2.0.24",
-        "jquery": "^3.2.1"
+        "prop-types": "^15.6.1",
+        "react": "^16.2.0",
+        "react-dom": "^16.2.0",
+        "react-helmet": "^5.2.0",
+        "styled-components": "^3.2.3"
     },
     "devDependencies": {
-        "gulp": "^3.9.1",
-        "gulp-autoprefixer": "^4.1.0",
-        "gulp-clean-css": "^3.9.2",
-        "gulp-concat": "^2.6.1",
-        "gulp-image-resize": "^0.13.0",
-        "gulp-imagemin": "^4.1.0",
-        "gulp-sass": "^3.1.0",
-        "gulp-sourcemaps": "^2.6.3",
-        "gulp-uglify": "^3.0.0",
-        "pump": "^2.0.0",
-        "uglify-es": "^3.3.5"
+        "prettier": "^1.11.1"
     }
 }
