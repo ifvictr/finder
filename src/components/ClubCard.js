@@ -23,8 +23,8 @@ const Inner = Card.extend.attrs({
 
 const Photo = Box.withComponent("figure").extend`
     background-image: url(${props => props.src});
-    background-repeat: no-repeat;
     background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
     border-radius: ${props => props.theme.radius} ${props => props.theme.radius} 0 0;
     display: block;
@@ -34,8 +34,8 @@ const Photo = Box.withComponent("figure").extend`
     transition: 0.125s background-image ease-in, 0.125s opacity ease-in;
     &:after {
         background-image: url(/placeholder.svg);
-        background-repeat: no-repeat;
         background-position: center;
+        background-repeat: no-repeat;
         background-size: contain;
         content: "";
         display: block;

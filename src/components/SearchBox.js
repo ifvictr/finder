@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Card, Input } from "@hackclub/design-system";
 
 const S = Card.withComponent(Input).extend.attrs({
+    borderRadius: props => props.theme.pill,
     boxShadowSize: "sm",
     fontSize: 5,
-    mt: 4,
     mx: "auto",
+    mt: 4,
     px: 4,
-    borderRadius: props => props.theme.pill
 })`
     &:hover {
         box-shadow: ${props => props.theme.boxShadows[1]};
@@ -32,7 +32,7 @@ class SearchBox extends Component {
     }
 
     handleChange(e) {
-        this.setState({value: e.target.value});
+        this.setState({ value: e.target.value });
     }
 }
 
