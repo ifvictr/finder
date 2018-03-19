@@ -28,6 +28,7 @@ const Photo = Box.withComponent("figure").extend`
     background-size: cover;
     border-radius: ${props => props.theme.radius} ${props => props.theme.radius} 0 0;
     display: block;
+    margin: 0;
     padding-top: 66.6666%;
     position: relative;
     transition: 0.125s background-image ease-in, 0.125s opacity ease-in;

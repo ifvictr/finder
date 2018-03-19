@@ -33,10 +33,6 @@ class SearchBox extends Component {
 
     handleChange(e) {
         this.setState({value: e.target.value});
-        console.log(e.target.value);
-        setTimeout(() => {
-            
-        }, 1500);
     }
 }
 
