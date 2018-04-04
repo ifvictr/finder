@@ -3,6 +3,7 @@ import FA from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import { css } from "styled-components";
 import { Box, Card, Flex, Heading, Link, Text } from "@hackclub/design-system";
+import Overdrive from "react-overdrive";
 import axios from "axios";
 
 const Base = Box.extend`
@@ -24,6 +25,17 @@ const Inner = Card.withComponent(Flex).extend.attrs({
         box-shadow: ${props => props.theme.boxShadows[2]};
         transform: scale(1.02);
     }
+`;
+
+const Distance = Text.withComponent("span").extend.attrs({
+    color: "white",
+    p: 2
+})`
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: ${props => props.theme.radius} 0 ${props => props.theme.radius} 0;
+    position: absolute;
+    text-shadow: rgba(0, 0, 0, 0.32) 0px 1px 4px;
+    z-index: 1;
 `;
 
 const Photo = Box.withComponent("figure").extend.attrs({
@@ -109,6 +121,7 @@ class ClubCard extends Component {
         return (
             <Base>
                 <Inner>
+                    <Distance>1 mi away</Distance>
                     <Box style={{ borderRadius: "4px 4px 0 0", overflow: "hidden" }}>
                         <Photo src={`/school/${data.id}.jpg`} ready={ready} />
                     </Box>
