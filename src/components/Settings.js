@@ -1,40 +1,31 @@
-import React, { Component } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import FA from "@fortawesome/react-fontawesome";
 import { Box, Button } from "@hackclub/design-system";
 
-class Settings extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            distanceRange: 50,
-            showAllClubs: false,
-            useImperialSystem: true
-        };
-        this.onSystemToggle = this.onSystemToggle.bind(this);
-        this.onViewToggle = this.onViewToggle.bind(this);
-    }
 
-    render() {
-        const { showAllClubs, useImperialSystem } = this.state;
-        return (
-            <Box {...this.props}>
-                <Button onClick={this.onSystemToggle} inverted={!useImperialSystem} mr={2}>
-                    <FA icon="chess-king" /> Imperial
-                </Button>
-                <Button onClick={this.onViewToggle} inverted={!showAllClubs}>
-                    <FA icon="globe" /> View all
-                </Button>
-            </Box>
-        );
-    }
+const Settings = ({
+    distanceRange,
+    onSystemToggle,
+    onViewToggle,
+    showAllClubs,
+    useImperialSystem,
+    ...props
+}) => (
+    <Box {...props}>
+        <Button onClick={onSystemToggle} inverted={!useImperialSystem} mr={2}>
+            <FA icon="chess-king" /> Imperial
+        </Button>
+        <Button onClick={onViewToggle} inverted={!showAllClubs}>
+            <FA icon="globe" /> View all
+        </Button>
+    </Box>
+);
 
-    onSystemToggle() {
-        this.setState({ useImperialSystem: !this.state.useImperialSystem });
-    }
-
-    onViewToggle() {
-        this.setState({ showAllClubs: !this.state.showAllClubs });
-    }
-}
+Settings.propTypes = {
+    distanceRange: PropTypes.number.isRequired,
+    showAllClubs: PropTypes.bool.isRequired,
+    useImperialSystem: PropTypes.bool.isRequired
+};
 
 export default Settings;

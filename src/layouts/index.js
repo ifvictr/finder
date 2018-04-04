@@ -12,7 +12,9 @@ fontAwesome.library.add(brands, solid);
 const DefaultLayout = ({ children }) => (
     <ThemeProvider>
         <Helmet title="Finder — Hack Club" />
-        {children()}
+        <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh"}}>
+            {children()}
+        </div>
     </ThemeProvider>
 );
 
