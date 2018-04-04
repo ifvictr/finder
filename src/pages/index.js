@@ -53,7 +53,6 @@ class IndexPage extends Component {
             useImperialSystem
         } = this.state;
         const visibleClubs = (showAllClubs && searchValue.trim().length === 0) ? sortedClubs : filteredClubs;
-        console.log(visibleClubs);
         return (
             <Fragment>
                 <Header />
@@ -126,7 +125,6 @@ class IndexPage extends Component {
                 .get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURIComponent(searchValue)}`)
                 .then(res => res.data.results[0])
                 .then(firstResult => {
-                    console.log("firstResult: ", firstResult);
                     if(firstResult) {
                         const { lat, lng } = firstResult.geometry.location;
                         this.setState({
@@ -142,8 +140,7 @@ class IndexPage extends Component {
                             formattedAddress: null
                         });
                     }
-                    console.log("current state: ", this.state);
-                });            
+                });
         }
     }
 
