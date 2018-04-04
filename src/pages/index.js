@@ -20,10 +20,11 @@ class IndexPage extends Component {
             filteredClubs: [],
             formattedAddress: null,
             // loading: true,
-            // If present, use existing query parameters
+            // Attempt to use existing query parameters
             params: qs.parse(props.location.search) || {
                 m: null, // Measurement system
                 q: null, // Search value
+                r: 50, // Search radius
                 v: null // View
             },
             searchLat: null,
@@ -38,8 +39,17 @@ class IndexPage extends Component {
         this.onViewToggle = this.onViewToggle.bind(this);
     }
 
+    componentWillMount() {
+        const { m, q, r, v } = this.state.params;
+        this.setState({
+            searchRadius: parseInt(r),
+            searchValue: q || "",
+            showAllClubs: v === "all",
+            useImperialSystem: m === "i"
+        });
+    }
+
     componentDidMount() {
-        console.log(this.state.params);
         axios
             .get("https://api.hackclub.com/v1/clubs")
             .then(({ data }) => {
@@ -57,6 +67,7 @@ class IndexPage extends Component {
             showAllClubs,
             useImperialSystem
         } = this.state;
+        console.log(this.state);
         const visibleClubs = (showAllClubs && searchValue.trim().length === 0) ? clubs : filteredClubs;
         return (
             <Fragment>
@@ -74,8 +85,8 @@ class IndexPage extends Component {
                     <Flex justify="space-between" mt={4}>
                         <Box>
                             <Text align="left" color="muted" fontSize={3}>
-                                {visibleClubs.length} club{visibleClubs.length === 1 ? "" : "s"} found{" "}
-                                {showAllClubs ? "around the world" : `near ${formattedAddress || "you"}`}
+                                {visibleClubs.length} club{visibleClubs.length === 1 ? "" : "s"}{" "}
+                                {showAllClubs ? `match${visibleClubs.length === 1 ? "es" : ""} “${searchValue}”` : `found near ${formattedAddress || "you"}`}
                             </Text>
                         </Box>
                         <Settings
@@ -135,10 +146,11 @@ class IndexPage extends Component {
                 .then(firstResult => {
                     if(firstResult) {
                         const { lat, lng } = firstResult.geometry.location;
+                        const filteredClubs = geolib
+                            .orderByDistance({ latitude: lat, longitude: lng }, clubs)
+                            .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius);
                         this.setState({
-                            filteredClubs: geolib
-                                .orderByDistance({ latitude: lat, longitude: lng }, clubs)
-                                .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius),
+                            filteredClubs,
                             formattedAddress: firstResult.formatted_address,
                             searchLat: lat,
                             searchLng: lng
@@ -169,7 +181,7 @@ class IndexPage extends Component {
         this.setState({
             filteredClubs: [],
             formattedAddress: null,
-            searchValue: "",
+            // searchValue: "",
             showAllClubs: nextShowAllClubs
         });
         this.setParams({ v: nextShowAllClubs ? "all" : "loc" });
