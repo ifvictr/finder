@@ -5,15 +5,15 @@ import { Box, Button } from "@hackclub/design-system";
 
 
 const Settings = ({
-    distanceRange,
     onSystemToggle,
     onViewToggle,
+    searchRadius,
     showAllClubs,
     useImperialSystem,
     ...props
 }) => (
     <Box {...props}>
-        <Button onClick={onSystemToggle} inverted={!useImperialSystem} mr={2}>
+        <Button onClick={onSystemToggle} inverted={!useImperialSystem} disabled={showAllClubs} mr={2}>
             <FA icon="chess-king" /> Imperial
         </Button>
         <Button onClick={onViewToggle} inverted={!showAllClubs}>
@@ -23,7 +23,7 @@ const Settings = ({
 );
 
 Settings.propTypes = {
-    distanceRange: PropTypes.number.isRequired,
+    searchRadius: PropTypes.number.isRequired,
     showAllClubs: PropTypes.bool.isRequired,
     useImperialSystem: PropTypes.bool.isRequired
 };
