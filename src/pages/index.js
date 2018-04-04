@@ -10,20 +10,27 @@ import Settings from "components/Settings";
 import axios from "axios";
 import geolib from "geolib";
 import Fuse from "fuse.js";
+import qs from "query-string";
 
 class IndexPage extends Component {
     constructor(props) {
         super(props);
-        // TODO: Remove a few `-clubs`
         this.state = {
             clubs: [],
             filteredClubs: [],
             formattedAddress: null,
             // loading: true,
+            // If present, use existing query parameters
+            params: qs.parse(props.location.search) || {
+                m: null, // Measurement system
+                q: null, // Search value
+                v: null // View
+            },
+            searchLat: null,
+            searchLng: null,
             searchRadius: 50,
             searchValue: "",
             showAllClubs: false,
-            sortedClubs: [],
             useImperialSystem: true
         };
         this.onSearchChange = debounce(this.onSearchChange, 1250);
@@ -32,27 +39,25 @@ class IndexPage extends Component {
     }
 
     componentDidMount() {
+        console.log(this.state.params);
         axios
             .get("https://api.hackclub.com/v1/clubs")
             .then(({ data }) => {
-                this.setState({
-                    clubs: data,
-                    sortedClubs: sortBy(data, ["name"])
-                });
+                this.setState({ clubs: sortBy(data, ["name"]) });
             });
     }
 
     render() {
         const {
+            clubs,
             filteredClubs,
             formattedAddress,
             searchRadius,
             searchValue,
             showAllClubs,
-            sortedClubs,
             useImperialSystem
         } = this.state;
-        const visibleClubs = (showAllClubs && searchValue.trim().length === 0) ? sortedClubs : filteredClubs;
+        const visibleClubs = (showAllClubs && searchValue.trim().length === 0) ? clubs : filteredClubs;
         return (
             <Fragment>
                 <Header />
@@ -68,7 +73,10 @@ class IndexPage extends Component {
                     />
                     <Flex justify="space-between" mt={4}>
                         <Box>
-                            <Text align="left" color="muted" fontSize={3}>{visibleClubs.length} club{visibleClubs.length === 1 ? "" : "s"} found {showAllClubs ? "around the world" : `near ${formattedAddress || "you"}`}</Text>
+                            <Text align="left" color="muted" fontSize={3}>
+                                {visibleClubs.length} club{visibleClubs.length === 1 ? "" : "s"} found{" "}
+                                {showAllClubs ? "around the world" : `near ${formattedAddress || "you"}`}
+                            </Text>
                         </Box>
                         <Settings
                             searchRadius={searchRadius}
@@ -83,7 +91,7 @@ class IndexPage extends Component {
                         {
                             visibleClubs.map((club, i) => (
                                 <LazyLoad key={i} height={0} offset={100} once overflow>
-                                    <ClubCard data={club} />
+                                    <ClubCard data={club} distanceTo={0} />
                                 </LazyLoad>
                             ))
                         }
@@ -95,18 +103,18 @@ class IndexPage extends Component {
     }
 
     onSearchChange(e) {
+        const { mapsApiKey } = this.props.data.site.siteMetadata;
         const {
             clubs,
             searchRadius,
             searchValue,
             showAllClubs,
-            sortedClubs,
             useImperialSystem
         } = this.state;
-        window.history.replaceState(null, null, `/?q=${encodeURIComponent(searchValue)}`);
+        this.setParams({ q: searchValue });
         if(showAllClubs) {
             // Move to constructor method if possible
-            const fuse = new Fuse(sortedClubs, {
+            const fuse = new Fuse(clubs, {
                 distance: 100,
                 location: 0,
                 maxPatternLength: 32,
@@ -122,7 +130,7 @@ class IndexPage extends Component {
         }
         else {
             axios
-                .get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURIComponent(searchValue)}`)
+                .get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURIComponent(searchValue)}&key=${mapsApiKey}`)
                 .then(res => res.data.results[0])
                 .then(firstResult => {
                     if(firstResult) {
@@ -132,6 +140,8 @@ class IndexPage extends Component {
                                 .orderByDistance({ latitude: lat, longitude: lng }, clubs)
                                 .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius),
                             formattedAddress: firstResult.formatted_address,
+                            searchLat: lat,
+                            searchLng: lng
                         });
                     }
                     else {
@@ -145,17 +155,41 @@ class IndexPage extends Component {
     }
 
     onSystemToggle() {
-        this.setState({ useImperialSystem: !this.state.useImperialSystem });
+        const { showAllClubs, useImperialSystem } = this.state;
+        if(!showAllClubs) {
+            const nextUseImperialSystem = !useImperialSystem;
+            this.setState({ useImperialSystem: nextUseImperialSystem });
+            this.setParams({ m: nextUseImperialSystem ? "i" : "m" });
+        }
     }
 
     onViewToggle() {
+        const { showAllClubs } = this.state;
+        const nextShowAllClubs = !showAllClubs;
         this.setState({
             filteredClubs: [],
             formattedAddress: null,
             searchValue: "",
-            showAllClubs: !this.state.showAllClubs
+            showAllClubs: nextShowAllClubs
         });
+        this.setParams({ v: nextShowAllClubs ? "all" : "loc" });
+    }
+
+    setParams(partialParams) {
+        const params = Object.assign(qs.parse(window.location.search), partialParams);
+        this.setState({ params });
+        window.history.pushState(null, null, `?${qs.stringify(params)}`);
     }
 }
 
 export default IndexPage;
+
+export const query = graphql`
+    query IndexQuery {
+        site {
+            siteMetadata {
+                mapsApiKey
+            }
+        }
+    }
+`;
