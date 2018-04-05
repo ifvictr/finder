@@ -1,2 +1,0 @@
-- change measurement to a ruler icon
-- show miles/km instead of mesaurement sys
