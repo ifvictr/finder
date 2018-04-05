@@ -1,5 +1,7 @@
 .c9/
+.cache/
 .git/
 node_modules/
+public/
 npm-debug.log
-package-lock.json
+run
