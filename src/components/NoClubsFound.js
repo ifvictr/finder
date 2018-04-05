@@ -24,7 +24,7 @@ const SuperButton = Button.withComponent(Link).extend`
 const NoClubsFound = props => (
     <Base>
         {/*<Image src="https://raw.githubusercontent.com/hackclub/dinosaurs/master/club_dinosaur.png" />*/}
-        <Heading.h2>There aren't any clubs around you…</Heading.h2>
+        <Heading.h2>There aren’t any clubs around you…</Heading.h2>
         <SuperButton href="https://hackclub.com/start" target="_blank" f={4} mt={4}>Be the first »</SuperButton>
     </Base>
 );
