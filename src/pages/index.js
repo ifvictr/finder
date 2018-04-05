@@ -114,7 +114,7 @@ class IndexPage extends Component {
                                 </LazyLoad>
                             ))
                         }
-                        { visibleClubs.length === 0 && <NoClubsFound />}
+                        { !showAllClubs && visibleClubs.length === 0 && <NoClubsFound />}
                     </Flex>
                 </Container>
                 <Footer />
