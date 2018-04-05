@@ -3,31 +3,40 @@ import FA from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import { css } from "styled-components";
 import { Box, Card, Flex, Heading, Link, Text } from "@hackclub/design-system";
-import Overdrive from "react-overdrive";
 import axios from "axios";
 
 const Base = Box.extend`
     display: flex;
     padding: ${props => props.theme.space[2]}px;
     text-align: initial;
-    width: 25%;
+    width: 100%;
+    ${props => props.theme.mediaQueries.sm} {
+        width: 50%;
+    }
+    ${props => props.theme.mediaQueries.md} {
+        width: 33.3333%;
+    }
+    ${props => props.theme.mediaQueries.lg} {
+        width: 25%;
+    }
 `;
 
 const Inner = Card.withComponent(Flex).extend.attrs({
+    bg: "snow",
     boxShadowSize: "sm",
     flexDirection: "column"
 })`
-    background-color: ${props => props.theme.colors.snow};
     border-radius: ${props => props.theme.radius};
     position: relative;
     transition: 0.125s box-shadow ease-in, 0.125s transform ease-in;
+    width: 100%;
     &:hover {
         box-shadow: ${props => props.theme.boxShadows[2]};
         transform: scale(1.02);
     }
 `;
 
-const Distance = Text.withComponent("span").extend.attrs({
+const Distance = Text.span.extend.attrs({
     color: "white",
     p: 2
 })`
@@ -83,20 +92,14 @@ const Actions = Flex.extend.attrs({
 const Action = Box.withComponent(Link).extend.attrs({
     align: "center",
     children: props => <FA icon={props.icon} />,
-    color: props => props.theme.colors.primary,
+    color: "primary",
     p: 3,
     target: "_blank"
 })`
     flex-basis: 25%;
     flex-grow: 1;
-    opacity: 0.25;
+    opacity: ${props => props.available ? 1 : 0.25};
     transition: 0.125s background-color ease-in;
-    ${props => props.available && css`
-        opacity: 1;
-        &:hover {
-            background-color: ${props => props.theme.colors.snow};
-        }`
-    }
 `;
 
 class ClubCard extends Component {
@@ -116,25 +119,24 @@ class ClubCard extends Component {
     }
 
     render() {
-        const { data } = this.props;
+        const { address, distance, id, name } = this.props.data;
         const { ready } = this.state;
         return (
             <Base>
                 <Inner>
-                    <Distance>1 mi away</Distance>
+                    <Distance>{distance} mi away</Distance>
                     <Box style={{ borderRadius: "4px 4px 0 0", overflow: "hidden" }}>
-                        <Photo src={`/school/${data.id}.jpg`} ready={ready} />
+                        <Photo src={`/school/${id}.jpg`} ready={ready} />
                     </Box>
                     <Flex p={3} justify="space-around" flexDirection="column" style={{ flex: 1 }}>
-                        <Heading.h4>{data.name}</Heading.h4>
-                        <Text pt={2}>{data.address}</Text>
+                        <Heading.h4>{name}</Heading.h4>
+                        <Text pt={2}>{address}</Text>
                     </Flex>
                     <Actions>
-                        {/* TODO: Add icons for other features (e.g. contact, website) and show/mute based on availability of info, and show only on card hovered */}
-                        <Action icon="comment" available />
-                        <Action href={`https://www.google.com/maps/place/${encodeURI(data.address)}`} icon="map" available />
-                        <Action icon={["fab", "slack-hash"]} available />
-                        <Action icon="envelope" available />
+                        <Action icon="comment" />
+                        <Action href={`https://www.google.com/maps/place/${encodeURI(address)}`} icon="map" available />
+                        <Action icon={["fab", "slack-hash"]} />
+                        <Action icon="envelope" />
                     </Actions>
                 </Inner>
             </Base>

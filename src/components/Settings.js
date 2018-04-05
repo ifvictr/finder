@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import FA from "@fortawesome/react-fontawesome";
 import { Box, Button } from "@hackclub/design-system";
 
-
 const Settings = ({
     onSystemToggle,
     onViewToggle,
@@ -23,6 +22,8 @@ const Settings = ({
 );
 
 Settings.propTypes = {
+    onSystemToggle: PropTypes.func.isRequired,
+    onViewToggle: PropTypes.func.isRequired,
     searchRadius: PropTypes.number.isRequired,
     showAllClubs: PropTypes.bool.isRequired,
     useImperialSystem: PropTypes.bool.isRequired

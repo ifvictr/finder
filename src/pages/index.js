@@ -3,8 +3,9 @@ import React, { Component, Fragment } from "react";
 import LazyLoad from "react-lazyload";
 import { Box, Container, Flex, Heading, Text, theme } from "@hackclub/design-system";
 import ClubCard from "components/ClubCard";
-import Header from "components/Header";
 import Footer from "components/Footer";
+import Header from "components/Header";
+import NoClubsFound from "components/NoClubsFound";
 import SearchBox from "components/SearchBox";
 import Settings from "components/Settings";
 import axios from "axios";
@@ -72,7 +73,7 @@ class IndexPage extends Component {
         return (
             <Fragment>
                 <Header />
-                <Container align="center" px={3} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center", minWidth: "64rem" }}>
+                <Container align="center" px={3} width="100%" style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
                     <Heading.h1 mt={4}>Find Hack Clubs near you!</Heading.h1>
                     <SearchBox
                         value={searchValue}
@@ -84,7 +85,7 @@ class IndexPage extends Component {
                     />
                     <Flex justify="space-between" mt={4}>
                         <Box>
-                            <Text align="left" color="muted" fontSize={3}>
+                            <Text align="left" color="muted" f={3}>
                                 {visibleClubs.length} club{visibleClubs.length === 1 ? "" : "s"}{" "}
                                 {showAllClubs ? `match${visibleClubs.length === 1 ? "es" : ""} “${searchValue}”` : `found near ${formattedAddress || "you"}`}
                             </Text>
@@ -98,14 +99,15 @@ class IndexPage extends Component {
                             onViewToggle={this.onViewToggle}
                         />
                     </Flex>
-                    <Flex py={4} style={{ marginLeft: -theme.space[2], marginTop: -theme.space[2], position: "relative" }} wrap>
+                    <Flex py={5} style={{ marginLeft: -theme.space[2], marginTop: -theme.space[2] }} wrap>
                         {
                             visibleClubs.map((club, i) => (
                                 <LazyLoad key={i} height={0} offset={100} once overflow>
-                                    <ClubCard data={club} distanceTo={0} />
+                                    <ClubCard data={club} />
                                 </LazyLoad>
                             ))
                         }
+                        { visibleClubs.length === 0 && <NoClubsFound />}
                     </Flex>
                 </Container>
                 <Footer />
@@ -141,7 +143,7 @@ class IndexPage extends Component {
         }
         else {
             axios
-                .get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURIComponent(searchValue)}&key=${mapsApiKey}`)
+                .get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(searchValue)}&key=${mapsApiKey}`)
                 .then(res => res.data.results[0])
                 .then(firstResult => {
                     if(firstResult) {
@@ -159,7 +161,9 @@ class IndexPage extends Component {
                     else {
                         this.setState({
                             filteredClubs: [],
-                            formattedAddress: null
+                            formattedAddress: null,
+                            searchLat: null,
+                            searchLng: null
                         });
                     }
                 });
@@ -181,7 +185,6 @@ class IndexPage extends Component {
         this.setState({
             filteredClubs: [],
             formattedAddress: null,
-            // searchValue: "",
             showAllClubs: nextShowAllClubs
         });
         this.setParams({ v: nextShowAllClubs ? "all" : "loc" });

@@ -4,7 +4,7 @@ import { Card, Input } from "@hackclub/design-system";
 const Base = Card.withComponent(Input).extend.attrs({
     borderRadius: props => props.theme.pill,
     boxShadowSize: "sm",
-    fontSize: 5,
+    f: 5,
     mx: "auto",
     mt: 4,
     px: 4
