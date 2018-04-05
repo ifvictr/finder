@@ -126,7 +126,7 @@ class ClubCard extends Component {
         return (
             <Base>
                 <Inner>
-                    {!showAllClubs && <Distance>{geolib.convertUnit(useImperialSystem ? "mi" : "km", distance, 2)} {useImperialSystem ? "mi" : "km"} away</Distance>}
+                    {!showAllClubs && <Distance>{geolib.convertUnit(useImperialSystem ? "mi" : "km", distance, 1)} {useImperialSystem ? "mi" : "km"} away</Distance>}
                     <Box style={{ borderRadius: "4px 4px 0 0", overflow: "hidden" }}>
                         <Photo src={`/school/${data.id}.jpg`} ready={ready} />
                     </Box>
