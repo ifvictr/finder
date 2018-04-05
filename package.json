@@ -4,8 +4,8 @@
     "description": "Find all the Hack Clubs near you!",
     "main": "index.html",
     "scripts": {
-        "build": "gulp build",
-        "dev": "gulp watch",
+        "build": "gatsby build",
+        "dev": "gatsby develop",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
