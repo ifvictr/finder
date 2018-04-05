@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { css } from "styled-components";
 import { Box, Card, Flex, Heading, Link, Text } from "@hackclub/design-system";
 import axios from "axios";
+import geolib from "geolib";
 
 const Base = Box.extend`
     display: flex;
@@ -119,22 +120,23 @@ class ClubCard extends Component {
     }
 
     render() {
-        const { address, distance, id, name } = this.props.data;
+        const { data, distance, showAllClubs, useImperialSystem } = this.props;
         const { ready } = this.state;
+        console.log("distance: ", distance);
         return (
             <Base>
                 <Inner>
-                    <Distance>{distance} mi away</Distance>
+                    {!showAllClubs && <Distance>{geolib.convertUnit(useImperialSystem ? "mi" : "km", distance, 2)} {useImperialSystem ? "mi" : "km"} away</Distance>}
                     <Box style={{ borderRadius: "4px 4px 0 0", overflow: "hidden" }}>
-                        <Photo src={`/school/${id}.jpg`} ready={ready} />
+                        <Photo src={`/school/${data.id}.jpg`} ready={ready} />
                     </Box>
                     <Flex p={3} justify="space-around" flexDirection="column" style={{ flex: 1 }}>
-                        <Heading.h4>{name}</Heading.h4>
-                        <Text pt={2}>{address}</Text>
+                        <Heading.h4>{data.name}</Heading.h4>
+                        <Text pt={2}>{data.address}</Text>
                     </Flex>
                     <Actions>
                         <Action icon="comment" />
-                        <Action href={`https://www.google.com/maps/place/${encodeURI(address)}`} icon="map" available />
+                        <Action href={`https://www.google.com/maps/place/${encodeURI(data.address)}`} icon="map" available />
                         <Action icon={["fab", "slack-hash"]} />
                         <Action icon="envelope" />
                     </Actions>

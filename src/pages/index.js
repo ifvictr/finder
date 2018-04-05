@@ -22,12 +22,12 @@ class IndexPage extends Component {
             formattedAddress: null,
             // loading: true,
             // Attempt to use existing query parameters
-            params: qs.parse(props.location.search) || {
-                m: null, // Measurement system
-                q: null, // Search value
+            params: Object.assign({
+                m: "i", // Measurement system
+                q: "", // Search value
                 r: 50, // Search radius
-                v: null // View
-            },
+                v: "loc" // View
+            }, qs.parse(props.location.search)),
             searchLat: null,
             searchLng: null,
             searchRadius: 50,
@@ -63,6 +63,8 @@ class IndexPage extends Component {
             clubs,
             filteredClubs,
             formattedAddress,
+            searchLat,
+            searchLng,
             searchRadius,
             searchValue,
             showAllClubs,
@@ -99,11 +101,16 @@ class IndexPage extends Component {
                             onViewToggle={this.onViewToggle}
                         />
                     </Flex>
-                    <Flex py={5} style={{ marginLeft: -theme.space[2], marginTop: -theme.space[2] }} wrap>
+                    <Flex justify={(visibleClubs.length === 0) && "center"} py={4} style={{ marginLeft: -theme.space[2], marginTop: -theme.space[2] }} wrap>
                         {
                             visibleClubs.map((club, i) => (
                                 <LazyLoad key={i} height={0} offset={100} once overflow>
-                                    <ClubCard data={club} />
+                                    <ClubCard
+                                        data={club}
+                                        distance={!showAllClubs && geolib.getDistance({ latitude: searchLat, longitude: searchLng }, club)}
+                                        showAllClubs={showAllClubs}
+                                        useImperialSystem={useImperialSystem}
+                                    />
                                 </LazyLoad>
                             ))
                         }
@@ -150,7 +157,8 @@ class IndexPage extends Component {
                         const { lat, lng } = firstResult.geometry.location;
                         const filteredClubs = geolib
                             .orderByDistance({ latitude: lat, longitude: lng }, clubs)
-                            .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius);
+                            .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
+                            .map(club => Object.assign(clubs[club.key], club));
                         this.setState({
                             filteredClubs,
                             formattedAddress: firstResult.formatted_address,
