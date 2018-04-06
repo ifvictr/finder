@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Button, Card, Container, Flex, Heading, Image, Link, Text } from "@hackclub/design-system";
+import { Button, Card, Heading, Image, Link } from "@hackclub/design-system";
 
 const Base = Card.extend.attrs({
+    bg: "snow",
     boxShadowSize: "lg",
     p: 4
 })`
