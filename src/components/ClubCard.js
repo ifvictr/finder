@@ -122,7 +122,6 @@ class ClubCard extends Component {
     render() {
         const { data, distance, showAllClubs, useImperialSystem } = this.props;
         const { ready } = this.state;
-        console.log("distance: ", distance);
         return (
             <Base>
                 <Inner>
@@ -131,7 +130,7 @@ class ClubCard extends Component {
                         <Photo src={`/school/${data.id}.jpg`} ready={ready} />
                     </Box>
                     <Flex p={3} justify="space-around" flexDirection="column" style={{ flex: 1 }}>
-                        <Heading.h4>{data.name}</Heading.h4>
+                        <Heading.h4 style={{ textTransform: "capitalize" }}>{data.name}</Heading.h4>
                         <Text pt={2}>{data.address}</Text>
                     </Flex>
                     <Actions>
