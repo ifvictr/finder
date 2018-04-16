@@ -22,12 +22,13 @@ class IndexPage extends Component {
             formattedAddress: null,
             // loading: true,
             // Attempt to use existing query parameters
-            params: Object.assign({
+            params: {
                 m: "i", // Measurement system
                 q: "", // Search value
                 r: 50, // Search radius
-                v: "loc" // View
-            }, qs.parse(props.location.search)),
+                v: "loc", // View
+                ...qs.parse(props.location.search)
+            },
             searchLat: null,
             searchLng: null,
             searchRadius: 50,
@@ -35,9 +36,11 @@ class IndexPage extends Component {
             showAllClubs: false,
             useImperialSystem: true
         };
-        this.onSearchChange = debounce(this.onSearchChange, 1250);
-        this.onSystemToggle = this.onSystemToggle.bind(this);
-        this.onViewToggle = this.onViewToggle.bind(this);
+        this.fuse = undefined;
+        this.onRadiusChange = debounce(this.onRadiusChange.bind(this), 1250);
+        this.onSearchChange = debounce(this.onSearchChange.bind(this), 1250);
+        this.onSystemChange = this.onSystemChange.bind(this);
+        this.onViewChange = this.onViewChange.bind(this);
     }
 
     componentWillMount() {
@@ -54,13 +57,25 @@ class IndexPage extends Component {
         axios
             .get("https://api.hackclub.com/v1/clubs")
             .then(({ data }) => {
-                this.setState({ clubs: sortBy(data, ["name"]) });
+                this.setState({ clubs: sortBy(data, ["name"]) }, () => {
+                    this.fuse = new Fuse(this.state.clubs, {
+                        distance: 100,
+                        location: 0,
+                        maxPatternLength: 32,
+                        minMatchCharLength: 3,
+                        keys: [
+                            "name",
+                            "address"
+                        ],
+                        shouldSort: true,
+                        threshold: 0.3,
+                    });
+                });
             });
     }
 
     render() {
         const {
-            clubs,
             filteredClubs,
             formattedAddress,
             searchLat,
@@ -70,8 +85,10 @@ class IndexPage extends Component {
             showAllClubs,
             useImperialSystem
         } = this.state;
-        console.log(this.state);
-        const visibleClubs = (showAllClubs && searchValue.trim().length === 0) ? clubs : filteredClubs;
+        // const visibleClubs = (showAllClubs && searchValue.trim().length === 0) ? clubs : filteredClubs;
+        const visibleClubs = filteredClubs;
+        const hasNoResults = visibleClubs.length === 0;
+        const hasOneResult = visibleClubs.length === 1;
         return (
             <Fragment>
                 <Header />
@@ -88,8 +105,8 @@ class IndexPage extends Component {
                     <Flex justify="space-between" mt={4}>
                         <Box>
                             <Text align="left" color="muted" f={3}>
-                                {visibleClubs.length} club{visibleClubs.length === 1 ? "" : "s"}{" "}
-                                {showAllClubs ? `match${visibleClubs.length === 1 ? "es" : ""} “${searchValue}”` : `found near ${formattedAddress || "you"}`}
+                                {visibleClubs.length} club{hasOneResult ? "" : "s"}{" "}
+                                {showAllClubs ? `match${hasOneResult ? "es" : ""} “${searchValue}”` : `found within ${searchRadius} ${useImperialSystem ? "mile" : "kilometer"}${searchRadius === 1 ? "" : "s"} from ${formattedAddress || "you"}`}
                             </Text>
                         </Box>
                         <Settings
@@ -97,14 +114,15 @@ class IndexPage extends Component {
                             showAllClubs={showAllClubs}
                             useImperialSystem={useImperialSystem}
                             style={{ marginRight: theme.space[2] }}
-                            onSystemToggle={this.onSystemToggle}
-                            onViewToggle={this.onViewToggle}
+                            onRadiusChange={this.onRadiusChange}
+                            onSystemChange={this.onSystemChange}
+                            onViewChange={this.onViewChange}
                         />
                     </Flex>
-                    <Flex justify={(visibleClubs.length === 0) && "center"} py={4} style={{ marginLeft: -theme.space[2], marginTop: -theme.space[2] }} wrap>
+                    <Flex justify={hasNoResults ? "center" : "initial"} py={4} style={{ marginLeft: -theme.space[2], marginTop: -theme.space[2] }} wrap>
                         {
-                            visibleClubs.map((club, i) => (
-                                <LazyLoad key={i} height={0} offset={100} once overflow>
+                            visibleClubs.map(club => (
+                                <LazyLoad key={club.id} height={0} offset={100} once overflow>
                                     <ClubCard
                                         data={club}
                                         distance={!showAllClubs && geolib.getDistance({ latitude: searchLat, longitude: searchLng }, club)}
@@ -114,12 +132,26 @@ class IndexPage extends Component {
                                 </LazyLoad>
                             ))
                         }
-                        { !showAllClubs && visibleClubs.length === 0 && <NoClubsFound />}
+                        {hasNoResults && <NoClubsFound />}
                     </Flex>
                 </Container>
                 <Footer />
             </Fragment>
         );
+    }
+
+    onRadiusChange(e) {
+        const nextSearchRadius = parseInt(e.target.value);
+        const { clubs, searchLat, searchLng, useImperialSystem } = this.state;
+        this.setState({ searchRadius: nextSearchRadius });
+        this.setParams({ r: nextSearchRadius });
+            if(searchLat && searchLng) {
+                const filteredClubs = geolib
+                    .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)
+                    .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < nextSearchRadius)
+                    .map(({ distance, key }) => ({ ...clubs[key], distance }));
+                this.setState({ filteredClubs });
+            }
     }
 
     onSearchChange(e) {
@@ -133,20 +165,7 @@ class IndexPage extends Component {
         } = this.state;
         this.setParams({ q: searchValue });
         if(showAllClubs) {
-            // Move to constructor method if possible
-            const fuse = new Fuse(clubs, {
-                distance: 100,
-                location: 0,
-                maxPatternLength: 32,
-                minMatchCharLength: 3,
-                keys: [
-                    "name",
-                    "address"
-                ],
-                shouldSort: true,
-                threshold: 0.3,
-            });
-            this.setState({ filteredClubs: fuse.search(searchValue) });
+            this.setState({ filteredClubs: this.fuse.search(searchValue) });
         }
         else {
             axios
@@ -158,7 +177,7 @@ class IndexPage extends Component {
                         const filteredClubs = geolib
                             .orderByDistance({ latitude: lat, longitude: lng }, clubs)
                             .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
-                            .map(club => Object.assign(clubs[club.key], club));
+                            .map(({ distance, key }) => ({ ...clubs[key], distance }));
                         this.setState({
                             filteredClubs,
                             formattedAddress: firstResult.formatted_address,
@@ -178,7 +197,7 @@ class IndexPage extends Component {
         }
     }
 
-    onSystemToggle() {
+    onSystemChange() {
         const { showAllClubs, useImperialSystem } = this.state;
         if(!showAllClubs) {
             const nextUseImperialSystem = !useImperialSystem;
@@ -187,7 +206,7 @@ class IndexPage extends Component {
         }
     }
 
-    onViewToggle() {
+    onViewChange() {
         const { showAllClubs } = this.state;
         const nextShowAllClubs = !showAllClubs;
         this.setState({
@@ -199,7 +218,7 @@ class IndexPage extends Component {
     }
 
     setParams(partialParams) {
-        const params = Object.assign(qs.parse(window.location.search), partialParams);
+        const params = { ...this.state.params, ...partialParams };
         this.setState({ params });
         window.history.pushState(null, null, `?${qs.stringify(params)}`);
     }
