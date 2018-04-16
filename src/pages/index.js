@@ -1,6 +1,7 @@
 import { debounce, sortBy } from "lodash";
 import React, { Component, Fragment } from "react";
 import LazyLoad from "react-lazyload";
+import Progress from "react-progress";
 import { Box, Container, Flex, Heading, Text, theme } from "@hackclub/design-system";
 import ClubCard from "components/ClubCard";
 import Footer from "components/Footer";
@@ -20,7 +21,7 @@ class IndexPage extends Component {
             clubs: [],
             filteredClubs: [],
             formattedAddress: null,
-            // loading: true,
+            loading: false,
             // Attempt to use existing query parameters
             params: {
                 m: "i", // Measurement system
@@ -78,6 +79,7 @@ class IndexPage extends Component {
         const {
             filteredClubs,
             formattedAddress,
+            loading,
             searchLat,
             searchLng,
             searchRadius,
@@ -85,12 +87,11 @@ class IndexPage extends Component {
             showAllClubs,
             useImperialSystem
         } = this.state;
-        // const visibleClubs = (showAllClubs && searchValue.trim().length === 0) ? clubs : filteredClubs;
-        const visibleClubs = filteredClubs;
-        const hasNoResults = visibleClubs.length === 0;
-        const hasOneResult = visibleClubs.length === 1;
+        const hasNoResults = filteredClubs.length === 0;
+        const hasOneResult = filteredClubs.length === 1;
         return (
             <Fragment>
+                <Progress color={theme.colors.primary} percent={loading ? 0 : 100} />
                 <Header />
                 <Container align="center" px={3} width="100%" style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
                     <Heading.h1 mt={4}>Find Hack Clubs near you!</Heading.h1>
@@ -105,7 +106,7 @@ class IndexPage extends Component {
                     <Flex justify="space-between" mt={4}>
                         <Box>
                             <Text align="left" color="muted" f={3}>
-                                {visibleClubs.length} club{hasOneResult ? "" : "s"}{" "}
+                                {filteredClubs.length} club{hasOneResult ? "" : "s"}{" "}
                                 {showAllClubs ? `match${hasOneResult ? "es" : ""} “${searchValue}”` : `found within ${searchRadius} ${useImperialSystem ? "mile" : "kilometer"}${searchRadius === 1 ? "" : "s"} from ${formattedAddress || "you"}`}
                             </Text>
                         </Box>
@@ -121,7 +122,7 @@ class IndexPage extends Component {
                     </Flex>
                     <Flex justify={hasNoResults ? "center" : "initial"} py={4} style={{ marginLeft: -theme.space[2], marginTop: -theme.space[2] }} wrap>
                         {
-                            visibleClubs.map(club => (
+                            filteredClubs.map(club => (
                                 <LazyLoad key={club.id} height={0} offset={100} once overflow>
                                     <ClubCard
                                         data={club}
@@ -145,13 +146,13 @@ class IndexPage extends Component {
         const { clubs, searchLat, searchLng, useImperialSystem } = this.state;
         this.setState({ searchRadius: nextSearchRadius });
         this.setParams({ r: nextSearchRadius });
-            if(searchLat && searchLng) {
-                const filteredClubs = geolib
-                    .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)
-                    .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < nextSearchRadius)
-                    .map(({ distance, key }) => ({ ...clubs[key], distance }));
-                this.setState({ filteredClubs });
-            }
+        if(searchLat && searchLng) {
+            const filteredClubs = geolib
+                .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)
+                .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < nextSearchRadius)
+                .map(({ distance, key }) => ({ ...clubs[key], distance }));
+            this.setState({ filteredClubs });
+        }
     }
 
     onSearchChange(e) {
@@ -163,37 +164,46 @@ class IndexPage extends Component {
             showAllClubs,
             useImperialSystem
         } = this.state;
+        const hasSearchValue = searchValue.trim().length !== 0;
+        if(!hasSearchValue) {
+            return;
+        }
+        this.setState({ loading: true });
         this.setParams({ q: searchValue });
         if(showAllClubs) {
             this.setState({ filteredClubs: this.fuse.search(searchValue) });
+            this.setState({ loading: false });
         }
         else {
-            axios
-                .get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(searchValue)}&key=${mapsApiKey}`)
-                .then(res => res.data.results[0])
-                .then(firstResult => {
-                    if(firstResult) {
-                        const { lat, lng } = firstResult.geometry.location;
-                        const filteredClubs = geolib
-                            .orderByDistance({ latitude: lat, longitude: lng }, clubs)
-                            .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
-                            .map(({ distance, key }) => ({ ...clubs[key], distance }));
-                        this.setState({
-                            filteredClubs,
-                            formattedAddress: firstResult.formatted_address,
-                            searchLat: lat,
-                            searchLng: lng
-                        });
-                    }
-                    else {
-                        this.setState({
-                            filteredClubs: [],
-                            formattedAddress: null,
-                            searchLat: null,
-                            searchLng: null
-                        });
-                    }
-                });
+            if(hasSearchValue) {
+                axios
+                    .get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(searchValue)}&key=${mapsApiKey}`)
+                    .then(res => res.data.results[0])
+                    .then(firstResult => {
+                        if(firstResult) {
+                            const { lat, lng } = firstResult.geometry.location;
+                            const filteredClubs = geolib
+                                .orderByDistance({ latitude: lat, longitude: lng }, clubs)
+                                .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
+                                .map(({ distance, key }) => ({ ...clubs[key], distance }));
+                            this.setState({
+                                filteredClubs,
+                                formattedAddress: firstResult.formatted_address,
+                                searchLat: lat,
+                                searchLng: lng
+                            });
+                        }
+                        else {
+                            this.setState({
+                                filteredClubs: [],
+                                formattedAddress: null,
+                                searchLat: null,
+                                searchLng: null
+                            });
+                        }
+                        this.setState({ loading: false });
+                    });
+            }
         }
     }
 
