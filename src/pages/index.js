@@ -107,11 +107,15 @@ class IndexPage extends Component {
                             </Text>
                         </Box>
                         <Settings
-                            searchRadius={searchRadius}
+                            searchRadius={parseInt(searchRadius)}
                             showAllClubs={showAllClubs}
                             useImperialSystem={useImperialSystem}
                             style={{ marginRight: theme.space[2] }}
-                            onRadiusChange={this.onRadiusChange}
+                            onRadiusChange={e => {
+                                e.persist();
+                                this.setState({ searchRadius: e.target.value });
+                                this.onRadiusChange(e);
+                            }}
                             onSystemChange={this.onSystemChange}
                             onViewChange={this.onViewChange}
                         />

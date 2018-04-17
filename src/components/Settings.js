@@ -19,10 +19,7 @@ const Settings = ({
                 defaultValue={searchRadius}
                 min={1}
                 max={100}
-                onChange={e => {
-                    e.persist();
-                    onRadiusChange(e);
-                }}
+                onChange={onRadiusChange}
             />
         )}
         <Button.button onClick={onSystemChange} inverted={!useImperialSystem} disabled={showAllClubs} ml={2}>
