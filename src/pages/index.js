@@ -22,13 +22,12 @@ class IndexPage extends Component {
             filteredClubs: [],
             formattedAddress: null,
             loading: false,
-            // Attempt to use existing query parameters
             params: {
                 m: "i", // Measurement system
                 q: "", // Search value
                 r: 50, // Search radius
                 v: "loc", // View
-                ...qs.parse(props.location.search)
+                ...qs.parse(props.location.search) // Attempt to use existing query parameters
             },
             searchLat: null,
             searchLng: null,
