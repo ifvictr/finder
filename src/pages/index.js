@@ -146,10 +146,12 @@ class IndexPage extends Component {
         this.setState({ searchRadius: nextSearchRadius });
         this.setParams({ r: nextSearchRadius });
         if(searchLat && searchLng) {
-            const filteredClubs = geolib
-                .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)
-                .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < nextSearchRadius)
-                .map(({ distance, key }) => ({ ...clubs[key], distance }));
+            const filteredClubs = this.getFilteredClubs(clubs, {
+                searchLat: searchLat,
+                searchLng: searchLng,
+                searchRadius: nextSearchRadius,
+                useImperialSystem
+            });
             this.setState({ filteredClubs });
         }
     }
@@ -181,10 +183,12 @@ class IndexPage extends Component {
                     .then(firstResult => {
                         if(firstResult) {
                             const { lat, lng } = firstResult.geometry.location;
-                            const filteredClubs = geolib
-                                .orderByDistance({ latitude: lat, longitude: lng }, clubs)
-                                .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
-                                .map(({ distance, key }) => ({ ...clubs[key], distance }));
+                            const filteredClubs = this.getFilteredClubs(clubs, {
+                                searchLat: lat,
+                                searchLng: lng,
+                                searchRadius,
+                                useImperialSystem
+                            });
                             this.setState({
                                 filteredClubs,
                                 formattedAddress: firstResult.formatted_address,
@@ -207,10 +211,23 @@ class IndexPage extends Component {
     }
 
     onSystemChange() {
-        const { showAllClubs, useImperialSystem } = this.state;
+        const {
+            clubs,
+            searchLat,
+            searchLng,
+            searchRadius,
+            showAllClubs,
+            useImperialSystem
+        } = this.state;
         if(!showAllClubs) {
             const nextUseImperialSystem = !useImperialSystem;
-            this.setState({ useImperialSystem: nextUseImperialSystem });
+            const filteredClubs = this.getFilteredClubs(clubs, {
+                searchLat: searchLat,
+                searchLng: searchLng,
+                searchRadius: searchRadius,
+                useImperialSystem: nextUseImperialSystem
+            });
+            this.setState({ filteredClubs, useImperialSystem: nextUseImperialSystem });
             this.setParams({ m: nextUseImperialSystem ? "i" : "m" });
         }
     }
@@ -230,6 +247,20 @@ class IndexPage extends Component {
         const params = { ...this.state.params, ...partialParams };
         this.setState({ params });
         window.history.pushState(null, null, `?${qs.stringify(params)}`);
+    }
+
+    getFilteredClubs(clubs, opts) {
+        const {
+            searchLat,
+            searchLng,
+            searchRadius,
+            useImperialSystem
+        } = opts;
+        const filteredClubs = geolib
+            .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)
+            .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
+            .map(({ distance, key }) => ({ ...clubs[key], distance }));
+        return filteredClubs;
     }
 }
 
