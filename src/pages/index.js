@@ -53,25 +53,22 @@ class IndexPage extends Component {
         });
     }
 
-    componentDidMount() {
-        axios
-            .get("https://api.hackclub.com/v1/clubs")
-            .then(({ data }) => {
-                this.setState({ clubs: sortBy(data, ["name"]) }, () => {
-                    this.fuse = new Fuse(this.state.clubs, {
-                        distance: 100,
-                        location: 0,
-                        maxPatternLength: 32,
-                        minMatchCharLength: 3,
-                        keys: [
-                            "name",
-                            "address"
-                        ],
-                        shouldSort: true,
-                        threshold: 0.3,
-                    });
-                });
+    async componentDidMount() {
+        const { data } = await axios.get("https://api.hackclub.com/v1/clubs");
+        this.setState({ clubs: sortBy(data, ["name"]) }, () => {
+            this.fuse = new Fuse(this.state.clubs, {
+                distance: 100,
+                location: 0,
+                maxPatternLength: 32,
+                minMatchCharLength: 3,
+                keys: [
+                    "name",
+                    "address"
+                ],
+                shouldSort: true,
+                threshold: 0.3,
             });
+        });
     }
 
     render() {
@@ -156,7 +153,7 @@ class IndexPage extends Component {
         }
     }
 
-    onSearchChange(e) {
+    async onSearchChange(e) {
         const { mapsApiKey } = this.props.data.site.siteMetadata;
         const {
             clubs,
@@ -177,35 +174,31 @@ class IndexPage extends Component {
         }
         else {
             if(hasSearchValue) {
-                axios
-                    .get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(searchValue)}&key=${mapsApiKey}`)
-                    .then(res => res.data.results[0])
-                    .then(firstResult => {
-                        if(firstResult) {
-                            const { lat, lng } = firstResult.geometry.location;
-                            const filteredClubs = this.getFilteredClubs(clubs, {
-                                searchLat: lat,
-                                searchLng: lng,
-                                searchRadius,
-                                useImperialSystem
-                            });
-                            this.setState({
-                                filteredClubs,
-                                formattedAddress: firstResult.formatted_address,
-                                searchLat: lat,
-                                searchLng: lng
-                            });
-                        }
-                        else {
-                            this.setState({
-                                filteredClubs: [],
-                                formattedAddress: null,
-                                searchLat: null,
-                                searchLng: null
-                            });
-                        }
-                        this.setState({ loading: false });
+                const firstResult = (await axios.get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(searchValue)}&key=${mapsApiKey}`)).data.results[0];
+                if(firstResult) {
+                    const { lat, lng } = firstResult.geometry.location;
+                    const filteredClubs = this.getFilteredClubs(clubs, {
+                        searchLat: lat,
+                        searchLng: lng,
+                        searchRadius,
+                        useImperialSystem
                     });
+                    this.setState({
+                        filteredClubs,
+                        formattedAddress: firstResult.formatted_address,
+                        searchLat: lat,
+                        searchLng: lng
+                    });
+                }
+                else {
+                    this.setState({
+                        filteredClubs: [],
+                        formattedAddress: null,
+                        searchLat: null,
+                        searchLng: null
+                    });
+                }
+                this.setState({ loading: false });
             }
         }
     }

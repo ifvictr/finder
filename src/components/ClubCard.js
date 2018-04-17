@@ -109,14 +109,11 @@ class ClubCard extends Component {
         this.state = { ready: false };
     }
 
-    componentWillMount() {
-        axios
-            .get(`/school/${this.props.data.id}.jpg`)
-            .then(({ status }) => {
-                if(status === 200) {
-                    this.setState({ ready: true });
-                }
-            });
+    async componentWillMount() {
+        const { status } = await axios.get(`/school/${this.props.data.id}.jpg`);
+        if(status === 200) {
+            this.setState({ ready: true });
+        }
     }
 
     render() {
