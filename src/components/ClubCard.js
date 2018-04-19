@@ -9,7 +9,7 @@ import geolib from "geolib";
 const Base = Box.extend`
     display: flex;
     padding: ${props => props.theme.space[2]}px;
-    text-align: initial;
+    text-align: left;
     width: 100%;
     ${props => props.theme.mediaQueries.sm} {
         width: 50%;
@@ -31,6 +31,7 @@ const Inner = Card.withComponent(Flex).extend.attrs({
     position: relative;
     transition: 0.125s box-shadow ease-in, 0.125s transform ease-in;
     width: 100%;
+    will-change: box-shadow, transform;
     &:hover {
         box-shadow: ${props => props.theme.boxShadows[2]};
         transform: scale(1.02);
@@ -62,6 +63,7 @@ const Photo = Box.withComponent("figure").extend.attrs({
     padding-top: 66.6666%;
     position: relative;
     transition: 0.125s background-image ease-in, 0.125s opacity ease-in, 0.125s transform ease-in;
+    will-change: transform;
     &:before {
         background-image: url(/placeholder.svg);
         background-position: center;
@@ -100,7 +102,6 @@ const Action = Box.withComponent(Link).extend.attrs({
     flex-basis: 25%;
     flex-grow: 1;
     opacity: ${props => props.available ? 1 : 0.25};
-    transition: 0.125s background-color ease-in;
 `;
 
 class ClubCard extends Component {

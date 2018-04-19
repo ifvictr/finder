@@ -9,6 +9,7 @@ const Base = Card.withComponent(Input).extend.attrs({
     mt: 4,
     px: 4
 })`
+    will-change: border-color, box-shadow;
     &:hover {
         box-shadow: ${props => props.theme.boxShadows[1]};
     }
