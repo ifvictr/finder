@@ -1,17 +1,9 @@
 import React from "react";
-import { Button, Card, Heading, Image, Link } from "@hackclub/design-system";
+import { Button, Card, Container, Heading } from "@hackclub/design-system";
 
-const Base = Card.extend.attrs({
-    bg: "snow",
-    boxShadowSize: "lg",
-    p: 4
-})`
-    align-items: center;
-    flex-direction: column;
-    max-width: 48rem;
-`;
+const Base = Card.withComponent(Container);
 
-const SuperButton = Button.withComponent(Link).extend`
+const SuperButton = Button.extend`
     background-color: ${props => props.theme.colors.fuschia[6]};
     background-image: linear-gradient(
         -32deg,
@@ -23,10 +15,9 @@ const SuperButton = Button.withComponent(Link).extend`
 
 // TODO: Find a better name
 const NoClubsFound = props => (
-    <Base>
-        {/*<Image src="https://raw.githubusercontent.com/hackclub/dinosaurs/master/club_dinosaur.png" />*/}
+    <Base bg="snow" boxShadowSize="lg" maxWidth={48} p={4}>
         <Heading.h2>There aren’t any clubs around you…</Heading.h2>
-        <SuperButton href="https://hackclub.com/start" target="_blank" f={4} mt={4}>Be the first »</SuperButton>
+        <SuperButton href="https://hackclub.com/start" target="_blank" f={4} mt={4}>Start the first one »</SuperButton>
     </Base>
 );
 

@@ -1,13 +1,10 @@
 import React from "react";
 import { Flex, Image, Link } from "@hackclub/design-system";
 
-const Base = Flex.extend`
-    flex-direction: row;
-    justify-content: space-between;
-`;
+const Base = Flex.withComponent("header");
 
 const Header = () => (
-    <Base>
+    <Base justify="space-between">
         <Link href="https://hackclub.com" target="_blank">
             <Image src="/flag.svg" width={128} ml={[3, 4, 5]} />
         </Link>

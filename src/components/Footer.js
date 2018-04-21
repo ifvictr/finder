@@ -4,12 +4,11 @@ import { Flex, Link, Text, theme } from "@hackclub/design-system";
 
 const Base = Flex.withComponent("footer").extend.attrs({
     bg: "snow",
+    justify: "center",
     p: 4
 })`
     background-image: url(/pattern.svg);
     background-size: 20rem;
-    flex-direction: row;
-    justify-content: center;
 `;
 
 const Footer = () => (
