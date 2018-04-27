@@ -6,8 +6,7 @@ import { Box, Card, Flex, Heading, Link, Text } from "@hackclub/design-system";
 import axios from "axios";
 import geolib from "geolib";
 
-const Base = Box.extend`
-    display: flex;
+const Base = Flex.extend`
     padding: ${props => props.theme.space[2]}px;
     text-align: left;
     width: 100%;
@@ -38,7 +37,12 @@ const Inner = Card.withComponent(Flex).extend.attrs({
     }
 `;
 
-const Distance = Text.span.extend.attrs({
+const DistanceLabel = Text.span.extend.attrs({
+    // TODO: Turn into one-liner
+    children: props => {
+        const system = props.imperial ? "mi" : "km";
+        return `${geolib.convertUnit(system, props.distance, 1)} ${system} away`;
+    },
     color: "white",
     p: 2
 })`
@@ -49,9 +53,9 @@ const Distance = Text.span.extend.attrs({
     z-index: 1;
 `;
 
-const Photo = Box.withComponent("figure").extend.attrs({
+const Photo = Box.extend.attrs({
     style: props => ({
-        backgroundImage: `url(${props.src})`
+        backgroundImage: `url(${props.image})`
     })
 })`
     background-position: center;
@@ -62,9 +66,10 @@ const Photo = Box.withComponent("figure").extend.attrs({
     margin: 0;
     padding-top: 66.6666%;
     position: relative;
-    transition: 0.125s background-image ease-in, 0.125s opacity ease-in, 0.125s transform ease-in;
+    transition: 0.125s transform ease-in;
     will-change: transform;
     &:before {
+        background-color: ${props => props.theme.colors.snow};
         background-image: url(/placeholder.svg);
         background-position: center;
         background-repeat: no-repeat;
@@ -73,11 +78,13 @@ const Photo = Box.withComponent("figure").extend.attrs({
         display: block;
         height: 100%;
         left: 0;
-        opacity: ${props => props.ready ? 0 : 0.25};
+        opacity: ${props => !props.ready ? 0.25 : 0};
         position: absolute;
         right: 0;
         top: 0;
+        transition: 0.125s opacity ease-in;
         width: 100%;
+        will-change: opacity;
     }
     ${props => props.ready && css`
         ${Inner}:hover & {
@@ -118,16 +125,16 @@ class ClubCard extends Component {
     }
 
     render() {
-        const { data, distance, showAllClubs, useImperialSystem } = this.props;
+        const { data, distance, useImperialSystem } = this.props;
         const { ready } = this.state;
         return (
             <Base>
                 <Inner>
-                    {!showAllClubs && <Distance>{geolib.convertUnit(useImperialSystem ? "mi" : "km", distance, 1)} {useImperialSystem ? "mi" : "km"} away</Distance>}
+                    {distance && <DistanceLabel distance={distance} imperial={useImperialSystem} />}
                     <Box style={{ borderRadius: "4px 4px 0 0", overflow: "hidden" }}>
-                        <Photo src={`/school/${data.id}.jpg`} ready={ready} />
+                        <Photo image={`/school/${data.id}.jpg`} ready={ready} />
                     </Box>
-                    <Flex p={3} justify="space-around" flexDirection="column" style={{ flex: 1 }}>
+                    <Flex flexDirection="column" justify="space-around" p={3} style={{ flex: 1 }}>
                         <Heading.h4 style={{ textTransform: "capitalize" }}>{data.name}</Heading.h4>
                         <Text pt={2}>{data.address}</Text>
                     </Flex>
@@ -144,7 +151,9 @@ class ClubCard extends Component {
 }
 
 ClubCard.propTypes = {
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
+    distance: PropTypes.number,
+    useImperialSystem: PropTypes.bool.isRequired
 };
 
 export default ClubCard;
