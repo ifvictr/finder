@@ -22,18 +22,13 @@ class IndexPage extends Component {
             filteredClubs: [],
             formattedAddress: null,
             loading: false,
-            params: {
-                m: "i", // Measurement system
-                q: "", // Search value
-                r: 50, // Search radius
-                v: "loc", // View
-                ...qs.parse(props.location.search) // Attempt to use existing query parameters
-            },
+            params: qs.parse(props.location.search), // Attempt to use present parems
             searchLat: null,
             searchLng: null,
             searchRadius: 50,
             searchValue: "",
             showAllClubs: false,
+            status: "idle", // TODO: idle, loading
             useImperialSystem: true
         };
         this.fuse = undefined;
@@ -43,17 +38,17 @@ class IndexPage extends Component {
         this.onViewChange = this.onViewChange.bind(this);
     }
 
-    componentWillMount() {
+    async componentDidMount() {
+        // Initialize query params
         const { m, q, r, v } = this.state.params;
         this.setState({
-            searchRadius: parseInt(r),
-            searchValue: q || "",
-            showAllClubs: v === "all",
-            useImperialSystem: m === "i"
+            ...(m && { useImperialSystem: m === "i" }),
+            ...(q && { searchValue: q }),
+            ...(r && { searchRadius: parseInt(r) }),
+            ...(v && { showAllClubs: v === "all" })
         });
-    }
-
-    async componentDidMount() {
+        // TODO: Fetch once on build and use GraphQL to retrieve?
+        // Fetch clubs
         const { data } = await axios.get("https://api.hackclub.com/v1/clubs");
         this.setState({ clubs: sortBy(data, ["name"]) }, () => {
             this.fuse = new Fuse(this.state.clubs, {
@@ -83,7 +78,7 @@ class IndexPage extends Component {
             showAllClubs,
             useImperialSystem
         } = this.state;
-        const hasNoResults = filteredClubs.length === 0;
+        const hasResults = filteredClubs.length > 0;
         const hasOneResult = filteredClubs.length === 1;
         return (
             <Fragment>
@@ -107,10 +102,6 @@ class IndexPage extends Component {
                             </Text>
                         </Box>
                         <Settings
-                            searchRadius={parseInt(searchRadius)}
-                            showAllClubs={showAllClubs}
-                            useImperialSystem={useImperialSystem}
-                            style={{ marginRight: theme.space[2] }}
                             onRadiusChange={e => {
                                 e.persist();
                                 this.setState({ searchRadius: e.target.value });
@@ -118,22 +109,24 @@ class IndexPage extends Component {
                             }}
                             onSystemChange={this.onSystemChange}
                             onViewChange={this.onViewChange}
+                            searchRadius={parseInt(searchRadius)}
+                            showAllClubs={showAllClubs}
+                            useImperialSystem={useImperialSystem}
                         />
                     </Flex>
-                    <Flex justify={hasNoResults ? "center" : "initial"} py={4} style={{ marginLeft: -theme.space[2], marginTop: -theme.space[2] }} wrap>
+                    <Flex justify={hasResults ? "initial" : "center"} py={4} style={{ margin: -theme.space[2] }} wrap>
                         {
                             filteredClubs.map(club => (
                                 <LazyLoad key={club.id} height={0} offset={100} once overflow>
                                     <ClubCard
                                         data={club}
-                                        distance={!showAllClubs && geolib.getDistance({ latitude: searchLat, longitude: searchLng }, club)}
-                                        showAllClubs={showAllClubs}
+                                        distance={!showAllClubs ? geolib.getDistance({ latitude: searchLat, longitude: searchLng }, club) : undefined}
                                         useImperialSystem={useImperialSystem}
                                     />
                                 </LazyLoad>
                             ))
                         }
-                        {hasNoResults && <NoClubsFound />}
+                        {!hasResults && <NoClubsFound />}
                     </Flex>
                 </Container>
                 <Footer />
@@ -148,8 +141,8 @@ class IndexPage extends Component {
         this.setParams({ r: nextSearchRadius });
         if(searchLat && searchLng) {
             const filteredClubs = this.getFilteredClubs(clubs, {
-                searchLat: searchLat,
-                searchLng: searchLng,
+                searchLat,
+                searchLng,
                 searchRadius: nextSearchRadius,
                 useImperialSystem
             });
@@ -219,9 +212,9 @@ class IndexPage extends Component {
         if(!showAllClubs) {
             const nextUseImperialSystem = !useImperialSystem;
             const filteredClubs = this.getFilteredClubs(clubs, {
-                searchLat: searchLat,
-                searchLng: searchLng,
-                searchRadius: searchRadius,
+                searchLat,
+                searchLng,
+                searchRadius,
                 useImperialSystem: nextUseImperialSystem
             });
             this.setState({ filteredClubs, useImperialSystem: nextUseImperialSystem });
@@ -247,12 +240,18 @@ class IndexPage extends Component {
     }
 
     getFilteredClubs(clubs, opts) {
+        // TODO: Fix this spaghetti
+        // idea: return an array of IDs (or anything that uniquely identifies clubs)
+        console.log('opts: ', opts);
         const {
             searchLat,
             searchLng,
             searchRadius,
             useImperialSystem
         } = opts;
+        if(!searchLat || !searchLng) {
+            return clubs;
+        }
         const filteredClubs = geolib
             .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)
             .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
