@@ -5,7 +5,6 @@ const Base = Card.withComponent(Input).extend.attrs({
     borderRadius: props => props.theme.pill,
     boxShadowSize: "sm",
     f: 5,
-    mx: "auto",
     mt: 4,
     px: 4
 })`
@@ -24,6 +23,9 @@ const SearchBox = ({ onSearchChange, value }) => (
         placeholder="Where are you?"
         value={value}
         onChange={onSearchChange}
+        itemProp="query-input"
+        itemScope
+        itemType="https://schema.org/SearchAction"
     />
 );
 
