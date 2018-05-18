@@ -1,6 +1,6 @@
 import React from "react";
 import FA from "@fortawesome/react-fontawesome";
-import { Flex, Link, Text, theme } from "@hackclub/design-system";
+import { Flex, Link, Text, colors } from "@hackclub/design-system";
 
 const Base = Flex.withComponent("footer").extend.attrs({
     bg: "snow",
@@ -14,7 +14,7 @@ const Base = Flex.withComponent("footer").extend.attrs({
 const Footer = () => (
     <Base>
         <Text align="center" f={3}>
-            Made with <FA icon="code" color={theme.colors.info} /> and <FA icon="heart" color={theme.colors.primary} />{" "}
+            Made with <FA icon="code" color={colors.info} /> and <FA icon="heart" color={colors.primary} />{" "}
             by <Link href="https://ifvictr.com" target="_blank">Victor Truong</Link>
         </Text>
     </Base>
