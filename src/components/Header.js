@@ -6,7 +6,7 @@ const Base = Flex.withComponent("header");
 const Header = () => (
     <Base justify="space-between">
         <Link href="https://hackclub.com" target="_blank">
-            <Image src="/flag.svg" width={128} ml={[3, 4, 5]} />
+            <Image src="/flag.svg" alt="Hack Club" width={128} ml={[3, 4, 5]} />
         </Link>
         <Flex py={3} pr={[3, 4, 5]}>
             <Link href="https://github.com/hackclub/finder" target="_blank" color="slate">Contribute on GitHub</Link>
