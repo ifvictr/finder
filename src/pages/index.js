@@ -87,6 +87,8 @@ class IndexPage extends Component {
                 <Container align="center" px={3} width="100%" style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
                     <Heading.h1 mt={4}>Find Hack Clubs near you!</Heading.h1>
                     <SearchBox
+                        mt={4}
+                        mx="auto"
                         value={searchValue}
                         onSearchChange={e => {
                             e.persist();
