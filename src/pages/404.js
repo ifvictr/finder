@@ -5,7 +5,7 @@ import { Container, Heading, LargeButton, Text } from "@hackclub/design-system";
 
 export default () => (
     <Fragment>
-        <Helmet title="404 – Hack Club" />
+        <Helmet title="404" />
         <Container maxWidth={48} px={2} py={6} align="center">
             <Heading.h1 color="primary" f={[5, 6]}>
                 404!
