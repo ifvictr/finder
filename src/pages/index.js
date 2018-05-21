@@ -265,7 +265,7 @@ class IndexPage extends Component {
 export default IndexPage;
 
 export const query = graphql`
-    query IndexQuery {
+    query IndexPageQuery {
         site {
             siteMetadata {
                 mapsApiKey
