@@ -1,10 +1,4 @@
 module.exports = {
-    siteMetadata: {
-        title: "Find Hack Clubs Near You",
-        description: "Find Hack Clubs near you!",
-        siteUrl: "https://finder.hackclub.com",
-        mapsApiKey: "AIzaSyBUq1lpcXDz3KGLcRBl6hhcxaFSY6wtBXo"
-    },
     plugins: [
         {
             resolve: "gatsby-plugin-favicon",

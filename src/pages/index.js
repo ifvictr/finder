@@ -13,6 +13,7 @@ import axios from "axios";
 import geolib from "geolib";
 import Fuse from "fuse.js";
 import qs from "query-string";
+import data from "data.json";
 
 class IndexPage extends Component {
     constructor(props) {
@@ -153,7 +154,6 @@ class IndexPage extends Component {
     }
 
     async onSearchChange(e) {
-        const { mapsApiKey } = this.props.data.site.siteMetadata;
         const {
             clubs,
             searchRadius,
@@ -173,7 +173,7 @@ class IndexPage extends Component {
         }
         else {
             if(hasSearchValue) {
-                const firstResult = (await axios.get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(searchValue)}&key=${mapsApiKey}`)).data.results[0];
+                const firstResult = (await axios.get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(searchValue)}&key=${data.googleMapsApiKey}`)).data.results[0];
                 if(firstResult) {
                     const { lat, lng } = firstResult.geometry.location;
                     const filteredClubs = this.getFilteredClubs(clubs, {
@@ -263,13 +263,3 @@ class IndexPage extends Component {
 }
 
 export default IndexPage;
-
-export const query = graphql`
-    query IndexPageQuery {
-        site {
-            siteMetadata {
-                mapsApiKey
-            }
-        }
-    }
-`;
