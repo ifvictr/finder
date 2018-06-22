@@ -23,7 +23,7 @@ const Settings = ({
             />
         )}
         <Button.button onClick={onSystemChange} inverted={!useImperialSystem} disabled={showAllClubs} ml={2}>
-            <FA icon="chess-king" /> Imperial
+            <FA icon="ruler" /> {useImperialSystem ? "Imperial" : "Metric"}
         </Button.button>
         <Button.button onClick={onViewChange} inverted={!showAllClubs} ml={2}>
             <FA icon="globe" /> View all
