@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FA from "@fortawesome/react-fontawesome";
-import { Box, Button } from "@hackclub/design-system";
+import { Box, Button/*, Slider*/ } from "@hackclub/design-system";
 import Slider from "components/Slider";
 
 const Settings = ({
@@ -20,6 +20,8 @@ const Settings = ({
                 min={1}
                 max={100}
                 onChange={onRadiusChange}
+                w="auto"
+                style={{ display: "inline-block" }}
             />
         )}
         <Button.button onClick={onSystemChange} inverted={!useImperialSystem} disabled={showAllClubs} ml={2}>
