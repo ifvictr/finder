@@ -4,12 +4,12 @@ import { Button, Card, Container, Heading } from "@hackclub/design-system";
 const Base = Card.withComponent(Container);
 
 const SuperButton = Button.extend`
-    background-color: ${props => props.theme.colors.fuschia[6]};
+    background-color: ${({ theme }) => theme.colors.fuschia[6]};
     background-image: linear-gradient(
         -32deg,
-        ${props => props.theme.colors.fuschia[5]},
-        ${props => props.theme.colors.red[5]},
-        ${props => props.theme.colors.red[6]}
+        ${({ theme }) => theme.colors.fuschia[5]},
+        ${({ theme }) => theme.colors.red[5]},
+        ${({ theme }) => theme.colors.red[6]}
     );
 `;
 

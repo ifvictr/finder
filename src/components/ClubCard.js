@@ -7,16 +7,16 @@ import axios from "axios";
 import geolib from "geolib";
 
 const Base = Flex.extend`
-    padding: ${props => props.theme.space[2]}px;
+    padding: ${({ theme }) => theme.space[2]}px;
     text-align: left;
     width: 100%;
-    ${props => props.theme.mediaQueries.sm} {
+    ${({ theme }) => theme.mediaQueries.sm} {
         width: 50%;
     }
-    ${props => props.theme.mediaQueries.md} {
+    ${({ theme }) => theme.mediaQueries.md} {
         width: 33.3333%;
     }
-    ${props => props.theme.mediaQueries.lg} {
+    ${({ theme }) => theme.mediaQueries.lg} {
         width: 25%;
     }
 `;
@@ -26,13 +26,13 @@ const Inner = Card.withComponent(Flex).extend.attrs({
     boxShadowSize: "sm",
     flexDirection: "column"
 })`
-    border-radius: ${props => props.theme.radius};
+    border-radius: ${({ theme }) => theme.radius};
     position: relative;
-    transition: box-shadow ${props => props.theme.transition}, transform ${props => props.theme.transition};
+    transition: box-shadow ${({ theme }) => theme.transition}, transform ${({ theme }) => theme.transition};
     width: 100%;
     will-change: box-shadow, transform;
     &:hover {
-        box-shadow: ${props => props.theme.boxShadows[2]};
+        box-shadow: ${({ theme }) => theme.boxShadows[2]};
         transform: scale(1.02);
     }
 `;
@@ -47,7 +47,7 @@ const DistanceLabel = Text.span.extend.attrs({
     p: 2
 })`
     background: rgba(0, 0, 0, 0.25);
-    border-radius: ${props => props.theme.radius} 0 ${props => props.theme.radius} 0;
+    border-radius: ${({ theme }) => theme.radius} 0 ${({ theme }) => theme.radius} 0;
     position: absolute;
     text-shadow: rgba(0, 0, 0, 0.32) 0px 1px 4px;
     z-index: 1;
@@ -61,15 +61,15 @@ const Photo = Box.extend.attrs({
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    border-radius: ${props => props.theme.radius} ${props => props.theme.radius} 0 0;
+    border-radius: ${({ theme }) => theme.radius} ${({ theme }) => theme.radius} 0 0;
     display: block;
     margin: 0;
     padding-top: 66.6666%;
     position: relative;
-    transition: transform ${props => props.theme.transition};
+    transition: transform ${({ theme }) => theme.transition};
     will-change: transform;
     &:before {
-        background-color: ${props => props.theme.colors.snow};
+        background-color: ${({ theme }) => theme.colors.snow};
         background-image: url(/placeholder.svg);
         background-position: center;
         background-repeat: no-repeat;
@@ -82,7 +82,7 @@ const Photo = Box.extend.attrs({
         position: absolute;
         right: 0;
         top: 0;
-        transition: opacity ${props => props.theme.transition};
+        transition: opacity ${({ theme }) => theme.transition};
         width: 100%;
         will-change: opacity;
     }
