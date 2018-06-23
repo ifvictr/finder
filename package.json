@@ -4,8 +4,7 @@
     "description": "Find all the Hack Clubs near you!",
     "scripts": {
         "build": "gatsby build --no-uglify",
-        "dev": "gatsby develop",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "dev": "gatsby develop"
     },
     "repository": {
         "type": "git",
