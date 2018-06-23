@@ -20,6 +20,7 @@ const Settings = ({
                 min={1}
                 max={100}
                 onChange={onRadiusChange}
+                m={0}
                 w="auto"
                 style={{ display: "inline-block" }}
             />
