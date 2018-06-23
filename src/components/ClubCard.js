@@ -28,7 +28,7 @@ const Inner = Card.withComponent(Flex).extend.attrs({
 })`
     border-radius: ${props => props.theme.radius};
     position: relative;
-    transition: 0.125s box-shadow ease-in, 0.125s transform ease-in;
+    transition: box-shadow ${props => props.theme.transition}, transform ${props => props.theme.transition};
     width: 100%;
     will-change: box-shadow, transform;
     &:hover {
@@ -66,7 +66,7 @@ const Photo = Box.extend.attrs({
     margin: 0;
     padding-top: 66.6666%;
     position: relative;
-    transition: 0.125s transform ease-in;
+    transition: transform ${props => props.theme.transition};
     will-change: transform;
     &:before {
         background-color: ${props => props.theme.colors.snow};
@@ -82,7 +82,7 @@ const Photo = Box.extend.attrs({
         position: absolute;
         right: 0;
         top: 0;
-        transition: 0.125s opacity ease-in;
+        transition: opacity ${props => props.theme.transition};
         width: 100%;
         will-change: opacity;
     }
