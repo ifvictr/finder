@@ -85,7 +85,7 @@ class IndexPage extends Component {
             <Fragment>
                 <Progress color={theme.colors.primary} percent={loading ? 0 : 100} />
                 <Header />
-                <Container align="center" px={3} w="100%" style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
+                <Container align="center" px={3} w={1} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
                     <Heading.h1 mt={4}>Find Hack Clubs near you!</Heading.h1>
                     <SearchBox
                         mt={4}
