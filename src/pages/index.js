@@ -51,6 +51,10 @@ class IndexPage extends Component {
         // TODO: Fetch once on build and use GraphQL to retrieve?
         // Fetch clubs
         const { data } = await axios.get("https://api.hackclub.com/v1/clubs");
+        // Set position only if searching by location and a search value is present
+        if(!this.state.showAllClubs && this.state.searchValue) {
+            await this.setPosition(this.state.searchValue);
+        }
         this.setState({ clubs: sortBy(data, ["name"]) }, () => {
             this.fuse = new Fuse(this.state.clubs, {
                 distance: 100,
@@ -64,6 +68,7 @@ class IndexPage extends Component {
                 shouldSort: true,
                 threshold: 0.3,
             });
+            this.setState({ filteredClubs: this.getFilteredClubs() });
         });
     }
 
@@ -139,101 +144,38 @@ class IndexPage extends Component {
     }
 
     onRadiusChange(e) {
-        const nextSearchRadius = parseInt(e.target.value);
-        const { clubs, searchLat, searchLng, useImperialSystem } = this.state;
-        this.setState({ searchRadius: nextSearchRadius });
-        this.setParams({ r: nextSearchRadius });
-        if(searchLat && searchLng) {
-            const filteredClubs = this.getFilteredClubs(clubs, {
-                searchLat,
-                searchLng,
-                searchRadius: nextSearchRadius,
-                useImperialSystem
-            });
-            this.setState({ filteredClubs });
-        }
+        this.setState({ searchRadius: parseInt(e.target.value) }, () => {
+            this.setParams({ r: this.state.searchRadius });
+            this.setState({ filteredClubs: this.getFilteredClubs() });
+        });
     }
 
     async onSearchChange(e) {
-        const {
-            clubs,
-            searchRadius,
-            searchValue,
-            showAllClubs,
-            useImperialSystem
-        } = this.state;
-        const hasSearchValue = searchValue.trim().length !== 0;
-        if(!hasSearchValue) {
-            return;
-        }
+        const { searchValue, showAllClubs } = this.state;
         this.setState({ loading: true });
         this.setParams({ q: searchValue });
-        if(showAllClubs) {
-            this.setState({ filteredClubs: this.fuse.search(searchValue) });
-            this.setState({ loading: false });
+        if(!showAllClubs) {
+            await this.setPosition(searchValue);
         }
-        else {
-            if(hasSearchValue) {
-                const firstResult = (await axios.get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(searchValue)}&key=${data.googleMapsApiKey}`)).data.results[0];
-                if(firstResult) {
-                    const { lat, lng } = firstResult.geometry.location;
-                    const filteredClubs = this.getFilteredClubs(clubs, {
-                        searchLat: lat,
-                        searchLng: lng,
-                        searchRadius,
-                        useImperialSystem
-                    });
-                    this.setState({
-                        filteredClubs,
-                        formattedAddress: firstResult.formatted_address,
-                        searchLat: lat,
-                        searchLng: lng
-                    });
-                }
-                else {
-                    this.setState({
-                        filteredClubs: [],
-                        formattedAddress: null,
-                        searchLat: null,
-                        searchLng: null
-                    });
-                }
-                this.setState({ loading: false });
-            }
-        }
+        this.setState({ filteredClubs: this.getFilteredClubs(), loading: false });
     }
 
     onSystemChange() {
-        const {
-            clubs,
-            searchLat,
-            searchLng,
-            searchRadius,
-            showAllClubs,
-            useImperialSystem
-        } = this.state;
-        if(!showAllClubs) {
-            const nextUseImperialSystem = !useImperialSystem;
-            const filteredClubs = this.getFilteredClubs(clubs, {
-                searchLat,
-                searchLng,
-                searchRadius,
-                useImperialSystem: nextUseImperialSystem
-            });
-            this.setState({ filteredClubs, useImperialSystem: nextUseImperialSystem });
-            this.setParams({ m: nextUseImperialSystem ? "i" : "m" });
-        }
+        // Only accessible when searching by location
+        this.setState((state, props) => ({ useImperialSystem: !state.useImperialSystem }), () => {
+            this.setState({ filteredClubs: this.getFilteredClubs() });
+            this.setParams({ m: this.state.useImperialSystem ? "i" : "m" });
+        });
     }
 
     onViewChange() {
-        const { showAllClubs } = this.state;
-        const nextShowAllClubs = !showAllClubs;
-        this.setState({
-            filteredClubs: [],
-            formattedAddress: null,
-            showAllClubs: nextShowAllClubs
+        this.setState((state, props) => ({ showAllClubs: !state.showAllClubs }), async () => {
+            if(!this.state.showAllClubs) {
+                await this.setPosition(this.state.searchValue);
+            }
+            this.setState({ filteredClubs: this.getFilteredClubs() });
+            this.setParams({ v: this.state.showAllClubs ? "all" : "loc" });
         });
-        this.setParams({ v: nextShowAllClubs ? "all" : "loc" });
     }
 
     setParams(partialParams) {
@@ -242,24 +184,58 @@ class IndexPage extends Component {
         window.history.pushState(null, null, `?${qs.stringify(params)}`);
     }
 
-    getFilteredClubs(clubs, opts) {
-        // TODO: Fix this spaghetti
-        // idea: return an array of IDs (or anything that uniquely identifies clubs)
-        console.log('opts: ', opts);
+    getFilteredClubs() {
         const {
+            clubs,
             searchLat,
             searchLng,
             searchRadius,
+            searchValue,
+            showAllClubs,
             useImperialSystem
-        } = opts;
-        if(!searchLat || !searchLng) {
-            return clubs;
+        } = this.state;
+        if(showAllClubs) {
+            if(searchValue) {
+                return this.fuse.search(searchValue);
+            }
+            else {
+                return clubs;
+            }
         }
-        const filteredClubs = geolib
-            .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)
-            .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
-            .map(({ distance, key }) => ({ ...clubs[key], distance }));
-        return filteredClubs;
+        else {
+            if(searchValue.length === 0) {
+                return clubs;
+            }
+            if(!searchLat || !searchLng) {
+                return [];
+            }
+            const filteredClubs = geolib
+                .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)
+                .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
+                .map(({ key }) => clubs[key]);
+            return filteredClubs;
+        }
+    }
+
+    async setPosition(place) {
+        const response = await axios.get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(place)}&key=${data.googleMapsApiKey}`);
+        const { results } = response.data;
+        try {
+            const result = results.find(result => result.types.indexOf("neighborhood") !== -1) || results[0];
+            this.setState({
+                formattedAddress: result.formatted_address,
+                searchLat: result.geometry.location.lat,
+                searchLng: result.geometry.location.lng
+            });
+        }
+        catch(e) {
+            // TODO: Remove repeated code
+            this.setState({
+                formattedAddress: null,
+                searchLat: null,
+                searchLng: null
+            });
+        }
     }
 }
 
