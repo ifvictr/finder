@@ -135,7 +135,7 @@ class IndexPage extends Component {
                                 </LazyLoad>
                             ))
                         }
-                        {!hasResults && <NoClubsFound />}
+                        {!hasResults && !showAllClubs && <NoClubsFound />}
                     </Flex>
                 </Container>
                 <Footer />
