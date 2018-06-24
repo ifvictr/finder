@@ -96,6 +96,7 @@ class IndexPage extends Component {
                             this.setState({ searchValue: e.target.value });
                             this.onSearchChange(e);
                         }}
+                        autoFocus
                     />
                     <Flex justify="space-between" mt={4}>
                         <Box>
