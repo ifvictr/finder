@@ -51,9 +51,11 @@ class IndexPage extends Component {
         // TODO: Fetch once on build and use GraphQL to retrieve?
         // Fetch clubs
         const { data } = await axios.get("https://api.hackclub.com/v1/clubs");
+        const { searchValue, showAllClubs } = this.state;
         // Set position only if searching by location and a search value is present
-        if(!this.state.showAllClubs && this.state.searchValue) {
-            await this.setPosition(this.state.searchValue);
+        const isSearchingByLocation = !showAllClubs && searchValue;
+        if(isSearchingByLocation) {
+            await this.setPosition(searchValue);
         }
         this.setState({ clubs: sortBy(data, ["name"]) }, () => {
             this.fuse = new Fuse(this.state.clubs, {
