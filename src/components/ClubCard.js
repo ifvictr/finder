@@ -139,7 +139,7 @@ class ClubCard extends Component {
                         <Text pt={2}>{data.address}</Text>
                     </Flex>
                     <Actions>
-                        <Action icon="comment" />
+                        <Action icon="link" />
                         <Action href={`https://www.google.com/maps/place/${encodeURI(data.address)}`} icon="map" available />
                         <Action icon={["fab", "slack-hash"]} />
                         <Action icon="envelope" />
