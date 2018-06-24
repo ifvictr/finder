@@ -180,8 +180,9 @@ class IndexPage extends Component {
 
     setParams(partialParams) {
         const params = { ...this.state.params, ...partialParams };
-        this.setState({ params });
-        window.history.pushState(null, null, `?${qs.stringify(params)}`);
+        this.setState({ params }, () => {
+            window.history.pushState(null, null, `?${qs.stringify(params)}`);
+        });
     }
 
     getFilteredClubs() {
