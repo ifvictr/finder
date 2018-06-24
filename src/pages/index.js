@@ -109,7 +109,7 @@ class IndexPage extends Component {
                         <Box>
                             <Text align="left" color="muted" f={3}>
                                 {filteredClubs.length} club{hasOneResult ? "" : "s"}{" "}
-                                {showAllClubs ? `match${hasOneResult ? "es" : ""} “${searchValue}”` : `found within ${searchRadius} ${useImperialSystem ? "mile" : "kilometer"}${searchRadius === 1 ? "" : "s"} from ${formattedAddress || "you"}`}
+                                {showAllClubs ? `match${hasOneResult ? "es" : ""} “${searchValue}”` : `found within ${searchRadius} ${useImperialSystem ? "mile" : "kilometer"}${searchRadius === 1 ? "" : "s"} from ${formattedAddress || `“${searchValue}”`}`}
                             </Text>
                         </Box>
                         <Settings
