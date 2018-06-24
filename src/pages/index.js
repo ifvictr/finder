@@ -129,7 +129,7 @@ class IndexPage extends Component {
                                 <LazyLoad key={club.id} height={0} offset={100} once overflow>
                                     <ClubCard
                                         data={club}
-                                        distance={!showAllClubs ? geolib.getDistance({ latitude: searchLat, longitude: searchLng }, club) : undefined}
+                                        distance={(!showAllClubs && searchLat && searchLng) ? geolib.getDistance({ latitude: searchLat, longitude: searchLng }, club) : undefined}
                                         useImperialSystem={useImperialSystem}
                                     />
                                 </LazyLoad>
