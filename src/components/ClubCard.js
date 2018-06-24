@@ -117,7 +117,7 @@ class ClubCard extends Component {
         this.state = { ready: false };
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         const { status } = await axios.get(`/school/${this.props.data.id}.jpg`);
         if(status === 200) {
             this.setState({ ready: true });
