@@ -16,7 +16,7 @@ const Base = Input.extend.attrs({
     }
 `;
 
-const SearchBox = ({ onSearchChange, value, ...props }) => (
+const SearchInput = ({ onSearchChange, value, ...props }) => (
     <Base
         placeholder="Where are you?"
         value={value}
@@ -29,4 +29,4 @@ const SearchBox = ({ onSearchChange, value, ...props }) => (
     />
 );
 
-export default SearchBox;
+export default SearchInput;

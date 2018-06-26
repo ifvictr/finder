@@ -7,7 +7,7 @@ import ClubCard from "components/ClubCard";
 import Footer from "components/Footer";
 import Header from "components/Header";
 import NoClubsFound from "components/NoClubsFound";
-import SearchBox from "components/SearchBox";
+import SearchInput from "components/SearchInput";
 import Settings from "components/Settings";
 import axios from "axios";
 import geolib from "geolib";
@@ -94,7 +94,7 @@ class IndexPage extends Component {
                 <Header />
                 <Container align="center" px={3} w={1} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
                     <Heading.h1 mt={4}>Find Hack Clubs near you!</Heading.h1>
-                    <SearchBox
+                    <SearchInput
                         mt={4}
                         mx="auto"
                         value={searchValue}
