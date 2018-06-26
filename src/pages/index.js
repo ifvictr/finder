@@ -98,10 +98,9 @@ class IndexPage extends Component {
                         mt={4}
                         mx="auto"
                         value={searchValue}
-                        onSearchChange={e => {
-                            e.persist();
-                            this.setState({ searchValue: e.target.value });
-                            this.onSearchChange(e);
+                        onSearchChange={value => {
+                            this.setState({ searchValue: value });
+                            this.onSearchChange();
                         }}
                         autoFocus
                     />
@@ -114,9 +113,9 @@ class IndexPage extends Component {
                         </Box>
                         <Settings
                             onRadiusChange={e => {
-                                e.persist();
-                                this.setState({ searchRadius: e.target.value });
-                                this.onRadiusChange(e);
+                                const { value } = e.target;
+                                this.setState({ searchRadius: value });
+                                this.onRadiusChange(value);
                             }}
                             onSystemChange={this.onSystemChange}
                             onViewChange={this.onViewChange}
@@ -145,14 +144,14 @@ class IndexPage extends Component {
         );
     }
 
-    onRadiusChange(e) {
-        this.setState({ searchRadius: parseInt(e.target.value) }, () => {
+    onRadiusChange(value) {
+        this.setState({ searchRadius: parseInt(value) }, () => {
             this.setParams({ r: this.state.searchRadius });
             this.setState({ filteredClubs: this.getFilteredClubs() });
         });
     }
 
-    async onSearchChange(e) {
+    async onSearchChange() {
         const { searchValue, showAllClubs } = this.state;
         this.setState({ loading: true });
         this.setParams({ q: searchValue });
