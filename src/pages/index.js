@@ -2,7 +2,7 @@ import { debounce, sortBy } from "lodash";
 import React, { Component, Fragment } from "react";
 import LazyLoad from "react-lazyload";
 import Progress from "react-progress";
-import { Box, Container, Flex, Heading, Text, theme } from "@hackclub/design-system";
+import { Box, Container, Flex, Heading, Truncate, theme } from "@hackclub/design-system";
 import ClubCard from "components/ClubCard";
 import Footer from "components/Footer";
 import Header from "components/Header";
@@ -106,11 +106,11 @@ class IndexPage extends Component {
                         autoFocus
                     />
                     <Flex justify="space-between" mt={4}>
-                        <Box>
-                            <Text align="left" color="muted" f={3}>
+                        <Box w="50%">
+                            <Truncate align="left" color="muted" f={3}>
                                 {filteredClubs.length} club{hasOneResult ? "" : "s"}{" "}
                                 {showAllClubs ? `match${hasOneResult ? "es" : ""} “${searchValue}”` : `found within ${searchRadius} ${useImperialSystem ? "mile" : "kilometer"}${searchRadius === 1 ? "" : "s"} from ${formattedAddress || `“${searchValue}”`}`}
-                            </Text>
+                            </Truncate>
                         </Box>
                         <Settings
                             onRadiusChange={e => {
