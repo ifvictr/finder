@@ -223,7 +223,7 @@ class IndexPage extends Component {
         const response = await axios.get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(place)}&key=${data.googleMapsApiKey}`);
         const { results } = response.data;
         try {
-            const result = results.find(result => result.types.indexOf("neighborhood") !== -1) || results[0];
+            const result = results.find(result => result.types.includes("neighborhood")) || results[0];
             this.setState({
                 formattedAddress: result.formatted_address,
                 searchLat: result.geometry.location.lat,
