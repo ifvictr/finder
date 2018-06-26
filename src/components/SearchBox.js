@@ -1,19 +1,18 @@
 import React from "react";
-import { Card, Input } from "@hackclub/design-system";
+import { Input } from "@hackclub/design-system";
 
-const Base = Card.withComponent(Input).extend.attrs({
-    borderRadius: ({ theme }) => theme.pill,
-    boxShadowSize: "sm",
-    f: 5,
-    px: 4
+const Base = Input.extend.attrs({
+    px: 4,
+    py: 2
 })`
-    will-change: border-color, box-shadow;
-    &:hover {
-        box-shadow: ${({ theme }) => theme.boxShadows[1]};
-    }
+    border: 0;
+    border-radius: ${({ theme }) => theme.pill};
+    box-shadow: ${({ theme }) => theme.boxShadows[0]};
+    font-size: ${({ theme }) => theme.fontSizes[5]}px;
+    will-change: box-shadow;
+    &:hover,
     &:focus {
-        border-color: ${({ theme }) => theme.colors.smoke};
-        box-shadow: ${({ theme }) => theme.boxShadows[2]};
+        box-shadow: ${({ theme }) => theme.boxShadows[1]};
     }
 `;
 
@@ -22,6 +21,7 @@ const SearchBox = ({ onSearchChange, value, ...props }) => (
         placeholder="Where are you?"
         value={value}
         onChange={onSearchChange}
+        type="search"
         itemProp="query-input"
         itemScope
         itemType="https://schema.org/SearchAction"
