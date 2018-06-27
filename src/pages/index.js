@@ -6,8 +6,8 @@ import { Box, Container, Flex, Heading, Truncate, theme } from "@hackclub/design
 import ClubCard from "components/ClubCard";
 import Footer from "components/Footer";
 import Header from "components/Header";
+import LocationSearchInput from "components/LocationSearchInput";
 import NoClubsFound from "components/NoClubsFound";
-import SearchInput from "components/SearchInput";
 import Settings from "components/Settings";
 import axios from "axios";
 import geolib from "geolib";
@@ -91,13 +91,19 @@ class IndexPage extends Component {
                 <Header />
                 <Container align="center" px={3} w={1} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
                     <Heading.h1 mt={4}>Find Hack Clubs near you!</Heading.h1>
-                    <SearchInput
+                    <LocationSearchInput
                         mt={4}
                         mx="auto"
                         value={searchValue}
                         onSearchChange={value => {
                             this.setState({ searchValue: value });
                             this.onSearchChange();
+                        }}
+                        onSearchError={(status, clearSuggestions) => {
+                            if(status === "ZERO_RESULTS") {
+                                // TODO: Show "No results found." in the dropdown menu instead of hiding
+                            }
+                            clearSuggestions();
                         }}
                         autoFocus
                     />
