@@ -213,27 +213,23 @@ class IndexPage extends Component {
             showAllClubs,
             useImperialSystem
         } = this.state;
-        if(showAllClubs) {
-            if(searchValue) {
-                return this.fuse.search(searchValue);
-            }
-            else {
-                return clubs;
+        const hasSearchValue = searchValue.trim().length > 0;
+        const isPositionSet = searchLat !== null && searchLng !== null;
+        let filteredClubs = [] || clubs; // We want to show every club by default, but it will causes a significant decrease in performance
+        if(!showAllClubs) {
+            if(hasSearchValue || isPositionSet) {
+                filteredClubs = geolib
+                    .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)
+                    .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
+                    .map(({ key }) => clubs[key]);
             }
         }
         else {
-            if(searchValue.length === 0) {
-                return clubs;
+            if(hasSearchValue) {
+                filteredClubs = this.fuse.search(searchValue);
             }
-            if(!searchLat || !searchLng) {
-                return [];
-            }
-            const filteredClubs = geolib
-                .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)
-                .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
-                .map(({ key }) => clubs[key]);
-            return filteredClubs;
         }
+        return filteredClubs;
     }
 
     async setPosition(place) {
