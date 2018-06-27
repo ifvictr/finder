@@ -84,6 +84,7 @@ class IndexPage extends Component {
             showAllClubs,
             useImperialSystem
         } = this.state;
+        const hasSearchValue = searchValue.trim().length > 0;
         const hasResults = filteredClubs.length > 0;
         const hasOneResult = filteredClubs.length === 1;
         return (
@@ -153,7 +154,7 @@ class IndexPage extends Component {
                                 </LazyLoad>
                             ))
                         }
-                        {!hasResults && !showAllClubs && <NoClubsFound />}
+                        {hasSearchValue && !hasResults && !showAllClubs && <NoClubsFound />}
                     </Flex>
                 </Container>
                 <Footer />
