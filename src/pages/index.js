@@ -33,6 +33,7 @@ class IndexPage extends Component {
             useImperialSystem: true
         };
         this.fuse = undefined;
+        this.onGeolocationChange = this.onGeolocationChange.bind(this);
         this.onRadiusChange = debounce(this.onRadiusChange.bind(this), 1250);
         this.onSearchChange = debounce(this.onSearchChange.bind(this), 1250);
         this.onSystemChange = this.onSystemChange.bind(this);
@@ -130,6 +131,7 @@ class IndexPage extends Component {
                             </Truncate>
                         </Box>
                         <Settings
+                            onGeolocationChange={this.onGeolocationChange}
                             onRadiusChange={e => {
                                 const { value } = e.target;
                                 this.setState({ searchRadius: value });
@@ -160,6 +162,28 @@ class IndexPage extends Component {
                 <Footer />
             </Fragment>
         );
+    }
+
+    onGeolocationChange() {
+        if(!navigator.geolocation) {
+            alert("Geolocation is not enabled or not supported on your device.");
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(async pos => {
+            const { latitude, longitude } = pos.coords;
+            const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${data.googleMapsApiKey}`);
+            const { results } = response.data;
+            const result = results.find(result => result.types.includes("neighborhood")) || results[0]; // Attempt to narrow down user's location
+            this.setState({
+                // Don't set new coordinates because filtered clubs will use it for calculating distances
+                // formattedAddress: result.formatted_address,
+                // searchLat: result.geometry.location.lat,
+                // searchLng: result.geometry.location.lng,
+                searchValue: result.formatted_address
+            });
+            // TODO: Calling this results in a debounce delay and an extra request to Google
+            await this.onSearchChange();
+        });
     }
 
     onRadiusChange(value) {

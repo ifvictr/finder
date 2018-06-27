@@ -5,6 +5,7 @@ import { Box, Button/*, Slider*/ } from "@hackclub/design-system";
 import Slider from "components/Slider";
 
 const Settings = ({
+    onGeolocationChange,
     onRadiusChange,
     onSystemChange,
     onViewChange,
@@ -25,6 +26,9 @@ const Settings = ({
                 style={{ display: "inline-block" }}
             />
         )}
+        <Button.button onClick={onGeolocationChange} inverted disabled={showAllClubs} ml={2}>
+            <FA icon="crosshairs" /> Use my location
+        </Button.button>
         <Button.button onClick={onSystemChange} inverted={!useImperialSystem} disabled={showAllClubs} ml={2}>
             <FA icon="ruler" /> {useImperialSystem ? "Imperial" : "Metric"}
         </Button.button>
@@ -35,6 +39,7 @@ const Settings = ({
 );
 
 Settings.propTypes = {
+    onGeolocationChange: PropTypes.func.isRequired,
     onRadiusChange: PropTypes.func.isRequired,
     onSystemChange: PropTypes.func.isRequired,
     onViewChange: PropTypes.func.isRequired,
