@@ -24,7 +24,7 @@ class IndexPage extends Component {
             filteredClubs: [],
             formattedAddress: null,
             loading: false,
-            params: qs.parse(props.location.search), // Attempt to use present parems
+            params: qs.parse(props.location.search), // Attempt to use present query parameters
             searchLat: null,
             searchLng: null,
             searchRadius: 50,
