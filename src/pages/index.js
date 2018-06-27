@@ -25,7 +25,7 @@ class IndexPage extends Component {
             formattedAddress: null,
             loading: false,
             params: qs.parse(props.location.search), // Attempt to use present query parameters
-            searchByLocation: false,
+            searchByLocation: true,
             searchLat: null,
             searchLng: null,
             searchRadius: 50,
