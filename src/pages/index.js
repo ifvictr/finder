@@ -171,6 +171,11 @@ class IndexPage extends Component {
 
     async onSearchChange() {
         const { searchValue, showAllClubs } = this.state;
+        const hasSearchValue = searchValue.trim().length > 0;
+        // Preserve results from previous search if current search value is empty
+        if(!hasSearchValue) {
+            return;
+        }
         this.setState({ loading: true });
         this.setParams({ q: searchValue });
         if(!showAllClubs) {
