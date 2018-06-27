@@ -217,9 +217,9 @@ class IndexPage extends Component {
     }
 
     async setPosition(place) {
-        const response = await axios.get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(place)}&key=${data.googleMapsApiKey}`);
-        const { results } = response.data;
         try {
+            const response = await axios.get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(place)}&key=${data.googleMapsApiKey}`);
+            const { results } = response.data;
             const result = results.find(result => result.types.includes("neighborhood")) || results[0]; // Attempt to narrow down user's location
             this.setState({
                 formattedAddress: result.formatted_address,
