@@ -106,7 +106,7 @@ class IndexPage extends Component {
                     />
                     <Flex justify="space-between" mt={4}>
                         <Box w="50%">
-                            <Truncate align="left" color="muted" f={3}>
+                            <Truncate align="left" color="muted" f={3} title={formattedAddress}>
                                 {filteredClubs.length} club{hasOneResult ? "" : "s"}{" "}
                                 {showAllClubs ? `match${hasOneResult ? "es" : ""} “${searchValue}”` : `found within ${searchRadius} ${useImperialSystem ? "mile" : "kilometer"}${searchRadius === 1 ? "" : "s"} from ${formattedAddress || `“${searchValue}”`}`}
                             </Truncate>
