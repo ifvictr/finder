@@ -181,6 +181,13 @@ class IndexPage extends Component {
         if(!showAllClubs) {
             await this.setPosition(searchValue);
         }
+        else {
+            /*
+             * A hack to get the loading animation to appear. Otherwise, the first update would've
+             * been overwritten by the second update (due to React batching subsequent `setState` calls).
+             */
+            await new Promise(resolve => setTimeout(resolve, 0));
+        }
         this.setState({ filteredClubs: this.getFilteredClubs(), loading: false });
     }
 
