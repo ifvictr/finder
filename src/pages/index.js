@@ -25,11 +25,11 @@ class IndexPage extends Component {
             formattedAddress: null,
             loading: false,
             params: qs.parse(props.location.search), // Attempt to use present query parameters
+            searchByLocation: false,
             searchLat: null,
             searchLng: null,
             searchRadius: 50,
             searchValue: "",
-            showAllClubs: false,
             useImperialSystem: true
         };
         this.fuse = undefined;
@@ -47,12 +47,12 @@ class IndexPage extends Component {
             ...(m && { useImperialSystem: m === "i" }),
             ...(q && { searchValue: q }),
             ...(r && { searchRadius: parseInt(r) }),
-            ...(v && { showAllClubs: v === "all" })
+            ...(v && { searchByLocation: v === "loc" })
         });
         const { data } = await axios.get("https://api.hackclub.com/v1/clubs");
-        const { searchValue, showAllClubs } = this.state;
+        const { searchByLocation, searchValue } = this.state;
         // Set position only if searching by location and a search value is present
-        const isSearchingByLocation = !showAllClubs && searchValue;
+        const isSearchingByLocation = searchByLocation && searchValue;
         if(isSearchingByLocation) {
             await this.setPosition(searchValue);
         }
@@ -78,11 +78,11 @@ class IndexPage extends Component {
             filteredClubs,
             formattedAddress,
             loading,
+            searchByLocation,
             searchLat,
             searchLng,
             searchRadius,
             searchValue,
-            showAllClubs,
             useImperialSystem
         } = this.state;
         const hasSearchValue = searchValue.trim().length > 0;
@@ -94,7 +94,7 @@ class IndexPage extends Component {
                 <Header />
                 <Container align="center" px={3} w={1} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
                     <Heading.h1 mt={4}>Find Hack Clubs near you!</Heading.h1>
-                    {!showAllClubs ? (
+                    {searchByLocation ? (
                         <LocationSearchInput
                             mt={4}
                             mx="auto"
@@ -127,7 +127,7 @@ class IndexPage extends Component {
                         <Box w="50%">
                             <Truncate align="left" color="muted" f={3} title={formattedAddress}>
                                 {filteredClubs.length} club{hasOneResult ? "" : "s"}{" "}
-                                {showAllClubs ? `match${hasOneResult ? "es" : ""} “${searchValue}”` : `found within ${searchRadius} ${useImperialSystem ? "mile" : "kilometer"}${searchRadius === 1 ? "" : "s"} from ${formattedAddress || `“${searchValue}”`}`}
+                                {searchByLocation ? `found within ${searchRadius} ${useImperialSystem ? "mile" : "kilometer"}${searchRadius === 1 ? "" : "s"} from ${formattedAddress || `“${searchValue}”`}` : `match${hasOneResult ? "es" : ""} “${searchValue}”`}
                             </Truncate>
                         </Box>
                         <Settings
@@ -139,8 +139,8 @@ class IndexPage extends Component {
                             }}
                             onSystemChange={this.onSystemChange}
                             onViewChange={this.onViewChange}
+                            searchByLocation={searchByLocation}
                             searchRadius={parseInt(searchRadius)}
-                            showAllClubs={showAllClubs}
                             useImperialSystem={useImperialSystem}
                         />
                     </Flex>
@@ -150,13 +150,13 @@ class IndexPage extends Component {
                                 <LazyLoad key={club.id} height={0} offset={100} once overflow>
                                     <ClubCard
                                         data={club}
-                                        distance={(!showAllClubs && searchLat && searchLng) ? geolib.getDistance({ latitude: searchLat, longitude: searchLng }, club) : undefined}
+                                        distance={(searchByLocation && searchLat && searchLng) ? geolib.getDistance({ latitude: searchLat, longitude: searchLng }, club) : undefined}
                                         useImperialSystem={useImperialSystem}
                                     />
                                 </LazyLoad>
                             ))
                         }
-                        {hasSearchValue && !hasResults && !showAllClubs && <NoClubsFound />}
+                        {hasSearchValue && !hasResults && searchByLocation && <NoClubsFound />}
                     </Flex>
                 </Container>
                 <Footer />
@@ -194,7 +194,7 @@ class IndexPage extends Component {
     }
 
     async onSearchChange() {
-        const { searchValue, showAllClubs } = this.state;
+        const { searchByLocation, searchValue } = this.state;
         const hasSearchValue = searchValue.trim().length > 0;
         // Preserve results from previous search if current search value is empty
         if(!hasSearchValue) {
@@ -202,7 +202,7 @@ class IndexPage extends Component {
         }
         this.setState({ loading: true });
         this.setParams({ q: searchValue });
-        if(!showAllClubs) {
+        if(searchByLocation) {
             await this.setPosition(searchValue);
         }
         else {
@@ -224,12 +224,12 @@ class IndexPage extends Component {
     }
 
     onViewChange() {
-        this.setState((state, props) => ({ showAllClubs: !state.showAllClubs }), async () => {
-            if(!this.state.showAllClubs) {
+        this.setState((state, props) => ({ searchByLocation: !state.searchByLocation }), async () => {
+            if(this.state.searchByLocation) {
                 await this.setPosition(this.state.searchValue);
             }
             this.setState({ filteredClubs: this.getFilteredClubs() });
-            this.setParams({ v: this.state.showAllClubs ? "all" : "loc" });
+            this.setParams({ v: this.state.searchByLocation ? "loc" : "all" });
         });
     }
 
@@ -243,17 +243,17 @@ class IndexPage extends Component {
     getFilteredClubs() {
         const {
             clubs,
+            searchByLocation,
             searchLat,
             searchLng,
             searchRadius,
             searchValue,
-            showAllClubs,
             useImperialSystem
         } = this.state;
         const hasSearchValue = searchValue.trim().length > 0;
         const isPositionSet = searchLat !== null && searchLng !== null;
         let filteredClubs = [] || clubs; // We want to show every club by default, but it will causes a significant decrease in performance
-        if(!showAllClubs) {
+        if(searchByLocation) {
             if(isPositionSet) {
                 filteredClubs = geolib
                     .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)

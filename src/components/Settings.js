@@ -9,13 +9,13 @@ const Settings = ({
     onRadiusChange,
     onSystemChange,
     onViewChange,
+    searchByLocation,
     searchRadius,
-    showAllClubs,
     useImperialSystem,
     ...props
 }) => (
     <Box {...props}>
-        {!showAllClubs && (
+        {searchByLocation && (
             <Slider
                 defaultValue={searchRadius}
                 min={1}
@@ -26,13 +26,13 @@ const Settings = ({
                 style={{ display: "inline-block" }}
             />
         )}
-        <Button.button onClick={onGeolocationChange} inverted disabled={showAllClubs} ml={2}>
+        <Button.button onClick={onGeolocationChange} inverted disabled={!searchByLocation} ml={2}>
             <FA icon="crosshairs" /> Use my location
         </Button.button>
-        <Button.button onClick={onSystemChange} inverted={!useImperialSystem} disabled={showAllClubs} ml={2}>
+        <Button.button onClick={onSystemChange} inverted={!useImperialSystem} disabled={!searchByLocation} ml={2}>
             <FA icon="ruler" /> {useImperialSystem ? "Imperial" : "Metric"}
         </Button.button>
-        <Button.button onClick={onViewChange} inverted={!showAllClubs} ml={2}>
+        <Button.button onClick={onViewChange} inverted={searchByLocation} ml={2}>
             <FA icon="globe" /> View all
         </Button.button>
     </Box>
@@ -43,8 +43,8 @@ Settings.propTypes = {
     onRadiusChange: PropTypes.func.isRequired,
     onSystemChange: PropTypes.func.isRequired,
     onViewChange: PropTypes.func.isRequired,
+    searchByLocation: PropTypes.bool.isRequired,
     searchRadius: PropTypes.number.isRequired,
-    showAllClubs: PropTypes.bool.isRequired,
     useImperialSystem: PropTypes.bool.isRequired
 };
 
