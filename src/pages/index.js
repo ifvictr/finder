@@ -217,7 +217,7 @@ class IndexPage extends Component {
         const isPositionSet = searchLat !== null && searchLng !== null;
         let filteredClubs = [] || clubs; // We want to show every club by default, but it will causes a significant decrease in performance
         if(!showAllClubs) {
-            if(hasSearchValue || isPositionSet) {
+            if(isPositionSet) {
                 filteredClubs = geolib
                     .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)
                     .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
