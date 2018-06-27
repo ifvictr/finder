@@ -1,4 +1,3 @@
-// TODO: Remove when added to @hackclub/design-system
 import React from "react";
 import styled from "styled-components";
 import { color, space, width, propTypes } from "styled-system";

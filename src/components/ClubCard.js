@@ -38,7 +38,6 @@ const Inner = Card.withComponent(Flex).extend.attrs({
 `;
 
 const DistanceLabel = Text.span.extend.attrs({
-    // TODO: Turn into one-liner
     children: props => {
         const system = props.imperial ? "mi" : "km";
         return `${geolib.convertUnit(system, props.distance, 1)} ${system} away`;

@@ -13,7 +13,6 @@ const SuperButton = Button.extend`
     );
 `;
 
-// TODO: Find a better name
 const NoClubsFound = props => (
     <Base bg="snow" boxShadowSize="lg" maxWidth={48} p={4}>
         <Heading.h2>There aren’t any clubs around you…</Heading.h2>

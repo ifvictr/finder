@@ -24,10 +24,10 @@ const DefaultLayout = ({ children }) => (
                 { name: "twitter:card", content: "summary_large_image" },
                 { name: "twitter:description", content: description },
                 { name: "twitter:domain", content: url },
-                { name: "twitter:image:src", content: "" }, // TODO: Find an image
+                { name: "twitter:image:src", content: "" },
                 { name: "twitter:title", content: title },
                 { property: "og:description", content: description },
-                { property: "og:image", content: "" }, // TODO: Find an image
+                { property: "og:image", content: "" },
                 { property: "og:image:height", content: 512 },
                 { property: "og:image:width", content: 512 },
                 { property: "og:locale", content: "en_US" },
