@@ -29,7 +29,6 @@ class IndexPage extends Component {
             searchRadius: 50,
             searchValue: "",
             showAllClubs: false,
-            status: "idle", // TODO: idle, loading
             useImperialSystem: true
         };
         this.fuse = undefined;
@@ -48,8 +47,6 @@ class IndexPage extends Component {
             ...(r && { searchRadius: parseInt(r) }),
             ...(v && { showAllClubs: v === "all" })
         });
-        // TODO: Fetch once on build and use GraphQL to retrieve?
-        // Fetch clubs
         const { data } = await axios.get("https://api.hackclub.com/v1/clubs");
         const { searchValue, showAllClubs } = this.state;
         // Set position only if searching by location and a search value is present
@@ -231,7 +228,6 @@ class IndexPage extends Component {
             });
         }
         catch(e) {
-            // TODO: Remove repeated code
             this.setState({
                 formattedAddress: null,
                 searchLat: null,
