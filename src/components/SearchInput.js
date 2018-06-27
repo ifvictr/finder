@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Input } from "@hackclub/design-system";
 
 const Base = Input.extend.attrs({
@@ -28,5 +29,10 @@ const SearchInput = ({ onSearchChange, value, ...props }) => (
         {...props}
     />
 );
+
+SearchInput.propTypes = {
+    onSearchChange: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired
+};
 
 export default SearchInput;

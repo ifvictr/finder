@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import PlacesAutocomplete from "react-places-autocomplete";
 import { DropdownContainer, DropdownMenu, DropdownMenuOption } from "components/Dropdown";
 import SearchInput from "components/SearchInput";
@@ -23,5 +24,11 @@ const LocationSearchInput = ({ onSearchChange, onSearchError, value, ...props })
         )}
     </PlacesAutocomplete>
 );
+
+LocationSearchInput.propTypes = {
+    onSearchChange: PropTypes.func.isRequired,
+    onSearchError: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired
+};
 
 export default LocationSearchInput;
