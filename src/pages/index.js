@@ -8,6 +8,7 @@ import Footer from "components/Footer";
 import Header from "components/Header";
 import LocationSearchInput from "components/LocationSearchInput";
 import NoClubsFound from "components/NoClubsFound";
+import SearchInput from "components/SearchInput";
 import Settings from "components/Settings";
 import axios from "axios";
 import geolib from "geolib";
@@ -91,22 +92,35 @@ class IndexPage extends Component {
                 <Header />
                 <Container align="center" px={3} w={1} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
                     <Heading.h1 mt={4}>Find Hack Clubs near you!</Heading.h1>
-                    <LocationSearchInput
-                        mt={4}
-                        mx="auto"
-                        value={searchValue}
-                        onSearchChange={value => {
-                            this.setState({ searchValue: value });
-                            this.onSearchChange();
-                        }}
-                        onSearchError={(status, clearSuggestions) => {
-                            if(status === "ZERO_RESULTS") {
-                                // TODO: Show "No results found." in the dropdown menu instead of hiding
-                            }
-                            clearSuggestions();
-                        }}
-                        autoFocus
-                    />
+                    {!showAllClubs ? (
+                        <LocationSearchInput
+                            mt={4}
+                            mx="auto"
+                            value={searchValue}
+                            onSearchChange={value => {
+                                this.setState({ searchValue: value });
+                                this.onSearchChange();
+                            }}
+                            onSearchError={(status, clearSuggestions) => {
+                                if(status === "ZERO_RESULTS") {
+                                    // TODO: Show "No results found." in the dropdown menu instead of hiding
+                                }
+                                clearSuggestions();
+                            }}
+                            autoFocus
+                        />
+                    ) : (
+                        <SearchInput
+                            mt={4}
+                            mx="auto"
+                            value={searchValue}
+                            onSearchChange={e => {
+                                this.setState({ searchValue: e.target.value });
+                                this.onSearchChange();
+                            }}
+                            autoFocus
+                        />
+                    )}
                     <Flex justify="space-between" mt={4}>
                         <Box w="50%">
                             <Truncate align="left" color="muted" f={3} title={formattedAddress}>
