@@ -21,7 +21,8 @@ const processCluster = async cluster => {
         const hotspots = await Promise.all(clusters.filter(cluster => cluster.elements.length > 3).map(processCluster));
         console.log(`${hotspots.length} club hotspot(s) identified`);
         hotspots.forEach((hotspot, i) => {
-            console.log(`${i + 1}: ${JSON.stringify(hotspot, null, 2)}}`);
+            const { lat, lng } = hotspot.geometry.location;
+            console.log(`${i + 1}: ${hotspot.formatted_address} (${lat.toFixed(6)}, ${lng.toFixed(6)})`);
         });
     }
     catch(e) {
