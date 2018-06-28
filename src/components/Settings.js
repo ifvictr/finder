@@ -33,7 +33,7 @@ const Settings = ({
             <FA icon="ruler" /> {useImperialSystem ? "Imperial" : "Metric"}
         </Button.button>
         <Button.button onClick={onViewChange} inverted={searchByLocation} ml={2}>
-            <FA icon="globe" /> View all
+            <FA icon="search" /> Search all
         </Button.button>
     </Box>
 );
