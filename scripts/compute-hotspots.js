@@ -1,31 +1,33 @@
-const geocluster = require("geocluster");
 const axios = require("axios");
-const { googleMapsApiKey } = require("../src/data.json");
+const { difference } = require("lodash");
+const { getPointsInCircle, MILE_TO_METER } = require("../src/utils");
 
-const processCluster = async cluster => {
-    const [lat, lng] = cluster.centroid;
-    const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${googleMapsApiKey}`);
-    const { results } = response.data;
-    if(results.length > 0) {
-        return results[0];
-    }
-    return {};
-};
+const SEARCH_RADIUS = 50;
+const HOTSPOT_THRESHOLD = 4;
 
 (async () => {
     try {
         const { data } = await axios.get("https://api.hackclub.com/v1/clubs");
-        const coords = data.map(club => [parseFloat(club.latitude), parseFloat(club.longitude)]);
-        const clusters = geocluster(coords, 0.1);
-        console.log(`${clusters.length} club cluster(s) found`);
-        const hotspots = await Promise.all(clusters.filter(cluster => cluster.elements.length > 3).map(processCluster));
-        console.log(`${hotspots.length} club hotspot(s) identified`);
-        hotspots.forEach((hotspot, i) => {
-            const { lat, lng } = hotspot.geometry.location;
-            console.log(`${i + 1}: ${hotspot.formatted_address} (${lat.toFixed(6)}, ${lng.toFixed(6)})`);
+        let clubs = [...data]; // Clone array
+        const hotspots = [];
+        clubs.forEach(club => {
+            const filteredClubs = getPointsInCircle(clubs, club, SEARCH_RADIUS * MILE_TO_METER);
+            if(filteredClubs.length > HOTSPOT_THRESHOLD) {
+                console.log(`Hotspot with ${filteredClubs.length} clubs found!`);
+                clubs = difference(clubs, filteredClubs); // Remove sorted clubs from working array
+                hotspots.push({
+                    center: club,
+                    clubs: filteredClubs
+                });
+                console.log(`Clubs left to group: ${clubs.length}`);
+            }
+        });
+        console.log(`Total hotspots: ${hotspots.length}`);
+        hotspots.forEach(hotspot => {
+            console.log(hotspot.center.address);
         });
     }
     catch(e) {
-        console.log("An error occurred");
+        console.log(e);
     }
 })();
