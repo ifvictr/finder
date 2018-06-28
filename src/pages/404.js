@@ -2,11 +2,14 @@ import React, { Fragment } from "react";
 import Helmet from "react-helmet";
 import FA from "@fortawesome/react-fontawesome";
 import { Container, Heading, LargeButton, Text } from "@hackclub/design-system";
+import Footer from "components/Footer";
+import Header from "components/Header";
 
 export default () => (
     <Fragment>
         <Helmet title="404" />
-        <Container maxWidth={48} px={2} py={6} align="center">
+        <Header />
+        <Container align="center" maxWidth={48} px={2} py={6} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
             <Heading.h1 color="primary" f={[5, 6]}>
                 404!
             </Heading.h1>
@@ -15,5 +18,6 @@ export default () => (
             </Text>
             <LargeButton href="/">Go home <FA icon="home" /></LargeButton>
         </Container>
+        <Footer />
     </Fragment>
 );
