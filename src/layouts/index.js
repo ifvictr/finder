@@ -14,8 +14,8 @@ const { name, title, description, url } = data;
 const DefaultLayout = ({ children }) => (
     <ThemeProvider webfonts>
         <Helmet
-            defaultTitle={title}
-            titleTemplate="%s — Hack Club"
+            defaultTitle={`${title} — Hack Club`}
+            titleTemplate={`%s — ${title} — Hack Club`}
             meta={[
                 { charSet: "utf-8" },
                 { name: "description", content: description },
