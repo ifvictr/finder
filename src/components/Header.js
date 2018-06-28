@@ -1,16 +1,54 @@
 import React from "react";
-import { Flex, Image, Link } from "@hackclub/design-system";
+import Link from "gatsby-link";
+import { Flex, Link as A } from "@hackclub/design-system";
 
-const Base = Flex.withComponent("header");
+const Flag = A.extend.attrs({
+    href: "https://hackclub.com"
+})`
+    background: url(/flag.svg) no-repeat;
+    background-position: top center;
+    flex-shrink: 0;
+    height: 3rem;
+    width: 8rem;
+    z-index: 0;
+    ${props => props.theme.mediaQueries.md} {
+        height: 4rem;
+        width: 10rem;
+    }
+`;
 
-const Header = () => (
-    <Base justify="space-between">
-        <Link href="https://hackclub.com" target="_blank">
-            <Image src="/flag.svg" alt="Hack Club" w={128} ml={[3, 4, 5]} />
-        </Link>
-        <Flex py={3} pr={[3, 4, 5]}>
-            <Link href="https://github.com/hackclub/finder" target="_blank" color="slate">Contribute on GitHub</Link>
-        </Flex>
+const Base = Flex.withComponent("header").extend.attrs({
+    align: "center",
+    justify: "space-between",
+    pb: 2,
+    pt: 0,
+    px: [null, 3, 4],
+    w: 1
+})``;
+
+const NavBar = Flex.withComponent("nav").extend`
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+`;
+
+const Item = A.extend.attrs({
+    bold: true,
+    my: [1, 0],
+    px: [2, 3]
+})`
+    color: inherit;
+`;
+
+const GatsbyItem = Item.withComponent(Link);
+
+const Header = ({ color = "muted", ...props }) => (
+    <Base roler="banner" {...props}>
+        <Flag />
+        <NavBar role="navigation" ml={-2} py={[1, 0]} color={color} align="center">
+            <GatsbyItem to="/map" children="Map" />
+            <GatsbyItem to="/hotspots" children="Hotspots" />
+            <Item href="https://github.com/hackclub/finder" target="_blank" color="slate" children="Contribute on GitHub" />
+        </NavBar>
     </Base>
 );
 
