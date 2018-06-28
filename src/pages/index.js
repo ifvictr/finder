@@ -166,11 +166,12 @@ class IndexPage extends Component {
     }
 
     onGeolocationChange() {
-        if(!navigator.geolocation) {
+        const { geolocation } = window.navigator;
+        if(!geolocation) {
             alert("Geolocation is not enabled or not supported on your device.");
             return;
         }
-        navigator.geolocation.getCurrentPosition(async pos => {
+        geolocation.getCurrentPosition(async pos => {
             const { latitude, longitude } = pos.coords;
             const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${data.googleMapsApiKey}`);
             const { results } = response.data;
