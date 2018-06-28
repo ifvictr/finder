@@ -5,7 +5,7 @@ import { Container, Heading, LargeButton, Text } from "@hackclub/design-system";
 import Footer from "components/Footer";
 import Header from "components/Header";
 
-export default () => (
+const ErrorPage = () => (
     <Fragment>
         <Helmet title="404" />
         <Header />
@@ -21,3 +21,5 @@ export default () => (
         <Footer />
     </Fragment>
 );
+
+export default ErrorPage;
