@@ -13,7 +13,7 @@ const SuperButton = Button.extend`
     );
 `;
 
-const NoClubsFound = props => (
+const NoClubsFound = () => (
     <Base bg="snow" boxShadowSize="lg" maxWidth={48} p={4}>
         <Heading.h2>There aren’t any clubs around you…</Heading.h2>
         <SuperButton href="https://hackclub.com/start" target="_blank" f={4} mt={4}>Start the first one »</SuperButton>
