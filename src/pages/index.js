@@ -14,8 +14,8 @@ import axios from "axios";
 import geolib from "geolib";
 import Fuse from "fuse.js";
 import qs from "query-string";
-import data from "data.json";
 import { getPointsInCircle, KILOMETER_TO_METER, MILE_TO_METER } from "utils";
+import { googleMapsApiKey } from "data.json";
 
 class IndexPage extends Component {
     constructor(props) {
@@ -173,7 +173,7 @@ class IndexPage extends Component {
         }
         geolocation.getCurrentPosition(async pos => {
             const { latitude, longitude } = pos.coords;
-            const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${data.googleMapsApiKey}`);
+            const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${googleMapsApiKey}`);
             const { results } = response.data;
             const result = results.find(result => result.types.includes("neighborhood")) || results[0]; // Attempt to narrow down user's location
             this.setState({
@@ -275,7 +275,7 @@ class IndexPage extends Component {
 
     async setPosition(place) {
         try {
-            const response = await axios.get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(place)}&key=${data.googleMapsApiKey}`);
+            const response = await axios.get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(place)}&key=${googleMapsApiKey}`);
             const { results } = response.data;
             const result = results.find(result => result.types.includes("neighborhood")) || results[0]; // Attempt to narrow down user's location
             this.setState({

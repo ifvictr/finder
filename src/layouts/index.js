@@ -5,11 +5,10 @@ import fontAwesome from "@fortawesome/fontawesome";
 import brands from "@fortawesome/fontawesome-free-brands";
 import solid from "@fortawesome/fontawesome-free-solid";
 import { Flex, ThemeProvider, colors } from "@hackclub/design-system";
-import data from "data.json";
+import { description, name, title, url } from "data.json";
 
 // Easier reference to Font Awesome icons from components
 fontAwesome.library.add(brands, solid);
-const { name, title, description, url } = data;
 
 const DefaultLayout = ({ children }) => (
     <ThemeProvider webfonts>

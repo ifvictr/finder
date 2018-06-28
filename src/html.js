@@ -1,5 +1,5 @@
 import React from "react";
-import data from "data.json";
+import { googleMapsApiKey } from "data.json";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -42,7 +42,7 @@ const HTML = ({
                 dangerouslySetInnerHTML={{ __html: body }}
             />
             {postBodyComponents}
-            <script src={`https://maps.googleapis.com/maps/api/js?key=${data.googleMapsApiKey}&libraries=places`}></script>
+            <script src={`https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places`}></script>
         </body>
     </html>
 );
