@@ -15,6 +15,7 @@ import geolib from "geolib";
 import Fuse from "fuse.js";
 import qs from "query-string";
 import data from "data.json";
+import { getPointsInCircle, KILOMETER_TO_METER, MILE_TO_METER } from "utils";
 
 class IndexPage extends Component {
     constructor(props) {
@@ -255,10 +256,12 @@ class IndexPage extends Component {
         let filteredClubs = [] || clubs; // We want to show every club by default, but it will causes a significant decrease in performance
         if(searchByLocation) {
             if(isPositionSet) {
+                const center = { latitude: searchLat, longitude: searchLng };
+                const conversionConstant = useImperialSystem ? MILE_TO_METER : KILOMETER_TO_METER;
+                const filteredPoints = getPointsInCircle(clubs, center, searchRadius * conversionConstant);
                 filteredClubs = geolib
-                    .orderByDistance({ latitude: searchLat, longitude: searchLng }, clubs)
-                    .filter(club => geolib.convertUnit(useImperialSystem ? "mi" : "km", club.distance, 2) < searchRadius)
-                    .map(({ key }) => clubs[key]);
+                    .orderByDistance(center, filteredPoints)
+                    .map(({ key }) => filteredPoints[key]); // Needed because Geolib returns a differently-shaped object
             }
         }
         else {

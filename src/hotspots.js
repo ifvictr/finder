@@ -1,10 +1,7 @@
-const geolib = require("geolib");
+const { isPointInCircle } = require("geolib");
+const { MILE_TO_METER } = require("./utils");
 
-const isWithinRadius = (a, b, radius) => {
-    const distance = geolib.getDistance(a, b);
-    const miles = geolib.convertUnit("mi", distance, 2);
-    return miles < radius;
-};
+const fromMiles = miles => miles * MILE_TO_METER;
 
 module.exports = [
     {
@@ -17,7 +14,7 @@ module.exports = [
     },
     {
         name: "Chicago",
-        filter: club => isWithinRadius({ latitude: 41.969649, longitude: -87.720643 }, club, 42)
+        filter: club => isPointInCircle(club, { latitude: 41.969649, longitude: -87.720643 }, fromMiles(42))
     },
     {
         name: "China",
@@ -37,11 +34,11 @@ module.exports = [
     },
     {
         name: "Philadelphia",
-        filter: club => isWithinRadius({ latitude: 40.002676, longitude: -75.258116 }, club, 50)
+        filter: club => isPointInCircle(club, { latitude: 40.002676, longitude: -75.258116 }, fromMiles(50))
     },
     {
         name: "the Bay Area",
-        filter: club => isWithinRadius({ latitude: 37.641045, longitude: -122.228916 }, club, 39),
+        filter: club => isPointInCircle(club, { latitude: 37.641045, longitude: -122.228916 }, fromMiles(39)),
         slug: "bay-area"
     },
     {
