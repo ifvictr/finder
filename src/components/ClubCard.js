@@ -126,10 +126,11 @@ class ClubCard extends Component {
     render() {
         const { data, distance, useImperialSystem } = this.props;
         const { ready } = this.state;
+        const isDistanceSet = distance !== undefined;
         return (
             <Base>
                 <Inner>
-                    {distance && <DistanceLabel distance={distance} imperial={useImperialSystem} />}
+                    {isDistanceSet && <DistanceLabel distance={distance} imperial={useImperialSystem} />}
                     <Box style={{ borderRadius: "4px 4px 0 0", overflow: "hidden" }}>
                         <Photo image={`/school/${data.id}.jpg`} ready={ready} />
                     </Box>
