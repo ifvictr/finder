@@ -153,7 +153,7 @@ class ClubCard extends Component {
 ClubCard.propTypes = {
     data: PropTypes.object.isRequired,
     distance: PropTypes.number,
-    useImperialSystem: PropTypes.bool.isRequired
+    useImperialSystem: PropTypes.bool
 };
 
 export default ClubCard;

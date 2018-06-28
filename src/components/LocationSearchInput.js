@@ -27,7 +27,7 @@ const LocationSearchInput = ({ onSearchChange, onSearchError, value, ...props })
 
 LocationSearchInput.propTypes = {
     onSearchChange: PropTypes.func.isRequired,
-    onSearchError: PropTypes.func.isRequired,
+    onSearchError: PropTypes.func,
     value: PropTypes.string.isRequired
 };
 
