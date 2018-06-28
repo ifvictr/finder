@@ -1,4 +1,7 @@
 module.exports = {
+    siteMetadata: {
+        siteUrl: "https://finder.hackclub.com"
+    },
     plugins: [
         {
             resolve: "gatsby-plugin-favicon",
@@ -27,6 +30,7 @@ module.exports = {
                 writeKey: "gsC4v5ma9Q9kISV9Iq57mFbpVetlLyLL"
             }
         },
+        "gatsby-plugin-sitemap",
         "gatsby-plugin-styled-components"
     ]
 };
