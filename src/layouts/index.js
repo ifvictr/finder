@@ -7,8 +7,7 @@ import solid from "@fortawesome/fontawesome-free-solid";
 import { Flex, ThemeProvider, colors } from "@hackclub/design-system";
 import { description, name, title, url } from "data.json";
 
-// Easier reference to Font Awesome icons from components
-fontAwesome.library.add(brands, solid);
+fontAwesome.library.add(brands, solid); // Pre-register icons for easier reference
 
 const DefaultLayout = ({ children }) => (
     <ThemeProvider webfonts>
