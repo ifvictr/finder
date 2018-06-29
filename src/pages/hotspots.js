@@ -13,7 +13,7 @@ const HotspotsPage = () => (
         <Container align="center" color="black" px={3} w={1} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
             <Heading.h1 mt={4}>Club Hotspots Around the World</Heading.h1>
             <Flex py={4} wrap>
-                {hotspots.map(hotspot => <HotspotCard data={hotspot} />)}
+                {hotspots.map(hotspot => <HotspotCard key={hotspot.name} data={hotspot} />)}
             </Flex>
         </Container>
         <Footer />
