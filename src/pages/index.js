@@ -2,6 +2,7 @@ import { debounce, sortBy } from "lodash";
 import React, { Component, Fragment } from "react";
 import LazyLoad from "react-lazyload";
 import Progress from "react-progress";
+import { navigateTo } from "gatsby-link";
 import { Box, Container, Flex, Heading, Truncate, theme } from "@hackclub/design-system";
 import ClubCard from "components/ClubCard";
 import Footer from "components/Footer";
@@ -238,7 +239,7 @@ class IndexPage extends Component {
     setParams(partialParams) {
         const params = { ...this.state.params, ...partialParams };
         this.setState({ params }, () => {
-            window.history.pushState(null, null, `?${qs.stringify(params)}`);
+            navigateTo(`/?${qs.stringify(params)}`);
         });
     }
 
