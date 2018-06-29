@@ -75,6 +75,28 @@ class IndexPage extends Component {
         });
     }
 
+    componentDidUpdate(prevProps) {
+        // Handle users navigating using back/forward button
+        if(this.props.location.search !== prevProps.location.search) {
+            const params = qs.parse(this.props.location.search);
+            const { m, q, r, v } = params;
+            // Update state and filtered clubs based on parameters
+            this.setState({
+                params,
+                // Fallback to default if a parameter no longer exists
+                searchByLocation: v === "loc" || true,
+                searchRadius: parseInt(r) || 50,
+                searchValue: q || "",
+                useImperialSystem: m === "i" || true
+            }, async () => {
+                if(this.state.searchByLocation) {
+                    await this.setPosition(this.state.searchValue);
+                }
+                this.setState({ filteredClubs: this.getFilteredClubs() });
+            });
+        }
+    }
+
     render() {
         const {
             filteredClubs,
