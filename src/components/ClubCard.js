@@ -88,8 +88,8 @@ const Photo = Box.extend.attrs({
     ${props => props.ready && css`
         ${Inner}:hover & {
             transform: scale(1.08);
-        }`
-    }
+        }
+    `}
 `;
 
 const Actions = Flex.extend.attrs({

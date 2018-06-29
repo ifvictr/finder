@@ -11,7 +11,7 @@ const Flag = A.extend.attrs({
     height: 3rem;
     width: 8rem;
     z-index: 0;
-    ${props => props.theme.mediaQueries.md} {
+    ${({ theme }) => theme.mediaQueries.md} {
         height: 4rem;
         width: 10rem;
     }
