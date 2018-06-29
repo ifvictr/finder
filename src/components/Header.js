@@ -45,7 +45,7 @@ const Header = ({ color = "muted", ...props }) => (
     <Base roler="banner" {...props}>
         <Flag />
         <NavBar role="navigation" ml={-2} py={[1, 0]} color={color} align="center">
-            <GatsbyItem to="/map" children="Map" />
+            {/*<GatsbyItem to="/map" children="Map" />*/}
             <GatsbyItem to="/hotspots" children="Hotspots" />
             <Item href="https://github.com/hackclub/finder" target="_blank" color="slate" children="Contribute on GitHub" />
         </NavBar>
