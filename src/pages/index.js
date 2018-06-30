@@ -84,10 +84,10 @@ class IndexPage extends Component {
             this.setState({
                 params,
                 // Fallback to default if a parameter no longer exists
-                searchByLocation: v === "loc" || true,
-                searchRadius: parseInt(r) || 50,
+                searchByLocation: v ? v === "loc" : true,
+                searchRadius: r ? parseInt(r) : 50,
                 searchValue: q || "",
-                useImperialSystem: m === "i" || true
+                useImperialSystem: m ? m === "i" : true
             }, async () => {
                 if(this.state.searchByLocation) {
                     await this.setPosition(this.state.searchValue);
