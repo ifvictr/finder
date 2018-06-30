@@ -61,13 +61,13 @@ class IndexPage extends Component {
         this.setState({ clubs: sortBy(data, ["name"]) }, () => {
             this.fuse = new Fuse(this.state.clubs, {
                 distance: 100,
-                location: 0,
-                maxPatternLength: 32,
-                minMatchCharLength: 3,
                 keys: [
                     "name",
                     "address"
                 ],
+                location: 0,
+                maxPatternLength: 32,
+                minMatchCharLength: 3,
                 shouldSort: true,
                 threshold: 0.3,
             });
