@@ -3,7 +3,7 @@ import Link from "gatsby-link";
 import { Flex, Link as A } from "@hackclub/design-system";
 
 const Flag = A.extend.attrs({
-    href: "https://hackclub.com"
+    href: "/"
 })`
     background: url(/flag.svg) no-repeat;
     background-position: top center;
