@@ -14,7 +14,7 @@ const HotspotTemplate = ({ pathContext }) => (
             <Heading.h1 mt={4}>Hack Clubs in {pathContext.hotspot.name}</Heading.h1>
             <Flex justify="initial" py={4} style={{ margin: -theme.space[2] }} wrap>
                 {
-                    pathContext.filteredClubs.map(club => (
+                    pathContext.clubs.map(club => (
                         <LazyLoad key={club.id} height={0} offset={100} once overflow>
                             <ClubCard data={club} />
                         </LazyLoad>

@@ -39,6 +39,7 @@
         "gatsby-plugin-segment": "^1.0.2",
         "gatsby-plugin-sitemap": "^1.2.25",
         "gatsby-plugin-styled-components": "^2.0.9",
+        "gatsby-source-thirdparty": "^1.0.6",
         "geolib": "^2.0.24",
         "lodash": "^4.17.5",
         "prop-types": "^15.6.1",

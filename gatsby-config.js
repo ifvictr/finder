@@ -31,6 +31,13 @@ module.exports = {
             }
         },
         "gatsby-plugin-sitemap",
-        "gatsby-plugin-styled-components"
+        "gatsby-plugin-styled-components",
+        {
+            resolve: "gatsby-source-thirdparty",
+            options: {
+                url: "https://api.hackclub.com/v1/clubs",
+                name: "clubs"
+            }
+        }
     ]
 };
