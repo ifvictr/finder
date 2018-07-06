@@ -2,8 +2,8 @@ import React from "react";
 import Link from "gatsby-link";
 import { Flex, Link as A } from "@hackclub/design-system";
 
-const Flag = A.extend.attrs({
-    href: "/"
+const Flag = A.withComponent(Link).extend.attrs({
+    to: "/"
 })`
     background: url(/flag.svg) no-repeat;
     background-position: top center;
