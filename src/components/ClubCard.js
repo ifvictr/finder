@@ -135,7 +135,7 @@ class ClubCard extends Component {
                         <Photo image={`/school/${data.id}.jpg`} ready={ready} />
                     </Box>
                     <Flex flexDirection="column" justify="space-around" p={3} style={{ flex: 1 }}>
-                        <Heading.h4 style={{ textTransform: "capitalize" }}>{data.name}</Heading.h4>
+                        <Heading.h4 regular={false} bold style={{ textTransform: "capitalize" }}>{data.name}</Heading.h4>
                         <Text pt={2}>{data.address}</Text>
                     </Flex>
                     <Actions>
