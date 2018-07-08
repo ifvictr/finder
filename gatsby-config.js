@@ -23,6 +23,7 @@ module.exports = {
         },
         "gatsby-plugin-react-helmet",
         "gatsby-plugin-react-next",
+        "gatsby-plugin-remove-trailing-slashes",
         "gatsby-plugin-resolve-src",
         {
             resolve: "gatsby-plugin-segment",

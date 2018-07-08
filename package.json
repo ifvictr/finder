@@ -35,6 +35,7 @@
         "gatsby-plugin-favicon": "^2.1.1",
         "gatsby-plugin-react-helmet": "^2.0.7",
         "gatsby-plugin-react-next": "^1.0.11",
+        "gatsby-plugin-remove-trailing-slashes": "^1.0.9",
         "gatsby-plugin-resolve-src": "^1.0.0",
         "gatsby-plugin-segment": "^1.0.2",
         "gatsby-plugin-sitemap": "^1.2.25",
