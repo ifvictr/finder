@@ -10,8 +10,8 @@ const HotspotTemplate = ({ pathContext }) => (
         <Helmet title={`Clubs in ${pathContext.hotspot.name}`} />
         <Header />
         <Container align="center" color="black" px={3} w={1} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
-            <Heading.h1 mt={4}>Hack Clubs in {pathContext.hotspot.name}</Heading.h1>
-            <Flex justify="initial" py={4} style={{ margin: -theme.space[2] }} wrap>
+            <Heading.h1 f={[5, 6]} mt={4}>Hack Clubs in {pathContext.hotspot.name}</Heading.h1>
+            <Flex justify="initial" py={3} style={{ margin: -theme.space[2] }} wrap>
                 {pathContext.clubs.map(club => <ClubCard key={club.id} data={club} />)}
             </Flex>
         </Container>

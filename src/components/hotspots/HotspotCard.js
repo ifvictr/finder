@@ -20,13 +20,15 @@ const Inner = Flex.withComponent(Link).extend.attrs({
     flexDirection: "column",
     justify: "center",
     p: 3,
+    style: props => ({
+        backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.15)), url(${props.ready ? props.image : "/pattern.svg"})`
+    }),
     w: 1
 })`
     border-radius: ${({ theme }) => theme.radius};
     background-color: ${({ theme }) => theme.colors.primary};
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.15)), url(${props => props.ready ? props.image : "/pattern.svg"});
     background-size: 20rem;
-    min-height: 12rem;
+    min-height: 10rem;
     overflow: hidden;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.375);
     ${props => props.ready && css`
@@ -42,6 +44,9 @@ const Inner = Flex.withComponent(Link).extend.attrs({
     &:hover span {
         margin-left: 4px;
         opacity: 1;
+    }
+    ${({ theme }) => theme.mediaQueries.md} {
+        min-height: 12rem;
     }
 `;
 

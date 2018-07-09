@@ -11,8 +11,8 @@ const HotspotsPage = () => (
         <Helmet title="Club Hotspots" />
         <Header />
         <Container align="center" color="black" px={3} w={1} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
-            <Heading.h1 mt={4}>Club Hotspots Around the World</Heading.h1>
-            <Flex py={4} wrap>
+            <Heading.h1 f={[5, 6]} mt={4}>Club Hotspots Around the World</Heading.h1>
+            <Flex py={3} wrap>
                 {hotspots.map(hotspot => <HotspotCard key={hotspot.name} data={hotspot} />)}
             </Flex>
         </Container>

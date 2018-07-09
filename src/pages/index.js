@@ -117,7 +117,7 @@ class IndexPage extends Component {
                 <Progress color={theme.colors.primary} percent={loading ? 0 : 100} />
                 <Header />
                 <Container align="center" color="black" px={3} w={1} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
-                    <Heading.h1 mt={4}>Find Hack Clubs near you!</Heading.h1>
+                    <Heading.h1 f={[5, 6]} mt={4}>Find Hack Clubs near you!</Heading.h1>
                     {searchByLocation ? (
                         <LocationSearchInput
                             mt={4}
@@ -168,7 +168,7 @@ class IndexPage extends Component {
                             useImperialSystem={useImperialSystem}
                         />
                     </Flex>
-                    <Flex justify={hasResults ? "initial" : "center"} py={4} style={{ margin: -theme.space[2] }} wrap>
+                    <Flex justify={hasResults ? "initial" : "center"} py={3} style={{ margin: -theme.space[2] }} wrap>
                         {
                             filteredClubs.map(club => (
                                 <LazyLoad key={club.id} height={0} offset={100} once overflow>
