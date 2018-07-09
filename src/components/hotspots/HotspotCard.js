@@ -51,10 +51,7 @@ const Inner = Flex.withComponent(Link).extend.attrs({
 `;
 
 class HotspotCard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { ready: false };
-    }
+    state = { ready: false };
 
     async componentDidMount() {
         const { data } = this.props;

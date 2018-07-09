@@ -111,10 +111,7 @@ const Action = Box.withComponent(Link).extend.attrs({
 `;
 
 class ClubCard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { ready: false };
-    }
+    state = { ready: false };
 
     async componentDidMount() {
         const { status } = await axios.get(`/school/${this.props.data.id}.jpg`);

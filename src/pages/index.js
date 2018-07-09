@@ -19,27 +19,26 @@ import { getPointsInCircle, KILOMETER_TO_METER, MILE_TO_METER } from "utils";
 import { googleMapsApiKey } from "data.json";
 
 class IndexPage extends Component {
+    state = {
+        clubs: [],
+        filteredClubs: [],
+        formattedAddress: null,
+        loading: false,
+        params: qs.parse(this.props.location.search), // Attempt to use present query parameters
+        searchByLocation: true,
+        searchLat: null,
+        searchLng: null,
+        searchRadius: 50,
+        searchValue: "",
+        useImperialSystem: true
+    };
+
+    fuse = undefined;
+
     constructor(props) {
         super(props);
-        this.state = {
-            clubs: [],
-            filteredClubs: [],
-            formattedAddress: null,
-            loading: false,
-            params: qs.parse(props.location.search), // Attempt to use present query parameters
-            searchByLocation: true,
-            searchLat: null,
-            searchLng: null,
-            searchRadius: 50,
-            searchValue: "",
-            useImperialSystem: true
-        };
-        this.fuse = undefined;
-        this.onGeolocationChange = this.onGeolocationChange.bind(this);
-        this.onRadiusChange = debounce(this.onRadiusChange.bind(this), 1250);
-        this.onSearchChange = debounce(this.onSearchChange.bind(this), 1250);
-        this.onSystemChange = this.onSystemChange.bind(this);
-        this.onViewChange = this.onViewChange.bind(this);
+        this.onRadiusChange = debounce(this.onRadiusChange, 1250);
+        this.onSearchChange = debounce(this.onSearchChange, 1250);
     }
 
     async componentDidMount() {
@@ -188,7 +187,7 @@ class IndexPage extends Component {
         );
     }
 
-    onGeolocationChange() {
+    onGeolocationChange = () => {
         const { geolocation } = window.navigator;
         if(!geolocation) {
             alert("Geolocation is not enabled or not supported on your device.");
@@ -211,14 +210,14 @@ class IndexPage extends Component {
         });
     }
 
-    onRadiusChange(value) {
+    onRadiusChange = value => {
         this.setState({ searchRadius: parseInt(value) }, () => {
             this.setParams({ r: this.state.searchRadius });
             this.setState({ filteredClubs: this.getFilteredClubs() });
         });
     }
 
-    async onSearchChange() {
+    onSearchChange = async () => {
         const { searchByLocation, searchValue } = this.state;
         const hasSearchValue = searchValue.trim().length > 0;
         // Preserve results from previous search if current search value is empty
@@ -240,7 +239,7 @@ class IndexPage extends Component {
         this.setState({ filteredClubs: this.getFilteredClubs(), loading: false });
     }
 
-    onSystemChange() {
+    onSystemChange = () => {
         // Only accessible when searching by location
         this.setState((state, props) => ({ useImperialSystem: !state.useImperialSystem }), () => {
             this.setState({ filteredClubs: this.getFilteredClubs() });
@@ -248,7 +247,7 @@ class IndexPage extends Component {
         });
     }
 
-    onViewChange() {
+    onViewChange = () => {
         this.setState((state, props) => ({ searchByLocation: !state.searchByLocation }), async () => {
             if(this.state.searchByLocation) {
                 await this.setPosition(this.state.searchValue);
