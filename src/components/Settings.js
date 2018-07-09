@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
 import FA from "@fortawesome/react-fontawesome";
 import { Box, Button/*, Slider*/ } from "@hackclub/design-system";
+import PropTypes from "prop-types";
+import React from "react";
 import Slider from "components/Slider";
 
 const Settings = ({

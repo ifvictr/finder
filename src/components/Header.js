@@ -1,6 +1,6 @@
-import React from "react";
-import Link from "gatsby-link";
 import { Flex, Link as A } from "@hackclub/design-system";
+import Link from "gatsby-link";
+import React from "react";
 
 const Flag = A.withComponent(Link).extend.attrs({
     to: "/"

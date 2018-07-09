@@ -1,9 +1,13 @@
+import { Box, Container, Flex, Heading, Truncate, theme } from "@hackclub/design-system";
+import axios from "axios";
+import Fuse from "fuse.js";
+import { navigateTo } from "gatsby-link";
+import geolib from "geolib";
 import { debounce, sortBy } from "lodash";
+import qs from "query-string";
 import React, { Component, Fragment } from "react";
 import LazyLoad from "react-lazyload";
 import Progress from "react-progress";
-import { navigateTo } from "gatsby-link";
-import { Box, Container, Flex, Heading, Truncate, theme } from "@hackclub/design-system";
 import ClubCard from "components/ClubCard";
 import Footer from "components/Footer";
 import Header from "components/Header";
@@ -11,10 +15,6 @@ import LocationSearchInput from "components/LocationSearchInput";
 import NoClubsFound from "components/NoClubsFound";
 import SearchInput from "components/SearchInput";
 import Settings from "components/Settings";
-import axios from "axios";
-import geolib from "geolib";
-import Fuse from "fuse.js";
-import qs from "query-string";
 import { getPointsInCircle, KILOMETER_TO_METER, MILE_TO_METER } from "utils";
 import { googleMapsApiKey } from "data.json";
 

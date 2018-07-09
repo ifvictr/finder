@@ -1,10 +1,10 @@
-import React from "react";
-import Helmet from "react-helmet";
-import PropTypes from "prop-types";
 import fontAwesome from "@fortawesome/fontawesome";
 import brands from "@fortawesome/fontawesome-free-brands";
 import solid from "@fortawesome/fontawesome-free-solid";
 import { Flex, ThemeProvider, colors } from "@hackclub/design-system";
+import PropTypes from "prop-types";
+import React from "react";
+import Helmet from "react-helmet";
 import { description, name, title, url } from "data.json";
 
 fontAwesome.library.add(brands, solid); // Pre-register icons for easier reference

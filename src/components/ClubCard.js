@@ -1,10 +1,10 @@
-import React, { Component } from "react";
 import FA from "@fortawesome/react-fontawesome";
-import PropTypes from "prop-types";
-import { css } from "styled-components";
 import { Box, Card, Flex, Heading, Link, Text } from "@hackclub/design-system";
 import axios from "axios";
 import geolib from "geolib";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { css } from "styled-components";
 
 const Base = Flex.extend`
     padding: ${({ theme }) => theme.space[2]}px;

@@ -1,7 +1,7 @@
+import { theme } from "@hackclub/design-system";
 import React from "react";
 import styled from "styled-components";
 import { color, space, width, propTypes } from "styled-system";
-import { theme } from "@hackclub/design-system";
 
 const Slider = styled.input.attrs({ type: "range" })`
     appearance: none;

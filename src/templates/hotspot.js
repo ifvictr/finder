@@ -1,6 +1,6 @@
+import { Container, Flex, Heading, theme } from "@hackclub/design-system";
 import React, { Fragment } from "react";
 import Helmet from "react-helmet";
-import { Container, Flex, Heading, theme } from "@hackclub/design-system";
 import ClubCard from "components/ClubCard";
 import Footer from "components/Footer";
 import Header from "components/Header";

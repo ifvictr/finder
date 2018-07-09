@@ -1,6 +1,6 @@
-import React from "react";
 import FA from "@fortawesome/react-fontawesome";
 import { Flex, Link, Text, colors } from "@hackclub/design-system";
+import React from "react";
 
 const Base = Flex.withComponent("footer").extend.attrs({
     bg: "snow",

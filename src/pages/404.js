@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
-import Helmet from "react-helmet";
 import FA from "@fortawesome/react-fontawesome";
 import { Container, Heading, LargeButton, Text } from "@hackclub/design-system";
+import React, { Fragment } from "react";
+import Helmet from "react-helmet";
 import Footer from "components/Footer";
 import Header from "components/Header";
 

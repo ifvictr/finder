@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { kebabCase } from "lodash";
-import Link from "gatsby-link";
-import { css } from "styled-components";
 import { Flex, Heading } from "@hackclub/design-system";
 import axios from "axios";
+import Link from "gatsby-link";
+import { kebabCase } from "lodash";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { css } from "styled-components";
 
 const Base = Flex.extend`
     padding: ${({ theme }) => theme.space[2]}px;

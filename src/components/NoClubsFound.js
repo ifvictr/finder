@@ -1,5 +1,5 @@
-import React from "react";
 import { Button, Card, Container, Heading } from "@hackclub/design-system";
+import React from "react";
 
 const Base = Card.withComponent(Container);
 

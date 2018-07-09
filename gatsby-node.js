@@ -1,6 +1,6 @@
-const path = require("path");
-const { kebabCase } = require("lodash");
 const axios = require("axios");
+const { kebabCase } = require("lodash");
+const path = require("path");
 const hotspots = require("./src/hotspots");
 
 exports.createPages = async ({ boundActionCreators, graphql }) => {
