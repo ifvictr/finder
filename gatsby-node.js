@@ -1,4 +1,3 @@
-const axios = require("axios");
 const { kebabCase } = require("lodash");
 const path = require("path");
 const hotspots = require("./src/hotspots");
