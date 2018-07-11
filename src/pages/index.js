@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Heading, Truncate, theme } from "@hackclub/design-system";
+import { Container, Flex, Heading, theme } from "@hackclub/design-system";
 import axios from "axios";
 import Fuse from "fuse.js";
 import { navigateTo } from "gatsby-link";
