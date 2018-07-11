@@ -13,6 +13,7 @@ import Footer from "components/Footer";
 import Header from "components/Header";
 import LocationSearchInput from "components/LocationSearchInput";
 import NoClubsFound from "components/NoClubsFound";
+import SearchInfo from "components/SearchInfo";
 import SearchInput from "components/SearchInput";
 import Settings from "components/Settings";
 import { getPointsInCircle, KILOMETER_TO_METER, MILE_TO_METER } from "utils";
@@ -110,7 +111,6 @@ class IndexPage extends Component {
         } = this.state;
         const hasSearchValue = searchValue.trim().length > 0;
         const hasResults = filteredClubs.length > 0;
-        const hasOneResult = filteredClubs.length === 1;
         return (
             <Fragment>
                 <Progress color={theme.colors.primary} percent={loading ? 0 : 100} />
@@ -147,12 +147,15 @@ class IndexPage extends Component {
                         />
                     )}
                     <Flex justify="space-between" mt={4}>
-                        <Box style={{ maxWidth: "50%" }}>
-                            <Truncate align="left" color="muted" f={3} title={formattedAddress}>
-                                {filteredClubs.length} club{hasOneResult ? "" : "s"}{" "}
-                                {searchByLocation ? `found within ${searchRadius} ${useImperialSystem ? "mile" : "kilometer"}${searchRadius === 1 ? "" : "s"} from ${formattedAddress || `“${searchValue}”`}` : `match${hasOneResult ? "es" : ""} “${searchValue}”`}
-                            </Truncate>
-                        </Box>
+                        <SearchInfo
+                            formattedAddress={formattedAddress}
+                            resultCount={filteredClubs.length}
+                            searchByLocation={searchByLocation}
+                            searchRadius={searchRadius}
+                            searchValue={searchValue}
+                            useImperialSystem={useImperialSystem}
+                            style={{ maxWidth: "50%" }}
+                        />
                         <Settings
                             onGeolocationChange={this.onGeolocationChange}
                             onRadiusChange={e => {
