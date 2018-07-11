@@ -12,7 +12,7 @@ const LocationSearchInput = ({ onSearchChange, onSearchError, value, ...props })
     >
         {({ getInputProps, getSuggestionItemProps, suggestions }) => (
             <DropdownContainer>
-                <SearchInput {...getInputProps()} {...props} />
+                <SearchInput {...getInputProps({ type: "search", ...props })} />
                 {suggestions.length > 0 && (
                     <DropdownMenu w={1}>
                         {suggestions.map(suggestion => (
