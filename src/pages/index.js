@@ -157,7 +157,7 @@ class IndexPage extends Component {
                             onGeolocationChange={this.onGeolocationChange}
                             onRadiusChange={e => {
                                 const { value } = e.target;
-                                this.setState({ searchRadius: value });
+                                this.setState({ searchRadius: parseInt(value) });
                                 this.onRadiusChange(value);
                             }}
                             onSystemChange={this.onSystemChange}
