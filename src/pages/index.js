@@ -9,8 +9,6 @@ import React, { Component, Fragment } from "react";
 import LazyLoad from "react-lazyload";
 import Progress from "react-progress";
 import ClubCard from "components/ClubCard";
-import Footer from "components/Footer";
-import Header from "components/Header";
 import LocationSearchInput from "components/LocationSearchInput";
 import NoClubsFound from "components/NoClubsFound";
 import SearchInfo from "components/SearchInfo";
@@ -114,7 +112,6 @@ class IndexPage extends Component {
         return (
             <Fragment>
                 <Progress color={theme.colors.primary} percent={loading ? 0 : 100} />
-                <Header />
                 <Container align="center" color="black" px={3} w={1} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
                     <Heading.h1 f={[5, 6]} mt={4}>Find Hack Clubs near you!</Heading.h1>
                     {searchByLocation ? (
@@ -185,7 +182,6 @@ class IndexPage extends Component {
                         {hasSearchValue && !hasResults && searchByLocation && <NoClubsFound />}
                     </Flex>
                 </Container>
-                <Footer />
             </Fragment>
         );
     }

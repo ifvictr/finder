@@ -5,6 +5,8 @@ import { Flex, ThemeProvider, colors } from "@hackclub/design-system";
 import PropTypes from "prop-types";
 import React from "react";
 import Helmet from "react-helmet";
+import Footer from "components/Footer";
+import Header from "components/Header";
 import { description, name, title, url } from "data.json";
 
 fontAwesome.library.add(brands, solid); // Pre-register icons for easier reference
@@ -36,7 +38,9 @@ const DefaultLayout = ({ children }) => (
             ]}
         />
         <Flex flexDirection="column" style={{ minHeight: "100vh" }}>
+            <Header />
             {children()}
+            <Footer />
         </Flex>
     </ThemeProvider>
 );
