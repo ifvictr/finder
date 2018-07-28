@@ -26,7 +26,10 @@ module.exports = [
     },
     {
         name: "Los Angeles",
-        filter: club => club.parsed_city === "Los Angeles",
+        filter: club => (
+            club.parsed_city === "Los Angeles"
+            || isPointInCircle(club, { latitude: 34.075365, longitude: -118.390819 }, fromMiles(20))
+        )
     },
     {
         name: "New York",
