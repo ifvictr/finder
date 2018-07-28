@@ -42,7 +42,7 @@ const Item = A.extend.attrs({
 const GatsbyItem = Item.withComponent(Link);
 
 const Header = ({ color = "muted", ...props }) => (
-    <Base roler="banner" {...props}>
+    <Base role="banner" {...props}>
         <Flag />
         <NavBar role="navigation" ml={-2} py={[1, 0]} color={color} align="center">
             {/*<GatsbyItem to="/map" children="Map" />*/}
