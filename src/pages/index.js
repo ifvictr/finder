@@ -166,7 +166,7 @@ class IndexPage extends Component {
                         useImperialSystem={useImperialSystem}
                     />
                 </Flex>
-                <Flex justify={hasResults ? "initial" : "center"} pt={3} style={{ margin: -theme.space[2], marginTop: theme.space[2] }} wrap>
+                <Flex justify={hasResults ? "initial" : "center"} style={{ margin: -theme.space[2], marginTop: theme.space[2] }} wrap>
                     {
                         filteredClubs.map(club => (
                             <LazyLoad key={club.id} height={0} offset={100} once overflow>
