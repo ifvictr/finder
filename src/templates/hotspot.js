@@ -28,7 +28,7 @@ const HotspotTemplate = ({ pathContext }) => {
                 ]}
             />
             <Heading.h1 f={[5, 6]} mt={4}>{title}</Heading.h1>
-            <Flex justify="initial" style={{ margin: -theme.space[2] }} wrap>
+            <Flex style={{ margin: -theme.space[2] }} wrap>
                 {pathContext.clubs.map(club => <ClubCard key={club.id} data={club} />)}
             </Flex>
         </Fragment>
