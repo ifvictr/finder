@@ -6,7 +6,7 @@ import Helmet from "react-helmet";
 const ErrorPage = () => (
     <Fragment>
         <Helmet title="404" />
-        <Container align="center" maxWidth={48} px={2} py={6} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
+        <Container maxWidth={48}>
             <Heading.h1 color="primary" f={[5, 6]}>
                 404!
             </Heading.h1>

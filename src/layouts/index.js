@@ -1,7 +1,7 @@
 import fontAwesome from "@fortawesome/fontawesome";
 import brands from "@fortawesome/fontawesome-free-brands";
 import solid from "@fortawesome/fontawesome-free-solid";
-import { Flex, ThemeProvider, colors } from "@hackclub/design-system";
+import { Container, Flex, ThemeProvider, colors } from "@hackclub/design-system";
 import PropTypes from "prop-types";
 import React from "react";
 import Helmet from "react-helmet";
@@ -39,7 +39,16 @@ const DefaultLayout = ({ children }) => (
         />
         <Flex flexDirection="column" style={{ minHeight: "100vh" }}>
             <Header />
-            {children()}
+            <Container
+                align="center"
+                color="black"
+                pb={3}
+                px={3}
+                w={1}
+                style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}
+            >
+                {children()}
+            </Container>
             <Footer />
         </Flex>
     </ThemeProvider>

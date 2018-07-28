@@ -1,4 +1,4 @@
-import { Container, Flex, Heading, theme } from "@hackclub/design-system";
+import { Flex, Heading, theme } from "@hackclub/design-system";
 import axios from "axios";
 import Fuse from "fuse.js";
 import { navigateTo } from "gatsby-link";
@@ -112,76 +112,74 @@ class IndexPage extends Component {
         return (
             <Fragment>
                 <Progress color={theme.colors.primary} percent={loading ? 0 : 100} />
-                <Container align="center" color="black" px={3} w={1} style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}>
-                    <Heading.h1 f={[5, 6]} mt={4}>Find Hack Clubs near you!</Heading.h1>
-                    {searchByLocation ? (
-                        <LocationSearchInput
-                            mt={4}
-                            mx="auto"
-                            value={searchValue}
-                            onSearchChange={value => {
-                                this.setState({ searchValue: value });
-                                this.onSearchChange();
-                            }}
-                            onSearchError={(status, clearSuggestions) => {
-                                if(status === "ZERO_RESULTS") {
-                                    // TODO: Show "No results found." in the dropdown menu instead of hiding
-                                }
-                                clearSuggestions();
-                            }}
-                            autoFocus
-                        />
-                    ) : (
-                        <SearchInput
-                            mt={4}
-                            mx="auto"
-                            value={searchValue}
-                            onSearchChange={e => {
-                                this.setState({ searchValue: e.target.value });
-                                this.onSearchChange();
-                            }}
-                            autoFocus
-                        />
-                    )}
-                    <Flex justify="space-between" mt={4}>
-                        <SearchInfo
-                            formattedAddress={formattedAddress}
-                            resultCount={filteredClubs.length}
-                            searchByLocation={searchByLocation}
-                            searchRadius={searchRadius}
-                            searchValue={searchValue}
-                            useImperialSystem={useImperialSystem}
-                            style={{ maxWidth: "50%" }}
-                        />
-                        <Settings
-                            onGeolocationChange={this.onGeolocationChange}
-                            onRadiusChange={e => {
-                                const { value } = e.target;
-                                this.setState({ searchRadius: parseInt(value) });
-                                this.onRadiusChange(value);
-                            }}
-                            onSystemChange={this.onSystemChange}
-                            onViewChange={this.onViewChange}
-                            searchByLocation={searchByLocation}
-                            searchRadius={parseInt(searchRadius)}
-                            useImperialSystem={useImperialSystem}
-                        />
-                    </Flex>
-                    <Flex justify={hasResults ? "initial" : "center"} py={3} style={{ margin: -theme.space[2] }} wrap>
-                        {
-                            filteredClubs.map(club => (
-                                <LazyLoad key={club.id} height={0} offset={100} once overflow>
-                                    <ClubCard
-                                        data={club}
-                                        distance={(searchByLocation && searchLat && searchLng) ? geolib.getDistance({ latitude: searchLat, longitude: searchLng }, club) : undefined}
-                                        useImperialSystem={useImperialSystem}
-                                    />
-                                </LazyLoad>
-                            ))
-                        }
-                        {hasSearchValue && !hasResults && searchByLocation && <NoClubsFound />}
-                    </Flex>
-                </Container>
+                <Heading.h1 f={[5, 6]} mt={4}>Find Hack Clubs near you!</Heading.h1>
+                {searchByLocation ? (
+                    <LocationSearchInput
+                        mt={4}
+                        mx="auto"
+                        value={searchValue}
+                        onSearchChange={value => {
+                            this.setState({ searchValue: value });
+                            this.onSearchChange();
+                        }}
+                        onSearchError={(status, clearSuggestions) => {
+                            if(status === "ZERO_RESULTS") {
+                                // TODO: Show "No results found." in the dropdown menu instead of hiding
+                            }
+                            clearSuggestions();
+                        }}
+                        autoFocus
+                    />
+                ) : (
+                    <SearchInput
+                        mt={4}
+                        mx="auto"
+                        value={searchValue}
+                        onSearchChange={e => {
+                            this.setState({ searchValue: e.target.value });
+                            this.onSearchChange();
+                        }}
+                        autoFocus
+                    />
+                )}
+                <Flex justify="space-between" mt={4}>
+                    <SearchInfo
+                        formattedAddress={formattedAddress}
+                        resultCount={filteredClubs.length}
+                        searchByLocation={searchByLocation}
+                        searchRadius={searchRadius}
+                        searchValue={searchValue}
+                        useImperialSystem={useImperialSystem}
+                        style={{ maxWidth: "50%" }}
+                    />
+                    <Settings
+                        onGeolocationChange={this.onGeolocationChange}
+                        onRadiusChange={e => {
+                            const { value } = e.target;
+                            this.setState({ searchRadius: parseInt(value) });
+                            this.onRadiusChange(value);
+                        }}
+                        onSystemChange={this.onSystemChange}
+                        onViewChange={this.onViewChange}
+                        searchByLocation={searchByLocation}
+                        searchRadius={parseInt(searchRadius)}
+                        useImperialSystem={useImperialSystem}
+                    />
+                </Flex>
+                <Flex justify={hasResults ? "initial" : "center"} pt={3} style={{ margin: -theme.space[2] }} wrap>
+                    {
+                        filteredClubs.map(club => (
+                            <LazyLoad key={club.id} height={0} offset={100} once overflow>
+                                <ClubCard
+                                    data={club}
+                                    distance={(searchByLocation && searchLat && searchLng) ? geolib.getDistance({ latitude: searchLat, longitude: searchLng }, club) : undefined}
+                                    useImperialSystem={useImperialSystem}
+                                />
+                            </LazyLoad>
+                        ))
+                    }
+                    {hasSearchValue && !hasResults && searchByLocation && <NoClubsFound />}
+                </Flex>
             </Fragment>
         );
     }
