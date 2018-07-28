@@ -36,7 +36,9 @@ const DefaultLayout = ({ children }) => (
                 { property: "og:type", content: "website" },
                 { property: "og:url", content: url },
             ]}
-        />
+        >
+            <style children="body{width:100%}" />
+        </Helmet>
         <Flex flexDirection="column" style={{ minHeight: "100vh" }}>
             <Header />
             <Container
