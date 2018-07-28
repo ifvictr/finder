@@ -44,7 +44,7 @@ const DefaultLayout = ({ children }) => (
             <Container
                 align="center"
                 color="black"
-                pb={3}
+                pb={4}
                 px={3}
                 w={1}
                 style={{ display: "flex", flex: 1, flexDirection: "column", justifyContent: "center" }}
