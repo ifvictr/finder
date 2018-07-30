@@ -54,7 +54,7 @@ const DistanceLabel = Text.span.extend.attrs({
 
 const Photo = Box.extend.attrs({
     style: props => ({
-        backgroundImage: `url(${props.image})`
+        backgroundImage: `url(${props.src})`
     })
 })`
     background-position: center;
@@ -129,7 +129,7 @@ class ClubCard extends Component {
                 <Inner>
                     {isDistanceSet && <DistanceLabel distance={distance} imperial={useImperialSystem} />}
                     <Box style={{ borderRadius: "4px 4px 0 0", overflow: "hidden" }}>
-                        <Photo image={`/school/${data.id}.jpg`} ready={ready} />
+                        <Photo src={`/school/${data.id}.jpg`} ready={ready} />
                     </Box>
                     <Flex flexDirection="column" justify="space-around" p={3} style={{ flex: 1 }}>
                         <Heading.h4 regular={false} bold style={{ textTransform: "capitalize" }}>{data.name}</Heading.h4>

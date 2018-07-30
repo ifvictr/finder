@@ -21,7 +21,7 @@ const Inner = Flex.withComponent(Link).extend.attrs({
     justify: "center",
     p: 3,
     style: props => ({
-        backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.15)), url(${props.ready ? props.image : "/pattern.svg"})`
+        backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.15)), url(${props.ready ? props.src : "/pattern.svg"})`
     }),
     w: 1
 })`
@@ -68,7 +68,7 @@ class HotspotCard extends Component {
         const slug = data.slug || kebabCase(data.name);
         return (
             <Base>
-                <Inner to={`/hotspots/${slug}`} image={`/hotspot/${slug}.jpg`} ready={ready}>
+                <Inner to={`/hotspots/${slug}`} src={`/hotspot/${slug}.jpg`} ready={ready}>
                     <Heading.h2 ml={3} style={{ textTransform: "capitalize" }}>{data.name} <span>»</span></Heading.h2>
                 </Inner>
             </Base>
