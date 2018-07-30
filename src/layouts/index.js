@@ -5,11 +5,18 @@ import { Container, Flex, ThemeProvider, colors } from "@hackclub/design-system"
 import PropTypes from "prop-types";
 import React from "react";
 import Helmet from "react-helmet";
+import { injectGlobal } from "styled-components";
 import Footer from "components/Footer";
 import Header from "components/Header";
 import { description, name, title, url } from "data.json";
 
 fontAwesome.library.add(brands, solid); // Pre-register icons for easier reference
+
+injectGlobal`
+    body {
+        width: 100%;
+    }
+`;
 
 const DefaultLayout = ({ children }) => (
     <ThemeProvider webfonts>
@@ -36,9 +43,7 @@ const DefaultLayout = ({ children }) => (
                 { property: "og:type", content: "website" },
                 { property: "og:url", content: url },
             ]}
-        >
-            <style children="body{width:100%}" />
-        </Helmet>
+        />
         <Flex flexDirection="column" style={{ minHeight: "100vh" }}>
             <Header />
             <Container
