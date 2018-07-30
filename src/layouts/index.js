@@ -12,6 +12,7 @@ import { description, name, title, url } from "data.json";
 
 fontAwesome.library.add(brands, solid); // Pre-register icons for easier reference
 
+// Fix body width if scrollbar is present
 injectGlobal`
     body {
         width: 100%;
