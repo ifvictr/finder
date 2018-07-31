@@ -191,7 +191,7 @@ class Index extends Component {
             const { results } = response.data;
             const result = this.getClosestResult(results);
             this.setState({ searchValue: result.formatted_address }); // Don't set new coordinates because filtered clubs will use it for calculating distances
-            await this.onSearchChange(); // TODO: Calling this results in a debounce delay and an extra request to Google
+            await this.onSearchChange(); // TODO: Remove debounce delay and extra request to Google
         });
     }
 
