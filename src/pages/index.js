@@ -164,6 +164,7 @@ class IndexPage extends Component {
                         searchByLocation={searchByLocation}
                         searchRadius={parseInt(searchRadius)}
                         useImperialSystem={useImperialSystem}
+                        w={1 / 2}
                         style={{ overflowX: "scroll", whiteSpace: "nowrap" }}
                     />
                 </Flex>
