@@ -1,5 +1,4 @@
 import { theme } from "@hackclub/design-system";
-import React from "react";
 import styled, { css } from "styled-components";
 import { color, space, width, propTypes } from "styled-system";
 

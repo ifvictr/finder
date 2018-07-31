@@ -1,5 +1,4 @@
 import { Box, Card, Flex } from "@hackclub/design-system";
-import React from "react";
 import { css, keyframes } from "styled-components";
 
 const zoom = keyframes`
