@@ -9,10 +9,9 @@ import React, { Component, Fragment } from "react";
 import LazyLoad from "react-lazyload";
 import Progress from "react-progress";
 import ClubCard from "components/ClubCard";
-import LocationSearchInput from "components/LocationSearchInput";
 import NoClubsFound from "components/NoClubsFound";
 import SearchInfo from "components/SearchInfo";
-import SearchInput from "components/SearchInput";
+import { LocationSearchInput, SearchInput } from "components/SearchInput";
 import Settings from "components/Settings";
 import { getPointsInCircle, KILOMETER_TO_METER, MILE_TO_METER } from "utils";
 import { googleMapsApiKey } from "data.json";
@@ -117,41 +116,29 @@ class Index extends Component {
             searchValue,
             useImperialSystem
         } = this.state;
+        const CurrentSearchInput = searchByLocation ? LocationSearchInput : SearchInput;
         const hasSearchValue = searchValue.trim().length > 0;
         const hasResults = filteredClubs.length > 0;
         return (
             <Fragment>
                 <Progress color={theme.colors.primary} percent={loading ? 0 : 100} />
                 <Heading.h1 f={[5, 6]} mt={4}>Find Hack Clubs near you!</Heading.h1>
-                {searchByLocation ? (
-                    <LocationSearchInput
-                        mt={4}
-                        mx="auto"
-                        value={searchValue}
-                        onSearchChange={value => {
-                            this.setState({ searchValue: value });
-                            this.onSearchChange();
-                        }}
-                        onSearchError={(status, clearSuggestions) => {
-                            if(status === "ZERO_RESULTS") {
-                                // TODO: Show "No results found." in the dropdown menu instead of hiding
-                            }
-                            clearSuggestions();
-                        }}
-                        autoFocus
-                    />
-                ) : (
-                    <SearchInput
-                        mt={4}
-                        mx="auto"
-                        value={searchValue}
-                        onSearchChange={e => {
-                            this.setState({ searchValue: e.target.value });
-                            this.onSearchChange();
-                        }}
-                        autoFocus
-                    />
-                )}
+                <CurrentSearchInput
+                    mt={4}
+                    mx="auto"
+                    value={searchValue}
+                    onSearchChange={value => {
+                        this.setState({ searchValue: value });
+                        this.onSearchChange();
+                    }}
+                    onSearchError={(status, clearSuggestions) => {
+                        if(status === "ZERO_RESULTS") {
+                            // TODO: Show "No results found." in the dropdown menu instead of hiding
+                        }
+                        clearSuggestions();
+                    }}
+                    autoFocus
+                />
                 <Bar>
                     <SearchInfo
                         formattedAddress={formattedAddress}
