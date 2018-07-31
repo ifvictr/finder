@@ -3,7 +3,7 @@ import { Container, Heading, LargeButton, Text } from "@hackclub/design-system";
 import React, { Fragment } from "react";
 import Helmet from "react-helmet";
 
-const ErrorPage = () => (
+const NotFound = () => (
     <Fragment>
         <Helmet title="404" />
         <Container maxWidth={48}>
@@ -18,4 +18,4 @@ const ErrorPage = () => (
     </Fragment>
 );
 
-export default ErrorPage;
+export default NotFound;

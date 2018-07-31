@@ -27,7 +27,7 @@ const Bar = Flex.extend.attrs({
     }
 `;
 
-class IndexPage extends Component {
+class Index extends Component {
     state = {
         clubs: [],
         filteredClubs: [],
@@ -319,4 +319,4 @@ class IndexPage extends Component {
     }
 }
 
-export default IndexPage;
+export default Index;
