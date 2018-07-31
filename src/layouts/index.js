@@ -22,8 +22,8 @@ injectGlobal`
 const DefaultLayout = ({ children }) => (
     <ThemeProvider webfonts>
         <Helmet
-            defaultTitle={`${title} — Hack Club`}
-            titleTemplate={`%s — ${title} — Hack Club`}
+            defaultTitle={`${title} — Hack Club Finder`}
+            titleTemplate={`%s — Hack Club Finder`}
             meta={[
                 { charSet: "utf-8" },
                 { name: "description", content: description },
