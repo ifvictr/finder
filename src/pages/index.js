@@ -160,6 +160,7 @@ class IndexPage extends Component {
                         searchRadius={searchRadius}
                         searchValue={searchValue}
                         useImperialSystem={useImperialSystem}
+                        mt={[3, 0]}
                         w={[1, null, 1 / 2]}
                     />
                     <Settings
