@@ -1,6 +1,8 @@
 import { Input } from "@hackclub/design-system";
 import PropTypes from "prop-types";
 import React from "react";
+import PlacesAutocomplete from "react-places-autocomplete";
+import { DropdownContainer, DropdownMenu, DropdownMenuOption } from "components/Dropdown";
 
 const Base = Input.extend.attrs({
     px: 4,
@@ -21,7 +23,7 @@ const SearchInput = ({ onSearchChange, value, ...props }) => (
     <Base
         placeholder="Where are you?"
         value={value}
-        onChange={onSearchChange}
+        onChange={e => onSearchChange(e.target.value)} // Keep parameter type consistent with other functions
         type="search"
         itemProp="query-input"
         itemScope
@@ -35,4 +37,32 @@ SearchInput.propTypes = {
     value: PropTypes.string.isRequired
 };
 
-export default SearchInput;
+const Inner = ({ getInputProps, getSuggestionItemProps, suggestions, ...props }) => (
+    <DropdownContainer>
+        <SearchInput {...getInputProps({ type: "search", ...props })} />
+        {suggestions.length > 0 && (
+            <DropdownMenu w={1}>
+                {suggestions.map(suggestion => (
+                    <DropdownMenuOption key={suggestion.id} active={suggestion.active} {...getSuggestionItemProps(suggestion)}>{suggestion.description}</DropdownMenuOption>
+                ))}
+            </DropdownMenu>
+        )}
+    </DropdownContainer>
+);
+
+const LocationSearchInput = ({ onSearchChange, onSearchError, value, ...props }) => (
+    <PlacesAutocomplete
+        value={value}
+        onChange={onSearchChange}
+        onError={onSearchError}
+        children={paProps => <Inner {...paProps} {...props} />}
+    />
+);
+
+LocationSearchInput.propTypes = {
+    onSearchChange: PropTypes.func.isRequired,
+    onSearchError: PropTypes.func,
+    value: PropTypes.string.isRequired
+};
+
+export default { LocationSearchInput, SearchInput };
