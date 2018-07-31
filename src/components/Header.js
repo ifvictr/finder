@@ -1,6 +1,15 @@
-import { Flex, Link as A } from "@hackclub/design-system";
+import { Box, Flex, Link as A } from "@hackclub/design-system";
 import Link from "gatsby-link";
 import React from "react";
+
+const Base = Flex.withComponent("header").extend.attrs({
+    align: "center",
+    justify: "space-between",
+    pb: 2,
+    pt: 0,
+    px: [null, 3, 4],
+    w: 1
+})``;
 
 const Flag = A.withComponent(Link).extend.attrs({
     to: "/"
@@ -17,14 +26,12 @@ const Flag = A.withComponent(Link).extend.attrs({
     }
 `;
 
-const Base = Flex.withComponent("header").extend.attrs({
-    align: "center",
-    justify: "space-between",
-    pb: 2,
-    pt: 0,
-    px: [null, 3, 4],
-    w: 1
-})``;
+const HideOnMobile = Box.extend`
+    display: none;
+    ${({ theme }) => theme.mediaQueries.sm} {
+        display: unset;
+    }
+`;
 
 const NavBar = Flex.withComponent("nav").extend`
     overflow-x: auto;
@@ -47,7 +54,9 @@ const Header = ({ color = "muted", ...props }) => (
         <NavBar role="navigation" ml={-2} py={[1, 0]} color={color} align="center">
             {/*<GatsbyItem to="/map" children="Map" />*/}
             <GatsbyItem to="/hotspots" children="Hotspots" />
-            <Item href="https://github.com/hackclub/finder" target="_blank" color="slate" children="Contribute on GitHub" />
+            <Item href="https://github.com/hackclub/finder" target="_blank" color="slate">
+                <HideOnMobile>Contribute on</HideOnMobile> GitHub
+            </Item>
         </NavBar>
     </Base>
 );
