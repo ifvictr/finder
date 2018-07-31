@@ -194,7 +194,7 @@ class Index extends Component {
             const { latitude, longitude } = pos.coords;
             const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${googleMapsApiKey}`);
             const { results } = response.data;
-            const result = results.find(result => result.types.includes("neighborhood")) || results[0]; // Attempt to narrow down user's location
+            const result = this.getClosestResult(results);
             this.setState({ searchValue: result.formatted_address }); // Don't set new coordinates because filtered clubs will use it for calculating distances
             await this.onSearchChange(); // TODO: Calling this results in a debounce delay and an extra request to Google
         });
@@ -289,7 +289,7 @@ class Index extends Component {
         try {
             const response = await axios.get(`https://maps.google.com/maps/api/geocode/json?address=${encodeURI(place)}&key=${googleMapsApiKey}`);
             const { results } = response.data;
-            const result = results.find(result => result.types.includes("neighborhood")) || results[0]; // Attempt to narrow down user's location
+            const result = this.getClosestResult(results);
             this.setState({
                 formattedAddress: result.formatted_address,
                 searchLat: result.geometry.location.lat,
@@ -303,6 +303,10 @@ class Index extends Component {
                 searchLng: null
             });
         }
+    }
+
+    getClosestResult(results) {
+        return results.find(result => result.types.includes("neighborhood")) || results[0]; // Attempt to narrow down user's location
     }
 }
 
