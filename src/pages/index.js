@@ -266,7 +266,7 @@ class Index extends Component {
         } = this.state;
         const hasSearchValue = searchValue.trim().length > 0;
         const isPositionSet = searchLat !== null && searchLng !== null;
-        let filteredClubs = [] || clubs; // We want to show every club by default, but it will causes a significant decrease in performance
+        let filteredClubs = []; // We want to show every club by default, but it'll cause a significant decrease in performance
         if(searchByLocation) {
             if(isPositionSet) {
                 const center = { latitude: searchLat, longitude: searchLng };
