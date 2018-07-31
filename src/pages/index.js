@@ -208,15 +208,8 @@ class IndexPage extends Component {
             const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${googleMapsApiKey}`);
             const { results } = response.data;
             const result = results.find(result => result.types.includes("neighborhood")) || results[0]; // Attempt to narrow down user's location
-            this.setState({
-                // Don't set new coordinates because filtered clubs will use it for calculating distances
-                // formattedAddress: result.formatted_address,
-                // searchLat: result.geometry.location.lat,
-                // searchLng: result.geometry.location.lng,
-                searchValue: result.formatted_address
-            });
-            // TODO: Calling this results in a debounce delay and an extra request to Google
-            await this.onSearchChange();
+            this.setState({ searchValue: result.formatted_address }); // Don't set new coordinates because filtered clubs will use it for calculating distances
+            await this.onSearchChange(); // TODO: Calling this results in a debounce delay and an extra request to Google
         });
     }
 
