@@ -131,12 +131,7 @@ class Index extends Component {
                         this.setState({ searchValue: value });
                         this.onSearchChange();
                     }}
-                    onSearchError={(status, clearSuggestions) => {
-                        if(status === "ZERO_RESULTS") {
-                            // TODO: Show "No results found." in the dropdown menu instead of hiding
-                        }
-                        clearSuggestions();
-                    }}
+                    onSearchError={(status, clearSuggestions) => clearSuggestions()}
                     autoFocus
                 />
                 <Bar>
