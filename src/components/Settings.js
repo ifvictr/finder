@@ -15,17 +15,16 @@ const Settings = ({
     ...props
 }) => (
     <Box {...props}>
-        {searchByLocation && (
-            <Slider
-                defaultValue={searchRadius}
-                min={1}
-                max={100}
-                onChange={onRadiusChange}
-                m={0}
-                w="auto"
-                style={{ display: "inline-block" }}
-            />
-        )}
+        <Slider
+            defaultValue={searchRadius}
+            min={1}
+            max={100}
+            onChange={onRadiusChange}
+            m={0}
+            w="auto"
+            disabled={!searchByLocation}
+            style={{ display: "inline-block" }}
+        />
         <Button.button onClick={onGeolocationChange} inverted disabled={!searchByLocation} ml={2}>
             <FA icon="crosshairs" /> Use my location
         </Button.button>
