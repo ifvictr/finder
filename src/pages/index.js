@@ -150,7 +150,7 @@ class IndexPage extends Component {
                         searchRadius={searchRadius}
                         searchValue={searchValue}
                         useImperialSystem={useImperialSystem}
-                        style={{ maxWidth: "50%" }}
+                        w={1 / 2}
                     />
                     <Settings
                         onGeolocationChange={this.onGeolocationChange}
