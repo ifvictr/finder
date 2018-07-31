@@ -17,6 +17,16 @@ import Settings from "components/Settings";
 import { getPointsInCircle, KILOMETER_TO_METER, MILE_TO_METER } from "utils";
 import { googleMapsApiKey } from "data.json";
 
+const Bar = Flex.extend.attrs({
+    justify: "space-between",
+    mt: [3, 4]
+})`
+    flex-direction: column-reverse;
+    ${({ theme }) => theme.mediaQueries.md} {
+        flex-direction: row;
+    }
+`;
+
 class IndexPage extends Component {
     state = {
         clubs: [],
@@ -142,7 +152,7 @@ class IndexPage extends Component {
                         autoFocus
                     />
                 )}
-                <Flex justify="space-between" mt={4}>
+                <Bar>
                     <SearchInfo
                         formattedAddress={formattedAddress}
                         resultCount={filteredClubs.length}
@@ -150,7 +160,7 @@ class IndexPage extends Component {
                         searchRadius={searchRadius}
                         searchValue={searchValue}
                         useImperialSystem={useImperialSystem}
-                        w={1 / 2}
+                        w={[1, null, 1 / 2]}
                     />
                     <Settings
                         onGeolocationChange={this.onGeolocationChange}
@@ -164,10 +174,10 @@ class IndexPage extends Component {
                         searchByLocation={searchByLocation}
                         searchRadius={parseInt(searchRadius)}
                         useImperialSystem={useImperialSystem}
-                        w={1 / 2}
+                        w={[1, null, 1 / 2]}
                         style={{ overflowX: "scroll", whiteSpace: "nowrap" }}
                     />
-                </Flex>
+                </Bar>
                 <Flex justify={hasResults ? "initial" : "center"} style={{ margin: -theme.space[2], marginTop: theme.space[2] }} wrap>
                     {
                         filteredClubs.map(club => (
