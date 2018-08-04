@@ -158,7 +158,6 @@ class Index extends Component {
                         searchRadius={parseInt(searchRadius)}
                         useImperialSystem={useImperialSystem}
                         w={[1, null, 1 / 2]}
-                        style={{ overflowX: "scroll", whiteSpace: "nowrap" }}
                     />
                 </Bar>
                 <Flex justify={hasResults ? "initial" : "center"} style={{ margin: -theme.space[2], marginTop: theme.space[2] }} wrap>
