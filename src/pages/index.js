@@ -172,7 +172,7 @@ class Index extends Component {
                             </LazyLoad>
                         ))
                     }
-                    {hasSearchValue && !hasResults && searchByLocation && <NoClubsFound />}
+                    {searchByLocation && hasSearchValue && !hasResults && !loading && <NoClubsFound />}
                 </Flex>
             </Fragment>
         );
