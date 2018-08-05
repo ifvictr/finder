@@ -143,6 +143,7 @@ class Index extends Component {
                         searchValue={searchValue}
                         useImperialSystem={useImperialSystem}
                         mt={[3, null, 0]}
+                        mr={[0, null, 1]}
                         w={[1, null, 1 / 2]}
                     />
                     <Settings
@@ -157,6 +158,7 @@ class Index extends Component {
                         searchByLocation={searchByLocation}
                         searchRadius={parseInt(searchRadius)}
                         useImperialSystem={useImperialSystem}
+                        ml={[0, null, 1]}
                         w={[1, null, 1 / 2]}
                     />
                 </Bar>
