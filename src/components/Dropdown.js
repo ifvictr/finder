@@ -1,5 +1,5 @@
-import { Box, Card, Flex } from "@hackclub/design-system";
-import { css, keyframes } from "styled-components";
+import { Box, Card, Flex } from '@hackclub/design-system'
+import { css, keyframes } from 'styled-components'
 
 const zoom = keyframes`
     0% {
@@ -13,7 +13,7 @@ const zoom = keyframes`
         box-shadow: ${({ theme }) => theme.boxShadows[2]};
         transform: scale(1);
     }
-`;
+`
 
 const DropdownContainer = Box.extend`
     position: relative;
@@ -22,7 +22,7 @@ const DropdownContainer = Box.extend`
     //     display: block;
     //     opacity: 1;
     // }
-`;
+`
 
 const DropdownMenu = Card.withComponent(Flex).extend`
     align-items: stretch;
@@ -38,23 +38,25 @@ const DropdownMenu = Card.withComponent(Flex).extend`
     right: 0;
     text-align: left;
     transform-origin: center top;
-    width: ${props => props.w || props.width || "256px"};
+    width: ${props => props.w || props.width || '256px'};
     z-index: 4;
     -webkit-overflow-scrolling: touch;
-`;
+`
 
 const DropdownMenuOption = Box.extend`
     cursor: pointer;
     padding: ${({ theme }) => theme.space[2]}px ${({ theme }) => theme.space[3]}px;
     width: 100%;
-    ${props => props.active && css`
-        background-color: ${({ theme }) => theme.colors.smoke};
-        font-weight: ${({ theme }) => theme.bold};
-    `}
+    ${props =>
+        props.active &&
+        css`
+            background-color: ${({ theme }) => theme.colors.smoke};
+            font-weight: ${({ theme }) => theme.bold};
+        `}
     &:hover {
         background-color: ${({ theme }) => theme.colors.blue[0]};
         transition: background-color ${({ theme }) => theme.transition};
     }
-`;
+`
 
-export default { DropdownContainer, DropdownMenu, DropdownMenuOption };
+export default { DropdownContainer, DropdownMenu, DropdownMenuOption }

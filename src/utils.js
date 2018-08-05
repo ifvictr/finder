@@ -1,6 +1,6 @@
-const { isPointInCircle } = require("geolib");
+const { isPointInCircle } = require('geolib')
 
-exports.getPointsInCircle = (points, center, radius) => points.filter(point => isPointInCircle(point, center, radius));
+exports.getPointsInCircle = (points, center, radius) => points.filter(point => isPointInCircle(point, center, radius))
 
-exports.KILOMETER_TO_METER = 1000;
-exports.MILE_TO_METER = 1609.344;
+exports.KILOMETER_TO_METER = 1000
+exports.MILE_TO_METER = 1609.344

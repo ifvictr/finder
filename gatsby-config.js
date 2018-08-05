@@ -1,12 +1,12 @@
 module.exports = {
     siteMetadata: {
-        siteUrl: "https://finder.hackclub.com"
+        siteUrl: 'https://finder.hackclub.com'
     },
     plugins: [
         {
-            resolve: "gatsby-plugin-favicon",
+            resolve: 'gatsby-plugin-favicon',
             options: {
-                logo: "./static/favicon.png",
+                logo: './static/favicon.png',
                 injectHTML: true,
                 icons: {
                     android: true,
@@ -21,24 +21,24 @@ module.exports = {
                 }
             }
         },
-        "gatsby-plugin-react-helmet",
-        "gatsby-plugin-react-next",
-        "gatsby-plugin-remove-trailing-slashes",
-        "gatsby-plugin-resolve-src",
+        'gatsby-plugin-react-helmet',
+        'gatsby-plugin-react-next',
+        'gatsby-plugin-remove-trailing-slashes',
+        'gatsby-plugin-resolve-src',
         {
-            resolve: "gatsby-plugin-segment",
+            resolve: 'gatsby-plugin-segment',
             options: {
-                writeKey: "gsC4v5ma9Q9kISV9Iq57mFbpVetlLyLL"
+                writeKey: 'gsC4v5ma9Q9kISV9Iq57mFbpVetlLyLL'
             }
         },
-        "gatsby-plugin-sitemap",
-        "gatsby-plugin-styled-components",
+        'gatsby-plugin-sitemap',
+        'gatsby-plugin-styled-components',
         {
-            resolve: "gatsby-source-thirdparty",
+            resolve: 'gatsby-source-thirdparty',
             options: {
-                url: "https://api.hackclub.com/v1/clubs",
-                name: "clubs"
+                url: 'https://api.hackclub.com/v1/clubs',
+                name: 'clubs'
             }
         }
     ]
-};
+}

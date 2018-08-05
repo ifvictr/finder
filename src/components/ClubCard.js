@@ -1,10 +1,10 @@
-import FA from "@fortawesome/react-fontawesome";
-import { Box, Card, Flex, Heading, Link, Text } from "@hackclub/design-system";
-import axios from "axios";
-import geolib from "geolib";
-import PropTypes from "prop-types";
-import React, { Component } from "react";
-import { css } from "styled-components";
+import FA from '@fortawesome/react-fontawesome'
+import { Box, Card, Flex, Heading, Link, Text } from '@hackclub/design-system'
+import axios from 'axios'
+import geolib from 'geolib'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import { css } from 'styled-components'
 
 const Base = Flex.extend`
     padding: ${({ theme }) => theme.space[2]}px;
@@ -19,12 +19,12 @@ const Base = Flex.extend`
     ${({ theme }) => theme.mediaQueries.lg} {
         width: 25%;
     }
-`;
+`
 
 const Inner = Card.withComponent(Flex).extend.attrs({
-    bg: "snow",
-    boxShadowSize: "sm",
-    flexDirection: "column"
+    bg: 'snow',
+    boxShadowSize: 'sm',
+    flexDirection: 'column'
 })`
     border-radius: ${({ theme }) => theme.radius};
     position: relative;
@@ -35,14 +35,14 @@ const Inner = Card.withComponent(Flex).extend.attrs({
         box-shadow: ${({ theme }) => theme.boxShadows[2]};
         transform: scale(1.02);
     }
-`;
+`
 
 const DistanceLabel = Text.span.extend.attrs({
     children: props => {
-        const system = props.imperial ? "mi" : "km";
-        return `${geolib.convertUnit(system, props.distance, 1)} ${system} away`;
+        const system = props.imperial ? 'mi' : 'km'
+        return `${geolib.convertUnit(system, props.distance, 1)} ${system} away`
     },
-    color: "white",
+    color: 'white',
     p: 2
 })`
     background: rgba(0, 0, 0, 0.25);
@@ -50,7 +50,7 @@ const DistanceLabel = Text.span.extend.attrs({
     position: absolute;
     text-shadow: rgba(0, 0, 0, 0.32) 0px 1px 4px;
     z-index: 1;
-`;
+`
 
 const Photo = Box.extend.attrs({
     style: props => ({
@@ -73,11 +73,11 @@ const Photo = Box.extend.attrs({
         background-position: center;
         background-repeat: no-repeat;
         background-size: contain;
-        content: "";
+        content: '';
         display: block;
         height: 100%;
         left: 0;
-        opacity: ${props => !props.ready ? 0.25 : 0};
+        opacity: ${props => (!props.ready ? 0.25 : 0)};
         position: absolute;
         right: 0;
         top: 0;
@@ -85,54 +85,58 @@ const Photo = Box.extend.attrs({
         width: 100%;
         will-change: opacity;
     }
-    ${props => props.ready && css`
-        ${Inner}:hover & {
-            transform: scale(1.08);
-        }
-    `}
-`;
+    ${props =>
+        props.ready &&
+        css`
+            ${Inner}:hover & {
+                transform: scale(1.08);
+            }
+        `}
+`
 
 const Actions = Flex.extend.attrs({
-    flexDirection: "row",
-    justify: "center",
+    flexDirection: 'row',
+    justify: 'center',
     wrap: true
-})``;
+})``
 
 const Action = Box.withComponent(Link).extend.attrs({
-    align: "center",
+    align: 'center',
     children: props => <FA icon={props.icon} />,
-    color: "primary",
+    color: 'primary',
     p: 3,
-    target: "_blank"
+    target: '_blank'
 })`
     flex-basis: 25%;
     flex-grow: 1;
-    opacity: ${props => props.available ? 1 : 0.25};
-`;
+    opacity: ${props => (props.available ? 1 : 0.25)};
+`
 
 class ClubCard extends Component {
-    state = { ready: false };
+    state = { ready: false }
 
     async componentDidMount() {
-        const { status } = await axios.get(`/school/${this.props.data.id}.jpg`);
-        if(status === 200) {
-            this.setState({ ready: true });
+        const { status } = await axios.get(`/school/${this.props.data.id}.jpg`)
+        if (status === 200) {
+            this.setState({ ready: true })
         }
     }
 
     render() {
-        const { data, distance, useImperialSystem } = this.props;
-        const { ready } = this.state;
-        const isDistanceSet = distance !== undefined;
+        const { data, distance, useImperialSystem } = this.props
+        const { ready } = this.state
+        const isDistanceSet = distance !== undefined
         return (
             <Base>
                 <Inner>
                     {isDistanceSet && <DistanceLabel distance={distance} imperial={useImperialSystem} />}
-                    <Box style={{ borderRadius: "4px 4px 0 0", overflow: "hidden" }}>
+                    <Box style={{ borderRadius: '4px 4px 0 0', overflow: 'hidden' }}>
                         <Photo src={`/school/${data.id}.jpg`} ready={ready} />
                     </Box>
                     <Flex flexDirection="column" justify="space-around" p={3} style={{ flex: 1 }}>
-                        <Heading.h4 regular={false} bold style={{ textTransform: "capitalize" }}>{data.name}</Heading.h4>
+                        <Heading.h4 regular={false} bold style={{ textTransform: 'capitalize' }}>
+                            {data.name}
+                        </Heading.h4>
                         <Text pt={2}>{data.address}</Text>
                     </Flex>
                     <Actions>
@@ -142,7 +146,7 @@ class ClubCard extends Component {
                     </Actions>
                 </Inner>
             </Base>
-        );
+        )
     }
 }
 
@@ -150,6 +154,6 @@ ClubCard.propTypes = {
     data: PropTypes.object.isRequired,
     distance: PropTypes.number,
     useImperialSystem: PropTypes.bool
-};
+}
 
-export default ClubCard;
+export default ClubCard
