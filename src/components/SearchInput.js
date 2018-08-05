@@ -1,8 +1,8 @@
-import { Input } from "@hackclub/design-system";
-import PropTypes from "prop-types";
-import React from "react";
-import PlacesAutocomplete from "react-places-autocomplete";
-import { DropdownContainer, DropdownMenu, DropdownMenuOption } from "components/Dropdown";
+import { Input } from '@hackclub/design-system'
+import PropTypes from 'prop-types'
+import React from 'react'
+import PlacesAutocomplete from 'react-places-autocomplete'
+import { DropdownContainer, DropdownMenu, DropdownMenuOption } from 'components/Dropdown'
 
 const Base = Input.extend.attrs({
     px: 4,
@@ -17,7 +17,7 @@ const Base = Input.extend.attrs({
     &:focus {
         box-shadow: ${({ theme }) => theme.boxShadows[1]};
     }
-`;
+`
 
 const SearchInput = ({ onSearchChange, value, ...props }) => (
     <Base
@@ -30,39 +30,55 @@ const SearchInput = ({ onSearchChange, value, ...props }) => (
         itemType="https://schema.org/SearchAction"
         {...props}
     />
-);
+)
 
 SearchInput.propTypes = {
     onSearchChange: PropTypes.func,
     value: PropTypes.string.isRequired
-};
+}
 
-const Inner = ({ getInputProps, getSuggestionItemProps, suggestions, ...props }) => (
+const Inner = ({
+    getInputProps,
+    getSuggestionItemProps,
+    suggestions,
+    ...props
+}) => (
     <DropdownContainer>
-        <SearchInput {...getInputProps({ type: "search", ...props })} />
+        <SearchInput {...getInputProps({ type: 'search', ...props })} />
         {suggestions.length > 0 && (
             <DropdownMenu w={1}>
                 {suggestions.map(suggestion => (
-                    <DropdownMenuOption key={suggestion.id} active={suggestion.active} {...getSuggestionItemProps(suggestion)}>{suggestion.description}</DropdownMenuOption>
+                    <DropdownMenuOption
+                        key={suggestion.id}
+                        active={suggestion.active}
+                        {...getSuggestionItemProps(suggestion)}
+                    >
+                        {suggestion.description}
+                    </DropdownMenuOption>
                 ))}
             </DropdownMenu>
         )}
     </DropdownContainer>
-);
+)
 
-const LocationSearchInput = ({ onSearchChange, onSearchError, value, ...props }) => (
+const LocationSearchInput = ({
+    onSearchChange,
+    onSearchError,
+    value,
+    ...props
+}) => (
     <PlacesAutocomplete
         value={value}
         onChange={onSearchChange}
         onError={onSearchError}
         children={paProps => <Inner {...paProps} {...props} />}
     />
-);
+)
 
 LocationSearchInput.propTypes = {
     onSearchChange: PropTypes.func.isRequired,
     onSearchError: PropTypes.func,
     value: PropTypes.string.isRequired
-};
+}
 
-export default { LocationSearchInput, SearchInput };
+export default { LocationSearchInput, SearchInput }
