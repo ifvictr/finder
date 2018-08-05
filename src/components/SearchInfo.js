@@ -13,7 +13,7 @@ const SearchInfo = ({
 }) => (
     <Box {...props}>
         <Truncate align="left" color="muted" f={3} title={formattedAddress}>
-            {resultCount} club{resultCount === 1 ? "" : "s"}{" "}
+            {resultCount || "No"} club{resultCount === 1 ? "" : "s"}{" "}
             {searchByLocation
                 ? `found within ${searchRadius} ${useImperialSystem ? "mile" : "kilometer"}${searchRadius === 1 ? "" : "s"} from ${formattedAddress || `“${searchValue}”`}`
                 : `match${resultCount === 1 ? "es" : ""} “${searchValue}”`
