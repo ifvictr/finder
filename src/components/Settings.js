@@ -2,34 +2,28 @@ import FA from "@fortawesome/react-fontawesome";
 import { Box, Button } from "@hackclub/design-system";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+import { css } from "styled-components";
 import Slider from "components/Slider";
+
+const Gradient = Box.extend.attrs({
+    style: props => ({
+        width: `${props.gradientWidth}px`
+    })
+})`
+    background-image: linear-gradient(to ${props => props.side}, transparent, ${({ theme }) => theme.colors.white});
+    height: 100%;
+    pointer-events: none; // When user clicks on partially-faded regions
+    position: absolute;
+    top: 0;
+    z-index: 1; // Place above all controls
+    ${props => props.side && css`
+        ${props.side}: 0;
+    `}
+`;
 
 const Base = Box.extend`
     overflow: hidden;
     position: relative;
-    &:before,
-    &:after {
-        bottom: 0;
-        content: "";
-        display: block;
-        height: 100%;
-        pointer-events: none; // When user clicks on partially-faded regions
-        position: absolute;
-        top: 0;
-        transition: opacity ${({ theme }) => theme.transition};
-        width: 64px;
-        z-index: 1; // Place above all controls
-    }
-    &:before {
-        background-image: linear-gradient(to left, transparent, ${({ theme }) => theme.colors.white});
-        left: 0;
-        opacity: ${props => props.end !== "left" ? 1 : 0};
-    }
-    &:after {
-        background-image: linear-gradient(to right, transparent, ${({ theme }) => theme.colors.white});
-        opacity: ${props => props.end !== "right" ? 1 : 0};
-        right: 0;
-    }
 `;
 
 const Inner = Box.extend`
@@ -43,7 +37,10 @@ const Inner = Box.extend`
 `;
 
 class Settings extends Component {
-    state = { currentEnd: null };
+    state = {
+        scrollX: 0,
+        maxScrollX: 64 // Make gradient show up on initial page load
+    };
 
     render() {
         const {
@@ -56,8 +53,12 @@ class Settings extends Component {
             useImperialSystem,
             ...props
         } = this.props;
+        const { scrollX, maxScrollX } = this.state;
+        const leftWidth = Math.min(scrollX, 64);
+        const rightWidth = Math.min(maxScrollX - scrollX, 64);
         return (
-            <Base end={this.state.currentEnd} {...props}>
+            <Base {...props}>
+                <Gradient side="left" gradientWidth={leftWidth} />
                 <Inner onScroll={this.onScroll}>
                     <Slider
                         defaultValue={searchRadius}
@@ -79,23 +80,16 @@ class Settings extends Component {
                         <FA icon="search" /> Search all
                     </Button.button>
                 </Inner>
+                <Gradient side="right" gradientWidth={rightWidth} />
             </Base>
         );
     }
 
     onScroll = e => {
-        // Remove gradient if either end is hit
-        const scrollX = e.target.scrollLeft;
-        const maxScrollX = e.target.scrollWidth - e.target.clientWidth;
-        if(scrollX === 0) {
-            this.setState({ currentEnd: "left" });
-        }
-        else if(scrollX === maxScrollX) {
-            this.setState({ currentEnd: "right" });
-        }
-        else {
-            this.setState({ currentEnd: null });
-        }
+        this.setState({
+            scrollX: e.target.scrollLeft,
+            maxScrollX: e.target.scrollWidth - e.target.clientWidth
+        });
     }
 }
 
