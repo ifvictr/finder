@@ -19,11 +19,11 @@ injectGlobal`
     }
 `
 
-const DefaultLayout = ({ children }) => (
+const Layout = ({ children }) => (
     <ThemeProvider webfonts>
         <Helmet
-            defaultTitle={`${title} — Hack Club Finder`}
-            titleTemplate="%s — Hack Club Finder"
+            defaultTitle={`${title} — ${name}`}
+            titleTemplate={`%s — ${name}`}
             meta={[
                 { charSet: 'utf-8' },
                 { name: 'description', content: description },
@@ -67,8 +67,8 @@ const DefaultLayout = ({ children }) => (
     </ThemeProvider>
 )
 
-DefaultLayout.propTypes = {
+Layout.propTypes = {
     children: PropTypes.func
 }
 
-export default DefaultLayout
+export default Layout
