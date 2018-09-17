@@ -116,7 +116,7 @@ class ClubCard extends Component {
     state = { ready: false }
 
     async componentDidMount() {
-        const { status } = await axios.get(`/school/${this.props.data.id}.jpg`)
+        const { status } = await axios.get(`https://hackclub.github.io/finder-school-images/${this.props.data.id}.jpg`)
         if (status === 200) {
             this.setState({ ready: true })
         }
@@ -131,7 +131,7 @@ class ClubCard extends Component {
                 <Inner>
                     {isDistanceSet && <DistanceLabel distance={distance} imperial={useImperialSystem} />}
                     <Box style={{ borderRadius: '4px 4px 0 0', overflow: 'hidden' }}>
-                        <Photo src={`/school/${data.id}.jpg`} ready={ready} />
+                        <Photo src={`https://hackclub.github.io/finder-school-images/${data.id}.jpg`} ready={ready} />
                     </Box>
                     <Flex flexDirection="column" justify="space-around" p={3} style={{ flex: 1 }}>
                         <Heading.h4 regular={false} bold style={{ textTransform: 'capitalize' }}>
