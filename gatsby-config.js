@@ -32,6 +32,12 @@ module.exports = {
       }
     },
     'gatsby-plugin-sitemap',
+    {
+      resolve: 'gatsby-plugin-canonical-urls',
+      options: {
+        siteUrl: 'https://finder.hackclub.com'
+      }
+    },
     'gatsby-plugin-styled-components',
     {
       resolve: 'gatsby-source-thirdparty',
