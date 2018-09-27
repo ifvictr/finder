@@ -55,5 +55,8 @@
     "react-progress": "^0.0.12",
     "styled-components": "^3.2.3",
     "styled-system": "1.1.4"
+  },
+  "devDependencies": {
+    "prettier": "^1.14.3"
   }
 }
