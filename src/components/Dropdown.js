@@ -44,19 +44,18 @@ const DropdownMenu = Card.withComponent(Flex).extend`
 `
 
 const DropdownMenuOption = Box.extend`
-    cursor: pointer;
-    padding: ${({ theme }) => theme.space[2]}px ${({ theme }) => theme.space[3]}px;
-    width: 100%;
-    ${props =>
-        props.active &&
-        css`
-            background-color: ${({ theme }) => theme.colors.smoke};
-            font-weight: ${({ theme }) => theme.bold};
-        `}
-    &:hover {
-        background-color: ${({ theme }) => theme.colors.blue[0]};
-        transition: background-color ${({ theme }) => theme.transition};
-    }
+  cursor: pointer;
+  padding: ${({ theme }) => theme.space[2]}px ${({ theme }) => theme.space[3]}px;
+  width: 100%;
+  ${props =>
+    props.active &&
+    css`
+      background-color: ${({ theme }) => theme.colors.smoke};
+      font-weight: ${({ theme }) => theme.bold};
+    `} &:hover {
+    background-color: ${({ theme }) => theme.colors.blue[0]};
+    transition: background-color ${({ theme }) => theme.transition};
+  }
 `
 
 export default { DropdownContainer, DropdownMenu, DropdownMenuOption }

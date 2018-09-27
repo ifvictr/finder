@@ -1,57 +1,58 @@
 {
-    "name": "finder",
-    "version": "1.1.0",
-    "description": "Find all the Hack Clubs near you!",
-    "scripts": {
-        "build": "gatsby build --no-uglify",
-        "dev": "gatsby develop"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/hackclub/finder.git"
-    },
-    "keywords": [
-        "discovery",
-        "geolocation",
-        "google-maps",
-        "hackclub"
-    ],
-    "author": "Victor Truong <me@ifvictr.com> (https://ifvictr.com)",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/hackclub/finder/issues"
-    },
-    "homepage": "https://github.com/hackclub/finder#readme",
-    "dependencies": {
-        "@fortawesome/fontawesome": "^1.1.4",
-        "@fortawesome/fontawesome-free-brands": "^5.0.8",
-        "@fortawesome/fontawesome-free-solid": "^5.0.8",
-        "@fortawesome/react-fontawesome": "^0.0.20",
-        "@hackclub/design-system": "^0.0.1-10",
-        "axios": "^0.18.0",
-        "fuse.js": "^3.2.0",
-        "gatsby": "^1.9.232",
-        "gatsby-link": "^1.6.39",
-        "gatsby-plugin-favicon": "^2.1.1",
-        "gatsby-plugin-react-helmet": "^2.0.7",
-        "gatsby-plugin-react-next": "^1.0.11",
-        "gatsby-plugin-remove-trailing-slashes": "^1.0.9",
-        "gatsby-plugin-resolve-src": "^1.0.0",
-        "gatsby-plugin-segment": "^1.0.2",
-        "gatsby-plugin-sitemap": "^1.2.25",
-        "gatsby-plugin-styled-components": "^2.0.9",
-        "gatsby-source-thirdparty": "^1.0.6",
-        "geolib": "^2.0.24",
-        "lodash": "^4.17.5",
-        "prop-types": "^15.6.1",
-        "query-string": "^6.0.0",
-        "react": "^16.2.0",
-        "react-dom": "^16.2.0",
-        "react-helmet": "^5.2.0",
-        "react-lazyload": "^2.3.0",
-        "react-places-autocomplete": "^7.1.2",
-        "react-progress": "^0.0.12",
-        "styled-components": "^3.2.3",
-        "styled-system": "1.1.4"
-    }
+  "name": "finder",
+  "version": "1.1.0",
+  "description": "Find all the Hack Clubs near you!",
+  "scripts": {
+    "build": "gatsby build --no-uglify",
+    "dev": "gatsby develop",
+    "fmt": "prettier \"{gatsby-*.js,src/**/*.js}\" --single-quote --no-semi --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hackclub/finder.git"
+  },
+  "keywords": [
+    "discovery",
+    "geolocation",
+    "google-maps",
+    "hackclub"
+  ],
+  "author": "Victor Truong <me@ifvictr.com> (https://ifvictr.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hackclub/finder/issues"
+  },
+  "homepage": "https://github.com/hackclub/finder#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.4",
+    "@fortawesome/fontawesome-free-brands": "^5.0.8",
+    "@fortawesome/fontawesome-free-solid": "^5.0.8",
+    "@fortawesome/react-fontawesome": "^0.0.20",
+    "@hackclub/design-system": "^0.0.1-10",
+    "axios": "^0.18.0",
+    "fuse.js": "^3.2.0",
+    "gatsby": "^1.9.232",
+    "gatsby-link": "^1.6.39",
+    "gatsby-plugin-favicon": "^2.1.1",
+    "gatsby-plugin-react-helmet": "^2.0.7",
+    "gatsby-plugin-react-next": "^1.0.11",
+    "gatsby-plugin-remove-trailing-slashes": "^1.0.9",
+    "gatsby-plugin-resolve-src": "^1.0.0",
+    "gatsby-plugin-segment": "^1.0.2",
+    "gatsby-plugin-sitemap": "^1.2.25",
+    "gatsby-plugin-styled-components": "^2.0.9",
+    "gatsby-source-thirdparty": "^1.0.6",
+    "geolib": "^2.0.24",
+    "lodash": "^4.17.5",
+    "prop-types": "^15.6.1",
+    "query-string": "^6.0.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-helmet": "^5.2.0",
+    "react-lazyload": "^2.3.0",
+    "react-places-autocomplete": "^7.1.2",
+    "react-progress": "^0.0.12",
+    "styled-components": "^3.2.3",
+    "styled-system": "1.1.4"
+  }
 }

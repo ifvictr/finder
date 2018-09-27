@@ -7,27 +7,27 @@ import React, { Component } from 'react'
 import { css } from 'styled-components'
 
 const Base = Flex.extend`
-    padding: ${({ theme }) => theme.space[2]}px;
-    text-align: left;
-    width: 100%;
-    ${({ theme }) => theme.mediaQueries.md} {
-        width: 50%;
-    }
+  padding: ${({ theme }) => theme.space[2]}px;
+  text-align: left;
+  width: 100%;
+  ${({ theme }) => theme.mediaQueries.md} {
+    width: 50%;
+  }
 `
 
 const Inner = Flex.withComponent(Link).extend.attrs({
-    color: 'white',
-    flexDirection: 'column',
-    justify: 'center',
-    p: 3,
-    style: props => ({
-        backgroundImage: `linear-gradient(
+  color: 'white',
+  flexDirection: 'column',
+  justify: 'center',
+  p: 3,
+  style: props => ({
+    backgroundImage: `linear-gradient(
             0deg,
             rgba(0, 0, 0, 0.25),
             rgba(0, 0, 0, 0.15)
         ), url(${props.ready ? props.src : '/pattern.svg'})`
-    }),
-    w: 1
+  }),
+  w: 1
 })`
     border-radius: ${({ theme }) => theme.radius};
     background-color: ${({ theme }) => theme.colors.primary};
@@ -36,15 +36,17 @@ const Inner = Flex.withComponent(Link).extend.attrs({
     overflow: hidden;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.375);
     ${props =>
-        props.ready &&
-        css`
-            background-repeat: no-repeat;
-            background-size: cover;
-        `}
+      props.ready &&
+      css`
+        background-repeat: no-repeat;
+        background-size: cover;
+      `}
     span {
         display: inline-block;
         opacity: 0;
-        transition: margin ${({ theme }) => theme.transition}, opacity ${({ theme }) => theme.transition};
+        transition: margin ${({ theme }) => theme.transition}, opacity ${({
+  theme
+}) => theme.transition};
         vertical-align: text-top;
     }
     &:hover span {
@@ -57,35 +59,39 @@ const Inner = Flex.withComponent(Link).extend.attrs({
 `
 
 class HotspotCard extends Component {
-    state = { ready: false }
+  state = { ready: false }
 
-    async componentDidMount() {
-        const { data } = this.props
-        const slug = data.slug || kebabCase(data.name)
-        const { status } = await axios.get(`/hotspot/${slug}.jpg`)
-        if (status === 200) {
-            this.setState({ ready: true })
-        }
+  async componentDidMount() {
+    const { data } = this.props
+    const slug = data.slug || kebabCase(data.name)
+    const { status } = await axios.get(`/hotspot/${slug}.jpg`)
+    if (status === 200) {
+      this.setState({ ready: true })
     }
+  }
 
-    render() {
-        const { data } = this.props
-        const { ready } = this.state
-        const slug = data.slug || kebabCase(data.name)
-        return (
-            <Base>
-                <Inner to={`/hotspots/${slug}`} src={`/hotspot/${slug}.jpg`} ready={ready}>
-                    <Heading.h2 ml={3} style={{ textTransform: 'capitalize' }}>
-                        {data.name} <span>»</span>
-                    </Heading.h2>
-                </Inner>
-            </Base>
-        )
-    }
+  render() {
+    const { data } = this.props
+    const { ready } = this.state
+    const slug = data.slug || kebabCase(data.name)
+    return (
+      <Base>
+        <Inner
+          to={`/hotspots/${slug}`}
+          src={`/hotspot/${slug}.jpg`}
+          ready={ready}
+        >
+          <Heading.h2 ml={3} style={{ textTransform: 'capitalize' }}>
+            {data.name} <span>»</span>
+          </Heading.h2>
+        </Inner>
+      </Base>
+    )
+  }
 }
 
 HotspotCard.propTypes = {
-    data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 }
 
 export default HotspotCard

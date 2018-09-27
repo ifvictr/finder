@@ -18,26 +18,26 @@ const Slider = styled.input.attrs({ type: 'range' })`
     }
     ${color} ${space} ${width};
     ${props =>
-        props.disabled &&
-        css`
-            cursor: not-allowed;
-            opacity: 0.25;
-        `}
+      props.disabled &&
+      css`
+        cursor: not-allowed;
+        opacity: 0.25;
+      `}
 `
 
 Slider.displayName = 'Input'
 
 Slider.propTypes = {
-    ...propTypes.color,
-    ...propTypes.space,
-    ...propTypes.width
+  ...propTypes.color,
+  ...propTypes.space,
+  ...propTypes.width
 }
 
 Slider.defaultProps = {
-    bg: 'smoke',
-    color: 'primary',
-    theme,
-    w: 1
+  bg: 'smoke',
+  color: 'primary',
+  theme,
+  w: 1
 }
 
 export default Slider

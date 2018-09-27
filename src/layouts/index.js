@@ -20,55 +20,55 @@ injectGlobal`
 `
 
 const Layout = ({ children }) => (
-    <ThemeProvider webfonts>
-        <Helmet
-            defaultTitle={`${title} — ${name}`}
-            titleTemplate={`%s — ${name}`}
-            meta={[
-                { charSet: 'utf-8' },
-                { name: 'description', content: description },
-                { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-                { name: 'theme-color', content: colors.primary },
-                { name: 'twitter:card', content: 'summary_large_image' },
-                { name: 'twitter:description', content: description },
-                { name: 'twitter:domain', content: url },
-                { name: 'twitter:image:src', content: '' },
-                { name: 'twitter:title', content: title },
-                { property: 'og:description', content: description },
-                { property: 'og:image', content: '' },
-                { property: 'og:image:height', content: 512 },
-                { property: 'og:image:width', content: 512 },
-                { property: 'og:locale', content: 'en_US' },
-                { property: 'og:site_name', content: name },
-                { property: 'og:title', content: title },
-                { property: 'og:type', content: 'website' },
-                { property: 'og:url', content: url }
-            ]}
-        />
-        <Flex flexDirection="column" style={{ minHeight: '100vh' }}>
-            <Header />
-            <Container
-                align="center"
-                color="black"
-                px={3}
-                pb={4}
-                w={1}
-                style={{
-                    display: 'flex',
-                    flex: 1,
-                    flexDirection: 'column',
-                    justifyContent: 'center'
-                }}
-            >
-                {children()}
-            </Container>
-            <Footer />
-        </Flex>
-    </ThemeProvider>
+  <ThemeProvider webfonts>
+    <Helmet
+      defaultTitle={`${title} — ${name}`}
+      titleTemplate={`%s — ${name}`}
+      meta={[
+        { charSet: 'utf-8' },
+        { name: 'description', content: description },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'theme-color', content: colors.primary },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:description', content: description },
+        { name: 'twitter:domain', content: url },
+        { name: 'twitter:image:src', content: '' },
+        { name: 'twitter:title', content: title },
+        { property: 'og:description', content: description },
+        { property: 'og:image', content: '' },
+        { property: 'og:image:height', content: 512 },
+        { property: 'og:image:width', content: 512 },
+        { property: 'og:locale', content: 'en_US' },
+        { property: 'og:site_name', content: name },
+        { property: 'og:title', content: title },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: url }
+      ]}
+    />
+    <Flex flexDirection="column" style={{ minHeight: '100vh' }}>
+      <Header />
+      <Container
+        align="center"
+        color="black"
+        px={3}
+        pb={4}
+        w={1}
+        style={{
+          display: 'flex',
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center'
+        }}
+      >
+        {children()}
+      </Container>
+      <Footer />
+    </Flex>
+  </ThemeProvider>
 )
 
 Layout.propTypes = {
-    children: PropTypes.func
+  children: PropTypes.func
 }
 
 export default Layout

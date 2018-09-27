@@ -3,16 +3,16 @@ import Link from 'gatsby-link'
 import React from 'react'
 
 const Base = Flex.withComponent('header').extend.attrs({
-    align: 'center',
-    justify: 'space-between',
-    pb: 2,
-    pt: 0,
-    px: [null, 3, 4],
-    w: 1
+  align: 'center',
+  justify: 'space-between',
+  pb: 2,
+  pt: 0,
+  px: [null, 3, 4],
+  w: 1
 })``
 
 const Flag = A.withComponent(Link).extend.attrs({
-    to: '/'
+  to: '/'
 })`
     background: url(/flag.svg) no-repeat;
     background-position: top center;
@@ -27,10 +27,10 @@ const Flag = A.withComponent(Link).extend.attrs({
 `
 
 const HideOnMobile = Box.extend`
-    display: none;
-    ${({ theme }) => theme.mediaQueries.sm} {
-        display: unset;
-    }
+  display: none;
+  ${({ theme }) => theme.mediaQueries.sm} {
+    display: unset;
+  }
 `
 
 const NavBar = Flex.withComponent('nav').extend`
@@ -39,26 +39,30 @@ const NavBar = Flex.withComponent('nav').extend`
 `
 
 const Item = A.extend.attrs({
-    bold: true,
-    my: [1, 0],
-    px: [2, 3]
+  bold: true,
+  my: [1, 0],
+  px: [2, 3]
 })`
-    color: inherit;
+  color: inherit;
 `
 
 const GatsbyItem = Item.withComponent(Link)
 
 const Header = ({ color = 'muted', ...props }) => (
-    <Base role="banner" {...props}>
-        <Flag />
-        <NavBar role="navigation" ml={-2} py={[1, 0]} color={color} align="center">
-            {/*<GatsbyItem to="/map" children="Map" />*/}
-            <GatsbyItem to="/hotspots" children="Hotspots" />
-            <Item href="https://github.com/hackclub/finder" target="_blank" color="slate">
-                <HideOnMobile>Contribute on</HideOnMobile> GitHub
-            </Item>
-        </NavBar>
-    </Base>
+  <Base role="banner" {...props}>
+    <Flag />
+    <NavBar role="navigation" ml={-2} py={[1, 0]} color={color} align="center">
+      {/*<GatsbyItem to="/map" children="Map" />*/}
+      <GatsbyItem to="/hotspots" children="Hotspots" />
+      <Item
+        href="https://github.com/hackclub/finder"
+        target="_blank"
+        color="slate"
+      >
+        <HideOnMobile>Contribute on</HideOnMobile> GitHub
+      </Item>
+    </NavBar>
+  </Base>
 )
 
 export default Header
