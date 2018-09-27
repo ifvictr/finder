@@ -1,11 +1,11 @@
+import React, { Component } from 'react'
+import { css } from 'styled-components'
+import PropTypes from 'prop-types'
 import FA from '@fortawesome/react-fontawesome'
 import { Box, Card, Flex, Heading, Link, Text } from '@hackclub/design-system'
 import axios from 'axios'
 import geolib from 'geolib'
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
-import { css } from 'styled-components'
-import { schoolImagePath } from 'data'
+import { schoolImagePath } from 'data.json'
 
 const Base = Flex.extend`
   padding: ${({ theme }) => theme.space[2]}px;
