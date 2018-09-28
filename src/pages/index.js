@@ -8,6 +8,7 @@ import qs from 'query-string'
 import React, { Component, Fragment } from 'react'
 import LazyLoad from 'react-lazyload'
 import Progress from 'react-progress'
+import styled from 'styled-components'
 import ClubCard from 'components/ClubCard'
 import NoClubsFound from 'components/NoClubsFound'
 import SearchInfo from 'components/SearchInfo'
@@ -16,7 +17,7 @@ import Settings from 'components/Settings'
 import { getPointsInCircle, KILOMETER_TO_METER, MILE_TO_METER } from 'utils'
 import { googleMapsApiKey } from 'data.json'
 
-const Bar = Flex.extend.attrs({
+const Bar = styled(Flex).attrs({
   justify: 'space-between',
   mt: [3, 4]
 })`

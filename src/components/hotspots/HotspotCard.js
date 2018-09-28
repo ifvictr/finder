@@ -4,9 +4,9 @@ import Link from 'gatsby-link'
 import { kebabCase } from 'lodash'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { css } from 'styled-components'
+import styled, { css } from 'styled-components'
 
-const Base = Flex.extend`
+const Base = styled(Flex)`
   padding: ${({ theme }) => theme.space[2]}px;
   text-align: left;
   width: 100%;
@@ -15,7 +15,7 @@ const Base = Flex.extend`
   }
 `
 
-const Inner = Flex.withComponent(Link).extend.attrs({
+const Inner = styled(Flex.withComponent(Link)).attrs({
   color: 'white',
   flexDirection: 'column',
   justify: 'center',
@@ -29,33 +29,31 @@ const Inner = Flex.withComponent(Link).extend.attrs({
   }),
   w: 1
 })`
-    border-radius: ${({ theme }) => theme.radius};
-    background-color: ${({ theme }) => theme.colors.primary};
-    background-size: 20rem;
-    min-height: 10rem;
-    overflow: hidden;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.375);
-    ${props =>
-      props.ready &&
-      css`
-        background-repeat: no-repeat;
-        background-size: cover;
-      `}
-    span {
-        display: inline-block;
-        opacity: 0;
-        transition: margin ${({ theme }) => theme.transition}, opacity ${({
-  theme
-}) => theme.transition};
-        vertical-align: text-top;
-    }
-    &:hover span {
-        margin-left: 4px;
-        opacity: 1;
-    }
-    ${({ theme }) => theme.mediaQueries.md} {
-        min-height: 12rem;
-    }
+  border-radius: ${({ theme }) => theme.radius};
+  background-color: ${({ theme }) => theme.colors.primary};
+  background-size: 20rem;
+  min-height: 10rem;
+  overflow: hidden;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.375);
+  ${props =>
+    props.ready &&
+    css`
+      background-repeat: no-repeat;
+      background-size: cover;
+    `} span {
+    display: inline-block;
+    opacity: 0;
+    transition: margin ${({ theme }) => theme.transition},
+      opacity ${({ theme }) => theme.transition};
+    vertical-align: text-top;
+  }
+  &:hover span {
+    margin-left: 4px;
+    opacity: 1;
+  }
+  ${({ theme }) => theme.mediaQueries.md} {
+    min-height: 12rem;
+  }
 `
 
 class HotspotCard extends Component {

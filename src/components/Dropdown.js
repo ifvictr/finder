@@ -1,5 +1,5 @@
 import { Box, Card, Flex } from '@hackclub/design-system'
-import { css, keyframes } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 const zoom = keyframes`
     0% {
@@ -15,7 +15,7 @@ const zoom = keyframes`
     }
 `
 
-const DropdownContainer = Box.extend`
+const DropdownContainer = styled(Box)`
     position: relative;
     // &:hover > div {
     //     animation: 0.1875s ease-out ${zoom};
@@ -24,26 +24,26 @@ const DropdownContainer = Box.extend`
     // }
 `
 
-const DropdownMenu = Card.withComponent(Flex).extend`
-    align-items: stretch;
-    background-color: ${({ theme }) => theme.colors.white};
-    box-shadow: ${({ theme }) => theme.boxShadows[2]};
-    // display: none;
-    flex-direction: column;
-    max-width: 95vw;
-    // opacity: 0;
-    overflow-y: auto;
-    padding: ${({ theme }) => theme.space[2]}px 0;
-    position: absolute;
-    right: 0;
-    text-align: left;
-    transform-origin: center top;
-    width: ${props => props.w || props.width || '256px'};
-    z-index: 4;
-    -webkit-overflow-scrolling: touch;
+const DropdownMenu = styled(Card.withComponent(Flex))`
+  align-items: stretch;
+  background-color: ${({ theme }) => theme.colors.white};
+  box-shadow: ${({ theme }) => theme.boxShadows[2]};
+  // display: none;
+  flex-direction: column;
+  max-width: 95vw;
+  // opacity: 0;
+  overflow-y: auto;
+  padding: ${({ theme }) => theme.space[2]}px 0;
+  position: absolute;
+  right: 0;
+  text-align: left;
+  transform-origin: center top;
+  width: ${props => props.w || props.width || '256px'};
+  z-index: 4;
+  -webkit-overflow-scrolling: touch;
 `
 
-const DropdownMenuOption = Box.extend`
+const DropdownMenuOption = styled(Box)`
   cursor: pointer;
   padding: ${({ theme }) => theme.space[2]}px ${({ theme }) => theme.space[3]}px;
   width: 100%;

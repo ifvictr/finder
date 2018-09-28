@@ -1,8 +1,9 @@
 import { Box, Flex, Link as A } from '@hackclub/design-system'
 import Link from 'gatsby-link'
 import React from 'react'
+import styled from 'styled-components'
 
-const Base = Flex.withComponent('header').extend.attrs({
+const Base = styled(Flex.withComponent('header')).attrs({
   align: 'center',
   justify: 'space-between',
   pb: 2,
@@ -11,34 +12,34 @@ const Base = Flex.withComponent('header').extend.attrs({
   w: 1
 })``
 
-const Flag = A.withComponent(Link).extend.attrs({
+const Flag = styled(A.withComponent(Link)).attrs({
   to: '/'
 })`
-    background: url(/flag.svg) no-repeat;
-    background-position: top center;
-    flex-shrink: 0;
-    height: 3rem;
-    width: 8rem;
-    z-index: 0;
-    ${({ theme }) => theme.mediaQueries.md} {
-        height: 4rem;
-        width: 10rem;
-    }
+  background: url(/flag.svg) no-repeat;
+  background-position: top center;
+  flex-shrink: 0;
+  height: 3rem;
+  width: 8rem;
+  z-index: 0;
+  ${({ theme }) => theme.mediaQueries.md} {
+    height: 4rem;
+    width: 10rem;
+  }
 `
 
-const HideOnMobile = Box.extend`
+const HideOnMobile = styled(Box)`
   display: none;
   ${({ theme }) => theme.mediaQueries.sm} {
     display: unset;
   }
 `
 
-const NavBar = Flex.withComponent('nav').extend`
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+const NavBar = styled(Flex.withComponent('nav'))`
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 `
 
-const Item = A.extend.attrs({
+const Item = styled(A).attrs({
   bold: true,
   my: [1, 0],
   px: [2, 3]

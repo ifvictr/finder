@@ -2,10 +2,10 @@ import FA from '@fortawesome/react-fontawesome'
 import { Box, Button } from '@hackclub/design-system'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { css } from 'styled-components'
+import styled, { css } from 'styled-components'
 import Slider from 'components/Slider'
 
-const Gradient = Box.extend.attrs({
+const Gradient = styled(Box).attrs({
   style: props => ({
     width: `${props.gradientWidth}px`
   })
@@ -27,12 +27,12 @@ const Gradient = Box.extend.attrs({
     `};
 `
 
-const Base = Box.extend`
+const Base = styled(Box)`
   overflow: hidden;
   position: relative;
 `
 
-const Inner = Box.extend`
+const Inner = styled(Box)`
   height: 42px; // Fix clipped buttons resulting from overflow-x
   overflow-x: auto;
   position: relative;

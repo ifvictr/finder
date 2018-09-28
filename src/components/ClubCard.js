@@ -4,10 +4,10 @@ import axios from 'axios'
 import geolib from 'geolib'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import { css } from 'styled-components'
+import styled, { css } from 'styled-components'
 import { schoolImagePath } from 'data.json'
 
-const Base = Flex.extend`
+const Base = styled(Flex)`
   padding: ${({ theme }) => theme.space[2]}px;
   text-align: left;
   width: 100%;
@@ -22,25 +22,24 @@ const Base = Flex.extend`
   }
 `
 
-const Inner = Card.withComponent(Flex).extend.attrs({
+const Inner = styled(Card.withComponent(Flex)).attrs({
   bg: 'snow',
   boxShadowSize: 'sm',
   flexDirection: 'column'
 })`
-    border-radius: ${({ theme }) => theme.radius};
-    position: relative;
-    transition: box-shadow ${({ theme }) => theme.transition}, transform ${({
-  theme
-}) => theme.transition};
-    width: 100%;
-    will-change: box-shadow, transform;
-    &:hover {
-        box-shadow: ${({ theme }) => theme.boxShadows[2]};
-        transform: scale(1.02);
-    }
+  border-radius: ${({ theme }) => theme.radius};
+  position: relative;
+  transition: box-shadow ${({ theme }) => theme.transition},
+    transform ${({ theme }) => theme.transition};
+  width: 100%;
+  will-change: box-shadow, transform;
+  &:hover {
+    box-shadow: ${({ theme }) => theme.boxShadows[2]};
+    transform: scale(1.02);
+  }
 `
 
-const DistanceLabel = Text.span.extend.attrs({
+const DistanceLabel = styled(Text.span).attrs({
   children: props => {
     const system = props.imperial ? 'mi' : 'km'
     return `${geolib.convertUnit(system, props.distance, 1)} ${system} away`
@@ -48,15 +47,15 @@ const DistanceLabel = Text.span.extend.attrs({
   color: 'white',
   p: 2
 })`
-    background: rgba(0, 0, 0, 0.25);
-    border-radius: ${({ theme }) => theme.radius} 0 ${({ theme }) =>
-  theme.radius} 0;
-    position: absolute;
-    text-shadow: rgba(0, 0, 0, 0.32) 0px 1px 4px;
-    z-index: 1;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: ${({ theme }) => theme.radius} 0 ${({ theme }) => theme.radius}
+    0;
+  position: absolute;
+  text-shadow: rgba(0, 0, 0, 0.32) 0px 1px 4px;
+  z-index: 1;
 `
 
-const Photo = Box.extend.attrs({
+const Photo = styled(Box).attrs({
   style: props => ({
     backgroundImage: `url(${props.src})`
   })
@@ -99,22 +98,22 @@ const Photo = Box.extend.attrs({
     `};
 `
 
-const Actions = Flex.extend.attrs({
+const Actions = styled(Flex).attrs({
   flexDirection: 'row',
   justify: 'center',
   wrap: true
 })``
 
-const Action = Box.withComponent(Link).extend.attrs({
+const Action = styled(Box.withComponent(Link)).attrs({
   align: 'center',
   children: props => <FA icon={props.icon} />,
   color: 'primary',
   p: 3,
   target: '_blank'
 })`
-    flex-basis: 25%;
-    flex-grow: 1;
-    opacity: ${props => (props.available ? 1 : 0.25)};
+  flex-basis: 25%;
+  flex-grow: 1;
+  opacity: ${props => (props.available ? 1 : 0.25)};
 `
 
 class ClubCard extends Component {

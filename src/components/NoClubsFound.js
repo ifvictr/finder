@@ -1,9 +1,10 @@
 import { Button, Card, Container, Heading } from '@hackclub/design-system'
 import React from 'react'
+import styled from 'styled-components'
 
 const Base = Card.withComponent(Container)
 
-const SuperButton = Button.extend`
+const SuperButton = styled(Button)`
   background-color: ${({ theme }) => theme.colors.fuschia[6]};
   background-image: linear-gradient(
     -32deg,

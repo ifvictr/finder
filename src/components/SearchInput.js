@@ -2,13 +2,14 @@ import { Input } from '@hackclub/design-system'
 import PropTypes from 'prop-types'
 import React from 'react'
 import PlacesAutocomplete from 'react-places-autocomplete'
+import styled from 'styled-components'
 import {
   DropdownContainer,
   DropdownMenu,
   DropdownMenuOption
 } from 'components/Dropdown'
 
-const Base = Input.extend.attrs({
+const Base = styled(Input).attrs({
   px: 4,
   py: 2
 })`

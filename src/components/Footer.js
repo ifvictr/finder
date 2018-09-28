@@ -1,14 +1,15 @@
 import FA from '@fortawesome/react-fontawesome'
 import { Flex, Link, Text, colors } from '@hackclub/design-system'
 import React from 'react'
+import styled from 'styled-components'
 
-const Base = Flex.withComponent('footer').extend.attrs({
+const Base = styled(Flex.withComponent('footer')).attrs({
   bg: 'snow',
   justify: 'center',
   p: 4
 })`
-    background-image: url(/pattern.svg);
-    background-size: 20rem;
+  background-image: url(/pattern.svg);
+  background-size: 20rem;
 `
 
 const Footer = () => (
