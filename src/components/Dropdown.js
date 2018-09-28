@@ -2,26 +2,26 @@ import { Box, Card, Flex } from '@hackclub/design-system'
 import styled, { css, keyframes } from 'styled-components'
 
 const zoom = keyframes`
-    0% {
-        box-shadow: ${({ theme }) => theme.boxShadows[1]};
-        transform: scale(0);
-    }
-    85% {
-        transform: scale(1.025);
-    }
-    100% {
-        box-shadow: ${({ theme }) => theme.boxShadows[2]};
-        transform: scale(1);
-    }
+  0% {
+    box-shadow: ${({ theme }) => theme.boxShadows[1]};
+    transform: scale(0);
+  }
+  85% {
+    transform: scale(1.025);
+  }
+  100% {
+    box-shadow: ${({ theme }) => theme.boxShadows[2]};
+    transform: scale(1);
+  }
 `
 
 const DropdownContainer = styled(Box)`
-    position: relative;
-    // &:hover > div {
-    //     animation: 0.1875s ease-out ${zoom};
-    //     display: block;
-    //     opacity: 1;
-    // }
+  position: relative;
+  // &:hover > div {
+  //     animation: 0.1875s ease-out ${zoom};
+  //     display: block;
+  //     opacity: 1;
+  // }
 `
 
 const DropdownMenu = styled(Card.withComponent(Flex))`
