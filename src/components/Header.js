@@ -40,11 +40,11 @@ const NavBar = styled(Flex.withComponent('nav'))`
 `
 
 const Item = styled(A).attrs({
-  bold: true,
   my: [1, 0],
   px: [2, 3]
 })`
   color: inherit;
+  font-weight: bold;
 `
 
 const GatsbyItem = Item.withComponent(Link)
